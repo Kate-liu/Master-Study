@@ -135,7 +135,59 @@ Use -h to get full help or, even better, run 'man ffmpeg'
 # Sometimes the above command won’t work, and the error message will tell you to check the “-ss” or “-t” commands. In that case, I’ve had success just moving the “-ss” command in front of the “-i” command, as shown below.
 # ffmpeg -ss 00:00:33 -i NASA_BOS.mp4 -t 00:00:10 -pix_fmt nv12 -f avi -q:v 0 -vcodec rawvideo NASA_BOS.avi
 
+
 ffmpeg -i NASA\ Captures\ First\ Air-to-Air\ Images\ of\ Supersonic\ Shockwave\ Interaction\ in\ Flight.mp4 -ss 00:00:33 -t 00:00:10 -pix_fmt nv12 -f avi -q:v 0 -vcodec rawvideo NASA_BOS.avi
+
+
+############################# 输出信息 #############################
+ffmpeg version git-2020-01-06-1e3f4b5 Copyright (c) 2000-2020 the FFmpeg developers
+  built with gcc 9.2.1 (GCC) 20191125
+  configuration: --enable-gpl --enable-version3 --enable-sdl2 --enable-fontconfig --enable-gnutls --enable-iconv --enable-libass --enable-libdav1d --enable-libbluray --enable-libfreetype --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libtheora --enable-libtwolame --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxml2 --enable-libzimg --enable-lzma --enable-zlib --enable-gmp --enable-libvidstab --enable-libvorbis --enable-libvo-amrwbenc --enable-libmysofa --enable-libspeex --enable-libxvid --enable-libaom --enable-libmfx --enable-ffnvcodec --enable-cuvid --enable-d3d11va --enable-nvenc --enable-nvdec --enable-dxva2 --enable-avisynth --enable-libopenmpt --enable-amf
+  libavutil      56. 38.100 / 56. 38.100
+  libavcodec     58. 65.102 / 58. 65.102
+  libavformat    58. 35.101 / 58. 35.101
+  libavdevice    58.  9.103 / 58.  9.103
+  libavfilter     7. 70.101 /  7. 70.101
+  libswscale      5.  6.100 /  5.  6.100
+  libswresample   3.  6.100 /  3.  6.100
+  libpostproc    55.  6.100 / 55.  6.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'NASA Captures First Air-to-Air Images of Supersonic Shockwave Interaction in Flight.mp4':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    creation_time   : 2019-03-11T18:49:09.000000Z
+  Duration: 00:01:00.07, start: 0.000000, bitrate: 1073 kb/s
+    Stream #0:0(und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p(tv, bt709), 1280x720 [SAR 1:1 DAR 16:9], 941 kb/s, 29.97 fps, 29.97 tbr, 30k tbn, 59.94 tbc (default)
+    Metadata:
+      creation_time   : 2019-03-11T18:49:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc. Created on: 03/11/2019.
+    Stream #0:1(eng): Audio: aac (LC) (mp4a / 0x6134706D), 44100 Hz, stereo, fltp, 127 kb/s (default)
+    Metadata:
+      creation_time   : 2019-03-11T18:49:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc. Created on: 03/11/2019.
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> rawvideo (native))
+  Stream #0:1 -> #0:1 (aac (native) -> mp3 (libmp3lame))
+Press [q] to stop, [?] for help
+Output #0, avi, to 'NASA_BOS.avi':
+  Metadata:
+    major_brand     : mp42
+    minor_version   : 0
+    compatible_brands: isommp42
+    ISFT            : Lavf58.35.101
+    Stream #0:0(und): Video: rawvideo (NV12 / 0x3231564E), nv12, 1280x720 [SAR 1:1 DAR 16:9], q=2-31, 331444 kb/s, 29.97 fps, 29.97 tbn, 29.97 tbc (default)
+    Metadata:
+      creation_time   : 2019-03-11T18:49:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc. Created on: 03/11/2019.
+      encoder         : Lavc58.65.102 rawvideo
+    Stream #0:1(eng): Audio: mp3 (libmp3lame) (U[0][0][0] / 0x0055), 44100 Hz, stereo, fltp (default)
+    Metadata:
+      creation_time   : 2019-03-11T18:49:09.000000Z
+      handler_name    : ISO Media file produced by Google Inc. Created on: 03/11/2019.
+      encoder         : Lavc58.65.102 libmp3lame
+frame=    0 fps=0.0 q=0.0 size=      10kB time=00:00:00.00 bitrate=N/A speed=   frame=   92 fps= 92 q=-0.0 size=  121354kB time=00:00:03.10 bitrate=320366.7kbitframe=  299 fps=211 q=-0.0 Lsize=  403833kB time=00:00:10.01 bitrate=330489.2kbits/s speed=7.07x
+video:403650kB audio:157kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 0.006399%
 
 ```
 
