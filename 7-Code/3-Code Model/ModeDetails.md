@@ -18,19 +18,19 @@
 
 ![image-20200225192252039](ModeDetails.assets/没有被测对象的纹影装置示意图.png)
 
-<center><font color="red">图1 没有被测对象的纹影装置示意图<font></font><cebnter>
+<center><font color="red">图1 没有被测对象的纹影装置示意图</font><cebnter>
 
 > 视觉角度：俯视图；
 >
 > 图示：1-激光器（532nm），2-扩束透镜组1，3-扩束透镜组2，4-物平面，5-凸透镜，6-刀口（刀口实物图见附录），7-凸透镜，8-像平面。
 
-其中**激光器**的主要作用是产生光强均匀的激光束；**扩束透镜组**的主要作用是获得更大直径的激光束，并且保证获得光束强度均匀，其后面的是一个传统的4f系统（4f系统见附录）；**物平面**主要放置的是被测对象，其距离光学元件5的距离为凸透镜的焦距 *f*<sub>3</sub> ,这里还涉及使用高速摄像机采集图像的景深问题（景深问题见附录）；光学元件5**凸透镜**的主要作用是将光束汇聚于刀口的位置，也即 *f*<sub>3</sub> 的距离的位置；**刀口**放置于光学元件的焦点位置，刀口的方向为世界坐标系的垂直方向；光学元件7**凸透镜**的焦距可以不与光学元件5相等，如果不相等，则会出现像平面对应的放大或缩小 *f*<sub>4</sub>/ *f*<sub>3</sub> 。
+其中**激光器**的主要作用是产生光强均匀的激光束；**扩束透镜组**的主要作用是获得更大直径的激光束，并且保证获得光束强度均匀，其后面的是一个传统的光学4F系统（光学4F系统见工具箱）；**物平面**主要放置的是被测对象，其距离光学元件5的距离为凸透镜的焦距 *f*<sub>3</sub> ,这里还涉及使用高速摄像机采集图像的景深问题（景深问题见附录）；光学元件5**凸透镜**的主要作用是将光束汇聚于刀口的位置，也即 *f*<sub>3</sub> 的距离的位置；**刀口**放置于光学元件的焦点位置，刀口的方向为世界坐标系的垂直方向；光学元件7**凸透镜**的焦距可以不与光学元件5相等，如果不相等，则会出现像平面对应的放大或缩小 *f*<sub>4</sub>/ *f*<sub>3</sub> 。
 
 在图1的基础上，增加测试对象之后，可以看到其光线传播图，如下图2所示：
 
 ![含被测对象的纹影装置示意图](ModeDetails.assets/含被测对象的纹影装置示意图.png)
 
-<center><font color="red">图2 含被测对象的纹影装置示意图<font></font><cebnter>
+<center><font color="red">图2 含被测对象的纹影装置示意图</font><cebnter>
 
 > 视觉角度：俯视图；
 >
@@ -58,7 +58,7 @@
 
 <img src="ModeDetails.assets/没有被测对象的阴影装置示意图.png" alt="没有被测对象的阴影装置示意图" style="zoom:50%;" />
 
-<center><font color="red">图3 没有被测对象的阴影装置示意图<font></font><cebnter>
+<center><font color="red">图3 没有被测对象的阴影装置示意图</font><cebnter>
 
 > 视觉角度：俯视图；
 >
@@ -70,7 +70,7 @@
 
 <img src="ModeDetails.assets/含被测对象的阴影装置示意图.png" alt="含被测对象的阴影装置示意图" style="zoom:50%;" />
 
-<center><font color="red">图4 含被测对象的阴影装置示意图<font></font><cebnter>
+<center><font color="red">图4 含被测对象的阴影装置示意图</font><cebnter>
 
 >视觉角度：俯视图；
 >
@@ -82,7 +82,7 @@
 
 <img src="ModeDetails.assets/含被测对象的阴影装置示意图（聚焦透镜）.png" alt="含被测对象的阴影装置示意图（聚焦透镜）" style="zoom:50%;" />
 
-<center><font color="red">图5 含被测对象的阴影装置示意图（聚焦透镜）<font></font><cebnter>
+<center><font color="red">图5 含被测对象的阴影装置示意图（聚焦透镜）</font><cebnter>
 
 > 视觉角度：俯视图；
 >
@@ -96,7 +96,190 @@
 
 
 
-## Plasma Model
+## Utils(工具箱)
+
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括**激光光源**，**光学4F系统**，**标量衍射理论**，**菲涅尔衍射**，**透镜的傅里叶特性**，透镜中的相移变化，，MATLAB中傅里叶变化等。
+
+
+
+### Laser Source（激光光源）
+
+主要介绍仿真的**光源特性**，以及先关的数据计算公式，作为完善纹影法和阴影法装置的一部分。
+
+首先，需要**回顾一下纹影法和阴影法装置**，两个装置都需要将光源扩束准直为**直径大于等离子体半径2R**的光束，而在实际的仿真中，忽略扩束准直的过程，直接设置光源的大小，接着光线进入等离子体内部，可以分别查看下面的装置示意图：
+
+<img src="ModeDetails.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
+
+<center><font color="red">图6 纹影法装置示意图（仿真）</font><cebnter>
+
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
+
+<img src="ModeDetails.assets/阴影法装置示意图（仿真）1.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
+
+<img src="ModeDetails.assets/阴影法装置示意图（仿真）2.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
+
+<center><font color="red">图7 阴影法装置示意图（仿真）</font><cebnter>
+
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-像平面。
+
+假设我们的**激光束在电场中呈高斯分布**，其光源的表达式如下所示：
+$$
+g(x,y)=A(- \exp(\frac {(x-x_0)^2} {2 \sigma _x^2} + \frac {(y-y_0)^2} {2 \sigma _y^2}))
+$$
+其中，`A` 是幅值，$x_0$ ，$y_0$ 是中心点坐标，$\sigma _x$ ， $\sigma _y$ 是激光束的标准差.
+
+当给定参数 ，$x_0 = 0$ ，$y_0 = 0$ ，$\sigma _x = \sigma _y = \sigma _r $时，可以得到光源的表达式如下所示：
+$$
+g(x,y)=A \exp( - \frac {x^2 + y^2} {2 \sigma _r^2} )
+$$
+在实际的仿真中，假设 `A = 1` , $\sigma _r= 1 \cdot 10^{-3} m$ ，编写**MATLAB代码**可以得到光源的强度分布图，如下所示：（在实际使用中，光源是否具有高斯光束形状并不重要，只需要找到可以近似描述光源形状的方法即可。）
+
+<img src="ModeDetails.assets/GaussianBeam1.bmp" alt="GaussianBeam1" style="zoom:50%;" />
+
+<center><font color="red">图8 光源强度图</font><cebnter>
+
+<img src="ModeDetails.assets/GaussianBeam2.bmp" alt="GaussianBeam2" style="zoom:50%;" />
+
+<center><font color="red">图9 光源三维图</font><cebnter>
+
+<img src="ModeDetails.assets/GaussianBeam3.bmp" alt="GaussianBeam3" style="zoom:50%;" />
+
+<center><font color="red">图10 光源曲线图（中心线）</font><cebnter>
+
+> 图示：`A = 1` , $\sigma _r= 1 \cdot 10^{-3} m$ 。
+>
+> 注：上述实现代码见附录：GaussianBeam.m
+
+
+
+### Optical 4F System（光学4F系统）
+
+在介绍纹影法装置的时候，说到**扩束准直镜之后的部分叫做4F系统**。一个经典的纹影光学4F系统，如下图所示：
+
+<img src="ModeDetails.assets/光学4F系统.png" alt="光学4F系统" style="zoom:50%;" />
+
+<center><font color="red">图11 光学4F系统</font><cebnter>
+>视觉角度：俯视图；
+>
+>图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
+
+从上图找那个可以看出，被测对象被精准的放置于第一个凸透镜的焦距位置处，其距离第一个凸透镜的距离为 $f_3$ ，第二个凸透镜与第一个凸透镜之间的距离是 $f_3 + f_4$ ，像平面与第二个凸透镜之间的距离为 $f_4$ ，是第二个凸透镜的焦距。
+
+而我们在后面的模拟中，主要进行的就是这一部分的模拟，即，**被测对象（等离子体），第一个凸透镜，刀口，第二个凸透镜**。
+
+
+
+### Scalar Diffraction  Theory（标量衍射理论）
+
+关于衍射理论的内容，主要是如何使用衍射理论求解问题，最关键的是**菲涅尔衍射**的内容。
+
+光可以看成是一个在三个方向上都有分量的**电磁波**，在解决衍射问题的时候，只需要使用**标量**的方式就足够了。
+
+在**孔径衍射**中，使用衍射积分可以获得电磁波到达衍射孔径的情况，当我们想知道衍射孔后面的情况的时候，需要使用**Maxwell(麦克斯韦)方程组**进行推导。
+
+在文献方面，目前**求解衍射问题的三大理论**是：**第一Rayleigh-Sommerfeld（瑞利-索默菲尔德）衍射理论，第二Rayleigh-Sommerfeld（瑞利-索默菲尔德）衍射理论和Kirchhoff （基尔霍夫）衍射理论**。
+
+针对上述理论，其表现为对于**比波长大得多的孔径和拥有适当的角度**，其衍射的结果是相同的。可以看到孔径衍射经典图如下图所示;
+
+<img src="ModeDetails.assets/孔径衍射示意图.png" alt="孔径衍射示意图" style="zoom:50%;" />
+
+<center><font color="red">图12 孔径衍射示意图</font><cebnter>
+
+使用**第一Rayleigh-Sommerfeld（瑞利-索默菲尔德）衍射理论进行衍射求解**，可以获得经典公式如下：
+$$
+U(P_1) = 
+\frac{1}{i\lambda} 
+\iint _{\sum} 
+{U(P_0) 
+\frac {\exp ({ik \cdot \vec{r_{01}}})}
+{\vec {r_{01}}} 
+cos(\theta)
+} ds
+$$
+上式中， $\theta$ 是光线的法线向量和向量 $\vec {r_{01}}$ 之间的夹角，余弦夹角因子 $cos(\theta)$ 可以设置为1（也就代表着角度是 $0^\circ$  ​）， $\sum$ 获得的是孔径被光线击中的总和。
+
+在**直角坐标系**使用上述公式，可以表示为：
+$$
+U(x,y,z) = 
+\frac{z}{i\lambda} 
+\iint _{\sum}
+U(\xi, \eta)
+\frac {\exp(ikr)}{r^2}
+d \xi d \eta
+$$
+上式中，$r= \sqrt{z^2 + (\xi - x)^2 + (\eta -y)^2 }$ 。
+
+
+
+### Fresnel Diffrection（菲涅尔衍射）
+
+一个很关键的公式！
+
+基于**标量衍射理论**给出的直角坐标系公式 $U(x,y,z) = 
+\frac{z}{i\lambda} 
+\iint _{\sum}
+U(\xi, \eta)
+\frac {\exp(ikr)}{r^2}
+d \xi d \eta$ ，我们使用**一阶泰勒级数**来近似求平方根，当 $b \ll a$ 时，则满足下面的等价公式：
+$$
+\sqrt {a+b} \approx a(1 + \frac {b}{2a})
+$$
+---需要确定一下！！这个式子对不对！！感觉推不下去了，哈哈！
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Fourier Properties of the lens（透镜的傅里叶特性）
+
+在这块，主要基于波动光学相关理论，推导光线通过透镜之后，其电场的变化情况。主要解决光学系统的快速数值计算。
+
+得到的最终结论：**透镜后焦距位置的电场是透镜前焦距位置的傅里叶变化。**
+
+首先，我们从一个透镜开始看，下图是一个**典型的薄凸透镜**：
+
+<img src="ModeDetails.assets/薄凸透镜.png" alt="薄凸透镜" style="zoom:50%;" />
+
+<center><font color="red">图12 薄凸透镜</font><cebnter>
+
+上图中， $U_0$ 是一个在薄凸透镜前面距离为 *d* 的电场，$U_2$ 是我们想通过计算获得的电场，其距离薄凸透镜后面为 *f* ， $U_1^-$ 是薄凸透镜前面的临界区电场， $U_1^+$ 是薄凸透镜后面的临界区电场。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Plasma Model（等离子体模型）
 
 本块主要介绍等离子体的一些仿真模型，也就是将等离子体等效为一些形状，其中包括：
 
@@ -114,13 +297,13 @@
 
 <img src="ModeDetails.assets/圆柱形等离子体.png" alt="圆柱形等离子体" style="zoom:70%;" />
 
-<center><font color="red">图6 圆柱形等离子体<font></font><cebnter>
+<center><font color="red">图6 圆柱形等离子体</font><cebnter>
 
 > 视觉角度：俯视图；
 >
 > 图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
 
-在上图中，我们可以看到，当光线通过等离子体柱之后，会发生一个**与x轴方向相关的相移**，并且假设等离子体柱贯穿整个激光光束区域（想象为等离子体柱的高度很长很长，光束没法讲整个等离子体包含）。
+在上图中，我们可以看到，当光线通过等离子体柱之后，会发生一个**与x轴方向相关的相移**，并且假设等离子体柱贯穿整个激光光束区域（想象为等离子体柱的高度很长很长，光束没法将整个等离子体包含）。
 
 所以，我们可以得到下面公式的关系：
 $$
@@ -128,10 +311,33 @@ $$
 $$
 上式中，R为等离子体柱的半径， $\Delta z$ 为距离主光轴为`x`的光线穿过等离子体柱的一半距离。
 
-所以，可以将完整的相移变化表示为下面的分段函数形式：
+所以，可以将**完整的相移变化**表示为下面的分段函数形式：
 $$
-\Delta \Phi (x)=\begin{cases} \sqrt\frac{1}{N}，u=0\\ \sqrt\frac{2}{N}， u\neq0\end{cases}  
+\Delta \Phi (x)=
+\begin{cases} 
+k(air) \cdot 2R
+\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
+\\ 
+k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot \Delta z(x)  
+\quad \quad \quad \quad \quad  ,|x| \leq R
+\end{cases}
 $$
+
+上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ , $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ 。
+
+当激光束与光轴之间的距离大于圆柱形等离子体半径 `R` 时，激光束的相移取决于传播 `2R` 距离的空气介质；
+
+当激光束与光轴之间的距离小于圆柱形等离子体半径`R` 时，激光束的相移取决于传播 $2R - 2 \cdot \Delta z(x)$ 距离的圆柱外部的空气介质和传播 $\Delta z(x)$ 距离的圆柱内部等离子体介质。
+
+此时，基于波动光学知识，可以得到**通过等离子体柱后的电场**，为初始激光束乘以等离子柱引起的相移，公式如下所示：
+$$
+U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
+$$
+上式中， `g(x,y)` 表示激光束在电场中的呈高斯分布的光源。
+
+<font color="red">待解决问题：g(x,y).t(x,y) 这个关系式是否正确？</font>
+
+
 
 
 
@@ -178,22 +384,15 @@ $$
 
 ![刀口1](ModeDetails.assets/The-LED-light-source-is-shaped-into-a-vertical-slit-positioned-just-in-front-of-the.png)
 
-<center><font color="red">刀口1<font></font><cebnter>
+<center><font color="red">刀口1</font><cebnter>
 
 <img src="ModeDetails.assets/schileren-systems-3-683x1024.jpg" alt="刀口2" style="zoom:50%;" />
 
-<center><font color="red">刀口2<font></font><cebnter>
+<center><font color="red">刀口2</font><cebnter>
 
 ![刀口3](ModeDetails.assets/SchlierenLens.jpg)
 
-<center><font color="red">刀口3<font></font><cebnter>
-
-
-
-### 4f系统
-
-解释什么事4f系统
-
+<center><font color="red">刀口3</font><cebnter>
 
 
 
@@ -213,3 +412,56 @@ $$
 ### 衍射效应
 
 介绍相关概念，结合实验与仿真图进行解释。
+
+
+
+### GaussianBeam.m
+
+本示例代码实现了高斯光源的仿真。
+
+详细原理描述见**Laser Source（激光光源）**。
+
+```matlab
+%% Gaussian beam 
+clear; 
+clc;  
+clf;
+close all;
+
+
+% Field size and sampling
+% Set 5 * 5 mm field
+L0 = 5e-3;
+Nx = 1000;
+Ny = 1000;
+x = L0 * linspace(-1, 1, Nx);  % linspace 均分计算指令，用于产生x1,x2之间的N 等分点
+y = L0 * linspace(-1, 1, Ny);
+[X, Y] = meshgrid(x, y);  % meshgrid 生成网格采样点的函数
+
+
+% Standard deviation 
+% Set 1 mm
+sigma_r = 1e-3;
+
+
+% Gaussian function with a=I0, b=x-scale, c=y-scale, d=standard deviation
+% @是用于定义函数句柄的操作符
+% 高斯光源
+f_gauss2D = @(a,b,c,d) (a .* exp(-((b.^2+c.^2)/(2*((d).^2)))));
+U0 = f_gauss2D(1, X, Y, sigma_r);
+
+% Figure
+figure(1);
+mesh(X, Y, U0);
+
+figure(2);
+meshc(X, Y, U0);
+
+figure(3);
+imagesc(U0);
+
+figure(4);
+plot(x, U0(Nx/2, :), 'c');
+grid on;
+```
+
