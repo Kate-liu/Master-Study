@@ -98,7 +98,7 @@
 
 ## Utils(工具箱)
 
-这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括**激光光源**，**光学4F系统**，**标量衍射理论**，**菲涅尔衍射**，**透镜的傅里叶特性**，透镜中的相移变化，，MATLAB中傅里叶变化等。
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，MATLAB中傅里叶变化等。
 
 
 
@@ -163,6 +163,7 @@ $$
 <img src="ModeDetails.assets/光学4F系统.png" alt="光学4F系统" style="zoom:50%;" />
 
 <center><font color="red">图11 光学4F系统</font><cebnter>
+
 >视觉角度：俯视图；
 >
 >图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
@@ -211,7 +212,13 @@ U(\xi, \eta)
 \frac {\exp(ikr)}{r^2}
 d \xi d \eta
 $$
-上式中，$r= \sqrt{z^2 + (\xi - x)^2 + (\eta -y)^2 }$ 。
+上式中，$r= \sqrt{z^2 + ( x - \xi)^2 + ( y - \eta)^2 }$ 。
+
+> 参考文献：
+>
+> 1.Rayleigh–Sommerfeld diffraction formula in k space
+>
+> 2.On the exact Kirchhoff and Rayleigh-Sommerfeld theories for the focusing of an infinite scalar spherical wave-field
 
 
 
@@ -224,21 +231,133 @@ $$
 \iint _{\sum}
 U(\xi, \eta)
 \frac {\exp(ikr)}{r^2}
-d \xi d \eta$ ，我们使用**一阶泰勒级数**来近似求平方根，当 $b \ll a$ 时，则满足下面的等价公式：
+d \xi d \eta$ ，我们使用**一阶泰勒展开式**来近似获得函数值，由[泰勒展开式线性近似理论](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)对应的**函数线性近似表达式**为：
 $$
-\sqrt {a+b} \approx a(1 + \frac {b}{2a})
+f(a+ \Delta x)
+=
+f(a)
++
+f' (a) \Delta x
 $$
----需要确定一下！！这个式子对不对！！感觉推不下去了，哈哈！
+所以，当 $b \ll a$ 时，则满足下面的等价公式：
+$$
+\sqrt {a+b} 
+\approx 
+\sqrt{a} (1 + \frac {b}{2a})
+$$
+在标量衍射理论中，当 $z^2 \gg x^2 + y^2$ 时，我们可以的对应的 $r$ 和 $r^2$ 的表达式：
+$$
+r
+\approx 
+z(1 + \frac {( x - \xi)^2 + ( y - \eta)^2} {2 z^2} )
+$$
+
+$$
+r^2 \approx  z^2
+$$
+
+注意，上式子中的 $r$ 是根据泰勒级数展开式线性理论得到， $r^2$ 是直接 $z^2 \gg x^2 + y^2$ 条件得到。
+
+使用上述结论，我们可以得到标量直角坐标系的**简化公式**：
+$$
+U(x,y,z) 
+\approx
+\frac{z}{i\lambda} 
+\iint _{\sum}
+U(\xi, \eta)
+\frac {\exp(ikz(1 - \frac {( x + \xi)^2 + ( y - \eta)^2} {2 z^2} ))}{z^2}
+d \xi d \eta
+$$
+化简一下可以得到：
+$$
+U(x,y,z) 
+\approx
+\frac{\exp (ikz)}{i\lambda} 
+\iint _{\sum}
+U(\xi, \eta)
+\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+d \xi d \eta
+$$
+将孔径 $\sum$ 上的积分使用**光瞳函数** $P(x,y)$ 的无穷积分形式代替，可以得到下面的公式：
+$$
+U(x,y,z) 
+\approx
+\frac{\exp (ikz)}{i\lambda} 
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+P(\xi, \eta) U(\xi, \eta)
+\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+d \xi d \eta
+$$
+上式，也就是基于标量衍射理论得到的**菲涅尔衍射公式**。很关键！！！
 
 
 
+### Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）
+
+这里进行泰勒展开式的相关理论推导，主要为了菲涅尔衍射中的公式化简。由于完整的泰勒推导不是我的重点，所以我只会将**使用一阶泰勒展开式近似获取函数值的方法**原型进行推导。
+
+先画一个关于函数 $f(x)$ 的函数图，如下图所示：
+
+<img src="ModeDetails.assets/f(x)函数图.png" alt="f(x)函数图" style="zoom:50%;" />
+
+<center><font color="red">图13 <i>f(x)</i>函数图</font><cebnter>
+
+从上图可以看到，想要估计 $a$ 点的函数，我们无法直接带入数值 $a$ 去计算。需要通过 $a+ \Delta x$ 这一点的函数值，使 $\Delta x \rightarrow 0$ 时， $f(a)$ 和 $f(a+ \Delta x)$ 近似相等来计算。
+
+函数在 $a$ 点的斜率为 $tan(\alpha)$ ，其表达式如下所示：
+$$
+tan (\alpha)
+=
+\frac{f(a+ \Delta x)} {\Delta x}
+$$
+由于斜率等于函数的倒数，表示为下式：
+$$
+tan (\alpha)
+=
+f' (a)
+$$
+综合上式可以得到**线性近似表达式**，也就是泰勒一阶展开式：
+$$
+f(a+ \Delta x)
+=
+f(a)
++
+f' (a) \Delta x
+$$
+**补充知识**：从上图中可以看出点函数定积分的几何意义，而这也是泰勒展开式是微积分的基本定理的原因。即牛顿莱布尼茨公式通过一系列的换元，转换，最终得到泰勒展开式。
 
 
 
+### Lens Phase Change Theory（透镜的相位变化理论）
+
+> 这块的这个名字，我也不知道怎么表达，暂时先使用 *透镜的相位变化理论* 。
+
+这块，需要完成的任务就是搞懂**透镜是怎么工作的**，也就是透镜是怎么影响相位变化的，由于我们的测设装置有透镜，所以，必须弄懂！
+
+在波动光学的世界里面，**光具有振幅和相位**。
+
+我们假设有一个**理想薄透镜**，其不存在反射现象，所有的光束都透射近透镜。**波数**取决于光波传播的介质。
+
+当在**空气**中的时候，光波的波数为 $k = \frac {2 \pi} {\lambda}$ ，在**其他介质**中的时候，光波的波数为 $k_n = k \cdot n$ ， $n$ 为该介质的折射率，对于玻璃透镜的折射率约为 $1.5$ 。
+
+由于上述中不同的波数，我们可以发现：**当光分别穿过空气和玻璃之后，会由于不同的波数，会产生光程差。**
+
+由于我们忽略了反射带来的光强变化，此时光线穿过透镜之后，只会出现**相移**，也就是相位的变化。
+
+当我们使用**薄透镜**和**傍轴光线**组合的时候，我们可以假设光线穿过透镜的入射点和出射点是相同的，具体的透镜示意图如下图所示：
+
+<img src="ModeDetails.assets/薄透镜示意图.png" alt="薄透镜示意图" style="zoom:80%;" />
+
+<center><font color="red">图14 薄透镜示意图</font><cebnter>
+
+> 视觉角度：俯视图。（由于透镜是圆的，主视图和俯视图效果是一样的，为了与装置对应，选择使用俯视图进行描述。）
+
+上图中的薄透镜左右两边的曲率不一样，分别为 $R1$ 和 $R2$ ，其中 $d$ 为薄透镜的中间厚度， $b$ 为薄透镜的边缘厚度。
 
 
 
-
+-------------#### 需要继续在这里的撕逼了，，快一块接下来的就快了！
 
 
 
@@ -260,9 +379,34 @@ $$
 
 上图中， $U_0$ 是一个在薄凸透镜前面距离为 *d* 的电场，$U_2$ 是我们想通过计算获得的电场，其距离薄凸透镜后面为 *f* ， $U_1^-$ 是薄凸透镜前面的临界区电场， $U_1^+$ 是薄凸透镜后面的临界区电场。
 
+在这里我们需要使用 [菲涅尔衍射](#Fresnel Diffrection（菲涅尔衍射）) 中得到的菲涅尔衍射公式：
 
+$$
+U(x,y,z) 
+\approx
+\frac{\exp (ikz)}{i\lambda} 
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+P(\xi, \eta)U(\xi, \eta)
+\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+d \xi d \eta
+$$
+由上图的薄透镜，可以得到对应的反射公式中 $z$ 的数值是 $d$ ，所以可以得到**薄凸透镜前面的临界区电场**公式：
+$$
+U_1^- (x,y) 
+\approx
+\frac{\exp (ikd)}{i\lambda} 
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+P(\xi, \eta)U(\xi, \eta)
+\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 d} )} {d}
+d \xi d \eta
+$$
+在前面 []() 推导，得到了光波通过透镜的计算公式如下：
+$$
 
-
+$$
+----------pause 现在去推导上面关于那个光穿过透镜的计算公式。
 
 
 
