@@ -98,7 +98,7 @@
 
 ## Utils(工具箱)
 
-这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，MATLAB中傅里叶变化等。
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，MATLAB中傅里叶变化等。
 
 
 
@@ -171,6 +171,28 @@ $$
 从上图找那个可以看出，被测对象被精准的放置于第一个凸透镜的焦距位置处，其距离第一个凸透镜的距离为 $f_3$ ，第二个凸透镜与第一个凸透镜之间的距离是 $f_3 + f_4$ ，像平面与第二个凸透镜之间的距离为 $f_4$ ，是第二个凸透镜的焦距。
 
 而我们在后面的模拟中，主要进行的就是这一部分的模拟，即，**被测对象（等离子体），第一个凸透镜，刀口，第二个凸透镜**。
+
+
+
+### Knife-edge diffraction theory（刀口衍射理论）
+
+这里主要是介绍纹影法中，在刀口处的电场变化，以及如何处理的。因为阴影法不需要刀口啊！
+
+> 想看这里的内容，脑子里面必须清楚的知道电场在整个纹影装置的变化，简言之就是需要先看透镜的傅里叶特性，并且知道光线穿过等离子体之后的电场情况，基于此来看刀口。
+
+------继续搞啊！！！！
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -271,22 +293,22 @@ $$
 化简一下可以得到：
 $$
 U(x,y,z) 
-\approx
+=
 \frac{\exp (ikz)}{i\lambda} 
 \iint _{\sum}
 U(\xi, \eta)
-\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+\frac {\exp( \frac {ik } {2 z} (( x - \xi)^2 + ( y - \eta)^2) )}{z}
 d \xi d \eta
 $$
 将孔径 $\sum$ 上的积分使用**光瞳函数** $P(x,y)$ 的无穷积分形式代替，可以得到下面的公式：
 $$
 U(x,y,z) 
-\approx
+=
 \frac{\exp (ikz)}{i\lambda} 
 \int _{-\infty}^{+\infty}
 \int _{-\infty}^{+\infty}
 P(\xi, \eta) U(\xi, \eta)
-\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+\frac {\exp( \frac {ik } {2 z} (( x - \xi)^2 + ( y - \eta)^2) )}{z}
 d \xi d \eta
 $$
 上式，也就是基于标量衍射理论得到的**菲涅尔衍射公式**。很关键！！！
@@ -351,17 +373,189 @@ $$
 
 <center><font color="red">图14 薄透镜示意图</font><cebnter>
 
-> 视觉角度：俯视图。（由于透镜是圆的，主视图和俯视图效果是一样的，为了与装置对应，选择使用俯视图进行描述。）
+> 视觉角度：俯视图。
+>
+> 注：由于透镜的主视图和俯视图效果是一样的，为了与前文装置对应，选择使用俯视图进行描述。
 
-上图中的薄透镜左右两边的曲率不一样，分别为 $R1$ 和 $R2$ ，其中 $d$ 为薄透镜的中间厚度， $b$ 为薄透镜的边缘厚度。
+上图中的薄透镜左右两边的**曲率不一样**，分别为 $R1$ 和 $R2$ ，其中 $d$ 为薄透镜的中间厚度， $b$ 为薄透镜的边缘厚度。
+
+从上图可以得到，当光线穿过距离为 $d$ 的空气时，对应的相移如下说示：
+$$
+\phi = d \cdot k
+$$
+当光线穿过薄透镜时，对应的**薄透镜两边**分别等效为下面的切面图：
+
+![薄透镜示意图(左边)](ModeDetails.assets/薄透镜示意图(左边).png)
+
+<center><font color="red">图15 薄透镜示意图(左边)</font><cebnter>
+
+![薄透镜示意图(右边)](ModeDetails.assets/薄透镜示意图(右边).png)
+
+<center><font color="red">图16 薄透镜示意图(右边)</font><cebnter>
+
+综上，可得光线穿过透镜，对应的相移可以表示为下式：
+$$
+\phi =
+k (\Delta_1 + \Delta_2) 
++
+k n (d - \Delta_1 - \Delta_2)
+$$
+**注** :这里面使用的 $k$ 与 $kn$ 是上面讨论的关于空气和其他介质的波数。
+
+上式中，使用的 $\Delta_1$ 与 $\Delta_2$ 分别是光线穿过薄透镜的时候，透镜左右两边穿过的空气距离，所以可以得到下面的公式：
+$$
+\Delta_1 = 
+R_1 - \sqrt{R_1^2 - h^2}
+$$
+
+$$
+\Delta_2 = 
+R_2 - \sqrt{R_2^2 - h^2}
+$$
+
+现在从左视图或者透视图想一下透镜，可以参看下面的图：
+
+![薄透镜左（右）视图](ModeDetails.assets/薄透镜左（右）视图.png)
+
+<center><font color="red">图17 薄透镜左（右）视图</font><cebnter>
+
+此时有一点**烧脑**，想象透镜的三维形状，除了在透镜左（右）视图的中心点，其他的点的距离光轴的距离（也就是上式中的 $h$ ）使用的计算公式:
+$$
+h = \sqrt{x^2 + y^2}
+$$
+综上 ，可以得到光线通过透镜带来的相移变化公式如下：
+$$
+\phi =
+k \Delta_1 \cdot(1-n)
++
+k \Delta_2 \cdot(1-n)
++
+knd
+\\
+= kn \cdot d 
++ k(n-1)(R_1 - \sqrt{R_1^2 - (x^2 + y^2)})
+\\
++ k(n-1)(R_2 - \sqrt{R_2^2 - (x^2 + y^2)})
+$$
+在上式中，可以看到有一个**恒定不便的相移量** $kn \cdot d$ ，此时我们可以不考虑其对于相移的影响。
+
+我们在[菲涅尔衍射](#Fresnel Diffrection（菲涅尔衍射）) 中使用 [泰勒展开式线性近似理论](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）) ，当 $b \ll a$ 时，得到了一个公式：
+$$
+\sqrt {a+b} 
+\approx 
+\sqrt{a} (1 + \frac {b}{2a})
+$$
+所以，当 $R_2^2 \gg x^2 + y^2$ 的时候，可以得到：
+$$
+\sqrt{R_1^2 - (x^2 + y^2)}
+\approx 
+R_1 (1+ \frac{x^2 + y^2}{2\cdot R_1^2})
+$$
+
+$$
+\sqrt{R_2^2 - (x^2 + y^2)}
+\approx 
+R_2 (1+ \frac{x^2 + y^2}{2\cdot R_2^2})
+$$
+
+此时，可以带入上面的相移公式，得：
+$$
+\phi = 
+k(n-1) (R_1 - R_1 (1+ \frac{x^2 + y^2}{2\cdot R_1^2}))
++ 
+k(n-1) (R_2 - R_2 (1+ \frac{x^2 + y^2}{2\cdot R_2^2}))
+$$
+继续化简上式：
+$$
+\phi = 
+k(n-1) (- \frac{x^2 + y^2}{2\cdot R_1}))
++ 
+k(n-1) (- \frac{x^2 + y^2}{2\cdot R_2}))
+\\
+=
+-k(n-1) \frac{x^2 + y^2}{2} 
+\cdot (\frac{1}{R_1} + \frac{1}{R_2})
+$$
+我们可以通过 [透镜制造方程](#Lensmaker's Equation（透镜制造方程）) 获得薄透镜的焦距方程表达式：
+$$
+\frac{1}{f}
+\approx 
+(n-1)[\frac{1}{R_1} - \frac{1}{R_2} ]
+$$
+由于我们使用的是薄凸透镜，此时Lensmaker’s Equation可以改写为：
+$$
+\frac{1}{f}
+=
+(n-1)[- \frac{1}{R_1} - \frac{1}{R_2} ]
+$$
+也即：
+$$
+- \frac{1}{f \cdot (n-1)}
+=
+\frac{1}{R_1} + \frac{1}{R_2}
+$$
+将上式，代入到我们上面化简之后的相移公式，可以得到：
+$$
+\phi 
+=
+-k(n-1) \frac{x^2 + y^2}{2} 
+\cdot 
+\frac{-1}{f \cdot (n-1)}
+$$
+化简得到：
+$$
+\phi 
+=
+\frac{k}{2 f} 
+(x^2 + y^2)
+$$
+此时可以得到光线通过薄透镜之后，对应的**相位变化**公式：
+$$
+t(x,y) = \exp (i \frac{k}{2 f} (x^2 + y^2))
+$$
+上式就是我们这一块的主要任务，得到光线穿过双凸薄透镜之后的相位变化公式。
 
 
 
--------------#### 需要继续在这里的撕逼了，，快一块接下来的就快了！
 
 
 
 
+### Lensmaker’s Equation（透镜制造方程）
+
+> 目前针对这个中文翻译纯属于我的直译，目前还没有找到一个中文版本的翻译，都使用的是Lensmaker’s Equation表示。
+
+如果透镜表面曲率半径 $R_1$ 和 $R_2$ ，和透镜的折射率 $n$ 是已知的，那么透镜的焦距 $f$ 在空气中可以使用Lensmaker’s Equation进行计算，如下：
+$$
+\frac{1}{f}
+=
+(n-1)[\frac{1}{R_1} - \frac{1}{R_2} + \frac{(n-1) d} {n \cdot R_1 R_2} ]
+$$
+其中， $R_1$ 是离物体更近的透镜表面曲率半径， $R_2$ 是离物体更远的透镜表面曲率半径，  $d$ 是在光轴上两个透镜表面之间的距离，也就是透镜的中心厚度。
+
+使用上述公式，可以通过测量透镜的半径，厚度和焦距来确定未知的透镜材料的折射率。
+
+> 透镜曲率半径的符号取决于其表面的形状。具体分析如下：
+>
+> 如果物体在透镜的左侧，观察者在物体的右侧。那么，曲率中心在透镜的右侧时，曲率半径为正；曲率半径在透镜的左侧时，曲率半径为负。
+>
+> 如果是一个平面，那么其曲率半径为无穷大。
+
+对于薄透镜的场景，如果透镜的中心厚度 $d$ 远远小于其曲率半径 $R_1$ 和 $R_2$  的时候，那么上面的公式可以变化为：
+$$
+\frac{1}{f}
+\approx 
+(n-1)[\frac{1}{R_1} - \frac{1}{R_2} ]
+$$
+上面的这个公式会在[透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）)中使用到。
+
+> 参考资料：
+>
+> 1.http://dev.physicslab.org/Document.aspx?doctype=3&filename=GeometricOptics_LensMakerEquation.xml
+>
+> 2.https://www.translatorscafe.com/unit-converter/zh-CN/calculator/lensmaker-equation/?redir=teaser
+>
+> 3.https://demonstrations.wolfram.com/LensmakersEquation/
 
 
 
@@ -388,10 +582,10 @@ U(x,y,z)
 \int _{-\infty}^{+\infty}
 \int _{-\infty}^{+\infty}
 P(\xi, \eta)U(\xi, \eta)
-\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 z} )}{z}
+\frac {\exp( \frac {ik } {2 z} (( x - \xi)^2 + ( y - \eta)^2) )}{z}
 d \xi d \eta
 $$
-由上图的薄透镜，可以得到对应的反射公式中 $z$ 的数值是 $d$ ，所以可以得到**薄凸透镜前面的临界区电场**公式：
+由上图的薄透镜，可以得到对应的衍射公式中 $z$ 的数值是 $d$ ，所以可以得到**薄凸透镜前面的临界区电场**公式：
 $$
 U_1^- (x,y) 
 \approx
@@ -399,24 +593,247 @@ U_1^- (x,y)
 \int _{-\infty}^{+\infty}
 \int _{-\infty}^{+\infty}
 P(\xi, \eta)U(\xi, \eta)
-\frac {\exp( \frac {ik ( x - \xi)^2 + ( y - \eta)^2} {2 d} )} {d}
+\frac {\exp( \frac {ik } {2 d} (( x - \xi)^2 + ( y - \eta)^2) )} {d}
 d \xi d \eta
 $$
-在前面 []() 推导，得到了光波通过透镜的计算公式如下：
+在前面 [透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）) 推导，得到了光波通过薄凸透镜的相位变化计算公式如下：
+$$
+t(x,y) = \exp (i \frac{k}{2 f} (x^2 + y^2))
+$$
+将上式带入薄凸透镜前面的临界区电场，得到**薄凸透镜后面的临界电场**表达式：
+$$
+U_1^+ (x,y) 
+\approx
+\exp (i \frac{k}{2 f} (x^2 + y^2))
+\frac{\exp (ikd)}{i\lambda} 
+\cdot
+\\
+\quad \quad \quad \quad \quad \quad \quad
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+P(\xi, \eta)U(\xi, \eta)
+\frac {\exp( \frac {ik } {2 d} (( x - \xi)^2 + ( y - \eta)^2) )} {d}
+d \xi d \eta
+$$
+如果，我们的薄凸透镜足够到，就可以忽略**光瞳函数** $P(x,y)$ ，化简得到：
+$$
+U_1^+ (x,y) 
+=
+\exp (i \frac{k}{2 f} (x^2 + y^2))
+\frac{\exp (ikd)}{i\lambda} 
+\cdot
+\\
+\quad \quad \quad \quad \quad \quad \quad
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+U(\xi, \eta)
+\frac {\exp( \frac {ik } {2 d} (( x - \xi)^2 + ( y - \eta)^2) )} {d}
+d \xi d \eta
+$$
+此时，我们继续使用菲涅尔衍射，可以得到距离薄凸透镜为 $f$ 的位置的电场 $U_2$ 公式：
+$$
+U_2 (x,y) 
+\approx
+\frac{\exp (ikf)}{i\lambda} 
+\int _{-\infty}^{+\infty}
+\int _{-\infty}^{+\infty}
+U_1^+(\nu, \tau)
+\frac {\exp( \frac {ik } {2 f} (( x - \nu)^2 + ( y - \tau)^2) )} {f}
+d \nu d \tau
 $$
 
+> **Warning**：下面的化简十分复杂，做好心理准备！(我会在推导的是一步一步来，一是为了自己下次看可以看懂，而是为了阅读对象可以看懂。)
+
+进行（乘与合并）化简可以得到：
 $$
-----------pause 现在去推导上面关于那个光穿过透镜的计算公式。
+U_2 (x,y) 
+=
+\exp (i \frac{k}{2 f} (x^2 + y^2))
+\frac{\exp (ik(d + f))}{i^2 \lambda^2} 
+\cdot
+\\
+\iiiint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\frac {\exp( \frac {ik } {2 d} (( \nu - \xi)^2 + ( \tau - \eta)^2) )} {d}
+\frac {\exp( \frac {ik } {2 f} (( x - \nu)^2 + ( y - \tau)^2))} {f}
+d \xi d \eta d \nu d \tau
+$$
+进行（展开，消除积分中的平方项）化简可以得到：
+$$
+U_2 (x,y) 
+=
+\exp (i \frac{k}{2 f} (x^2 + y^2))
+\frac{\exp (ik(d + f))}{i^2 \lambda^2} 
+\cdot
+\\
+\iiiint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\frac {\exp( \frac {ik } {2 d} (( \nu - \xi)^2 + ( \tau - \eta)^2) )} {d}
+\frac {\exp( -  \frac  {ik } {f} ( x \nu +  y \tau ))}
+{f}
+d \xi d \eta 
+d \nu d \tau
+$$
 
+> 由于进行了两次菲涅尔衍射，所以进行化简的时候，需要将透镜的平方项抵消。
 
+在接下来的化简主要是针对电场 $U2$ 公式中的**积分项的分子**的化简，可以提出来如下所示：
+$$
+s = 
+\iint _{-\infty}^{+\infty}
+\exp( \frac {ik } {2 d} (( \nu - \xi)^2 + ( \tau - \eta)^2) )
+\exp( -  \frac  {ik } {f} ( x \nu +  y \tau ))
+d \nu d \tau
+$$
+这里使用一个技巧，将公式中的平方项内部的内容进行替换，如下形式：
+$$
+\nu' =\nu - \xi
+\\
+\tau' = \tau - \eta
+$$
+我们可以得到替换之后的公式：
+$$
+s = 
+\iint _{-\infty}^{+\infty}
+\exp( \frac {ik } {2 d} (\nu’ ^2 + \tau ’^2) )
+\exp( -  \frac  {ik } {f} ( x (\nu'+\xi) +  y (\tau' + \eta) ))
+d \nu' d \tau'
+$$
+继续化简，得到：
+$$
+s = 
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\iint _{-\infty}^{+\infty}
+\exp( \frac {ik } {2 d} (\nu’ ^2 + \tau ’^2) )
+\exp( -  \frac  {ik } {f} ( x \nu' +  y \tau' ))
+d \nu' d \tau'
+$$
+我们对**二维高斯函数的傅里叶变化**与上式中的积分项类似，可以进行引用化简，其二维高斯傅里叶变化的公式如下：
+$$
+\iint _{-\infty}^{+\infty}
+\exp( \frac {i c } {2} (t_1 ^2 + t_2^2) )
+\exp( - i ( t_1 \omega_1 +  t_2 \omega_2 ))
+d t_1 d t_2
+=
+\frac {2 \pi i} {c} \exp ( - \frac{i}{2c} (\omega_1^2 + \omega_2^2))
+$$
 
+> 参考：https://blog.csdn.net/majinlei121/article/details/46745359
 
+基于上面的傅里叶变化公式，可以继续化简，化掉积分项：
+$$
+s = 
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\cdot
+\frac{2 \pi i d} {k} 
+\exp(- \frac {i d} {2 k} \cdot  \frac {k^2} {f^2} (x^2 + y^2))
+$$
 
+> 备注：在等效计算的时候，将傅里叶变化中的 $c$ 等效为 $\frac {k}{d}$ ，二次积分之后原式中的 $\frac {k}{f}$ 变成 $\frac{k^2}{f^2}$ 。
 
+继续化简，得到：
+$$
+s = 
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\cdot
+\frac{2 \pi i d} {k} 
+\exp(- \frac {i d k} {2 f^2} \cdot  (x^2 + y^2))
+$$
+在 [透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）) 中，我们知道波数 $k$ 的表达式为：
+$$
+k = \frac {2 \pi} {\lambda}
+$$
+所以，上式还可以化简：
+$$
+s = 
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\cdot
+ i d \lambda
+\cdot
+\exp(- \frac {i d k} {2 f^2} \cdot  (x^2 + y^2))
+$$
+此时我们将提取出来的积分部分，代回原来的函数中，可以的得到：
+$$
+U_2 (x,y) 
+=
+\exp (i \frac{k}{2 f} (x^2 + y^2))
+\frac{\exp (ik(d + f))}{i^2 \lambda^2} 
+\cdot
+\\
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\frac {
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\cdot
+ i d \lambda
+\cdot
+\exp(- \frac {i d k} {2 f^2} \cdot  (x^2 + y^2))} 
+{df}
+d \xi d \eta 
+$$
+进行化简得到：
+$$
+U_2 (x,y) 
+=
+\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) 
+\exp (ik(d + f))}
+{f i \lambda}
+\cdot
+\\
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+{f}
+d \xi d \eta
+$$
 
+> 这次化简的操作比较多，首先进行积分项中化简，包括：消去 $d$ ， 将非 $\xi$ 和 $\eta$ 的积分项移出。接着就是正常的约分换算了。
 
+由于，上式中的 $i$ ，$\exp (ik(d + f)) $ 属于常数项，可以进行忽略，得到：
+$$
+U_2 (x,y) 
+=
+\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
+{f \lambda}
+\cdot
+\\
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+{f}
+d \xi d \eta
+$$
 
+> 上面的式子已经是对于薄凸透镜，在距离透镜后面 $f$ 位置的电场最简的形式。
 
+上面的所有推导，是基于薄凸透镜前面距离为 $d$ 的电场，求距离透镜后面距离为 $f$  的电场。但是在我们的装置中，其实使用的透镜前的距离与透镜后的距离是相等的，都等于焦距 $f$  .
+
+当 $d =f$ 的时候，可以将上面的式子更改为：
+$$
+U_2 (x,y) 
+=
+\frac { 1}
+{f \lambda}
+\cdot
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+{f}
+d \xi d \eta
+$$
+继续化简得到：
+$$
+U_2 (x,y) 
+=
+\frac { 2 \pi}
+{f \lambda}
+\cdot
+\mathcal{F} (U)
+(\frac {k}{f} x , \frac {k}{f} y )
+$$
+上面的式子是一个精确的傅里叶变化，也就是说上面公式反映了透镜的傅里叶性质，表现为**后一个焦平面的输出场是前一个焦平面输入场的傅里叶变换**。
+
+> 注意：这里获得的结论对于后面进行编写MATLAB程序很有帮助。
 
 
 
@@ -462,12 +879,13 @@ $$
 k(air) \cdot 2R
 \quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
 \\ 
+\\
 k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot \Delta z(x)  
 \quad \quad \quad \quad \quad  ,|x| \leq R
 \end{cases}
 $$
 
-上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ , $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ 。
+上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ ， $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ 。
 
 当激光束与光轴之间的距离大于圆柱形等离子体半径 `R` 时，激光束的相移取决于传播 `2R` 距离的空气介质；
 
@@ -477,7 +895,11 @@ $$
 $$
 U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
 $$
-上式中， `g(x,y)` 表示激光束在电场中的呈高斯分布的光源。
+上式中， `g(x,y)` 表示激光束在电场中的呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
+
+
+
+
 
 <font color="red">待解决问题：g(x,y).t(x,y) 这个关系式是否正确？</font>
 
