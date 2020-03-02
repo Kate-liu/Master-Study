@@ -98,7 +98,7 @@
 
 ## Utils(工具箱)
 
-这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，MATLAB中傅里叶变化等。
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）)等。
 
 
 
@@ -176,23 +176,90 @@ $$
 
 ### Knife-edge diffraction theory（刀口衍射理论）
 
-这里主要是介绍纹影法中，在刀口处的电场变化，以及如何处理的。因为阴影法不需要刀口啊！
+这里主要是介绍纹影法中，**刀口处的电场变化**，以及如何处理的。因为阴影法不需要刀口。
 
 > 想看这里的内容，脑子里面必须清楚的知道电场在整个纹影装置的变化，简言之就是需要先看透镜的傅里叶特性，并且知道光线穿过等离子体之后的电场情况，基于此来看刀口。
 
-------继续搞啊！！！！
+我们在[装置](#Setup（装置） ) 中谈过纹影法的装置，并且在[4F系统](#Optical 4F System（光学4F系统）) 中，更加详细的介绍了纹影法测试装置，本质是**光线的传输过程中，由于不同的介质与材料导致的电场的变化**。
 
+在[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 中，得到结论：**透镜后焦距位置的电场是透镜前焦距位置电场的傅里叶变化。** 其表达式如下所示：
+$$
+U_2 (x,y) 
+=
+\frac { 2 \pi}
+{f \lambda}
+\cdot
+\mathcal{F} (U(x,y) )
+(\frac {k}{f} x , \frac {k}{f} y )
+$$
+将[4F系统](#Optical 4F System（光学4F系统）) 中的图像添加上电场的表示，如下图所示：
 
+<img src="ModeDetails.assets/纹影装置电场示意图.png" alt="纹影装置电场示意图" style="zoom:60%;" />
 
+<center><font color="red">图12 纹影装置电场示意图</font><cebnter>
 
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
 
+上图中，被测对象在物平面的电场表示为 $U_1$ ，光线继续穿过凸透镜之后，在刀口处的电场表示为 $U_2 $ ， 最后在相平面的电场表示为 $U_3$ 。
 
+所以，可以得到光线在**刀口前的电场**表达式为：
+$$
+U_2^- (x,y) 
+=
+\frac { 2 \pi}
+{f_3 \lambda}
+\cdot
+\mathcal{F} (U_1 (x,y))
+(\frac {k}{f_3} x , \frac {k}{f_3} y )
+$$
+上式中， $k$ 表示的是波数， $f_3$ 表示的是凸透镜3的焦距。
 
+为了更好视觉效果，将纹影法装置中的刀口位置进行放大，见下图：
 
+<img src="ModeDetails.assets/刀口局部示意图.png" alt="刀口局部示意图" style="zoom:70%;" />
 
+<center><font color="red">图13 刀口局部示意图</font><cebnter>
 
+> 视觉角度：俯视图；
+>
+> 图示：1-凸透镜，4-刀口。
 
+从上图中可以明显的看出来，在刀口位置的电场被刀口阻挡了一半。从光学的焦点角度来思考，当刀口的尖部放置于焦距位置的时候，我们应该将整个焦点都挡住了，也就是像平面是什么都看不到的，理论上确实是这样，但是因为有**衍射**效应，所以光束的电场正好被阻挡了一半。
 
+基于刀口的作用，我们使用**赫维赛德阶跃( Heaviside step function ) 函数**来描述：
+$$
+H(x) = 
+\begin{cases} 
+0  \quad \quad \quad \quad ，x < 0
+\\ 
+1 \quad \quad \quad \quad ， x \geq 0
+\end{cases}
+$$
+所以，我们可以得到**刀口后的电场**表达式：
+$$
+U_2^+ (x,y)  = H(x) \cdot U_2^-  (x,y)
+$$
+对于我们的目标像平面的电场，可以继续使用[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）)，则表示为：
+$$
+U_3 (x,y) 
+=
+\frac { 2 \pi}
+{f_4 \lambda}
+\cdot
+\mathcal{F} (U_2^+(x,y))
+(\frac {k}{f_4} x , \frac {k}{f_4} y )
+$$
+上面的推导已经将装置中的电场变化计算理论模型展示出来，剩下的就是针对每一块的具体实现。比如：我们的被测对象是如何影响电场的？我们的理论模型如何使用MATLAB表示？.....
+
+> 参考资料：
+>
+> 1.https://ww2.mathworks.cn/help/symbolic/heaviside.html
+>
+> 2.[https://blog.csdn.net/yzlh2009/article/details/103937712?ops_request_misc=%7B%22request%5Fid%22%3A%22158314603919725219964287%22%2C%22scm%22%3A%2220140713.130056874..%22%7D&request_id=158314603919725219964287&biz_id=0&utm_source=distribute.pc_search_result.none-task](https://blog.csdn.net/yzlh2009/article/details/103937712?ops_request_misc={"request_id"%3A"158314603919725219964287"%2C"scm"%3A"20140713.130056874.."}&request_id=158314603919725219964287&biz_id=0&utm_source=distribute.pc_search_result.none-task)
+>
+> 3.https://docs.scipy.org/doc/numpy/reference/generated/numpy.heaviside.html
 
 
 
@@ -519,8 +586,6 @@ $$
 
 
 
-
-
 ### Lensmaker’s Equation（透镜制造方程）
 
 > 目前针对这个中文翻译纯属于我的直译，目前还没有找到一个中文版本的翻译，都使用的是Lensmaker’s Equation表示。
@@ -563,7 +628,7 @@ $$
 
 在这块，主要基于波动光学相关理论，推导光线通过透镜之后，其电场的变化情况。主要解决光学系统的快速数值计算。
 
-得到的最终结论：**透镜后焦距位置的电场是透镜前焦距位置的傅里叶变化。**
+得到的最终结论：**透镜后焦距位置的电场是透镜前焦距位置电场的傅里叶变化。**
 
 首先，我们从一个透镜开始看，下图是一个**典型的薄凸透镜**：
 
@@ -828,12 +893,32 @@ U_2 (x,y)
 \frac { 2 \pi}
 {f \lambda}
 \cdot
-\mathcal{F} (U)
+\mathcal{F} (U (x,y) )
 (\frac {k}{f} x , \frac {k}{f} y )
 $$
 上面的式子是一个精确的傅里叶变化，也就是说上面公式反映了透镜的傅里叶性质，表现为**后一个焦平面的输出场是前一个焦平面输入场的傅里叶变换**。
 
 > 注意：这里获得的结论对于后面进行编写MATLAB程序很有帮助。
+
+
+
+### Fourier transform in MATLAB（MATLAB中的傅里叶变化）
+
+这块主要将MATLAB中的傅里叶变化应用到[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) ，最终反应在MATLAB中。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -895,19 +980,48 @@ $$
 $$
 U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
 $$
-上式中， `g(x,y)` 表示激光束在电场中的呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
+上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
 
+基于纹影法装置，按照光的传播方向，将已经知道的**整体内容**整理如下：
 
+- 光源的模型表达式，由 [激光光源](#Laser Source（激光光源）) 得到：$g(x,y)=A(- \exp(\frac {(x-x_0)^2} {2 \sigma _x^2} + \frac {(y-y_0)^2} {2 \sigma _y^2}))$ 。
+- 光线经过等离子体柱之后的电场公式，由[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 得到： $U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))$ 。
+- 光线经过第一个凸透镜的之后，在到达刀口前的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_2^- (x,y) 
+  =
+  \frac { 2 \pi}
+  {f_3 \lambda}
+  \cdot
+  \mathcal{F} (U (x,y))
+  (\frac {k}{f_3} x , \frac {k}{f_3} y )$ 。
+- 光线经过刀口之后的电场，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $U_2^+ (x,y)  = H(x) \cdot U_2^-  (x,y)$ 。
+- 光线经过第二个凸透镜，到达像平面的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_3 (x,y) 
+  =
+  \frac { 2 \pi}
+  {f_4 \lambda}
+  \cdot
+  \mathcal{F} (U_2^+(x,y))
+  (\frac {k}{f_4} x , \frac {k}{f_4} y )$ 。
 
+> 上面所述中，涉及的**辅助量**如下所示：
+>
+> 1.圆柱形等离子体引起的相移变化，由[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 得到：$\Delta \Phi (x)=
+> \begin{cases} 
+> k(air) \cdot 2R
+> \quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
+> \\ 
+> \\
+> k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot \Delta z(x)  
+> \quad \quad \quad \quad \quad  ,|x| \leq R
+> \end{cases}$ 
+>
+> 2.刀口对电场的影响，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $H(x) = 
+> \begin{cases} 
+> 0  \quad \quad \quad \quad ，x < 0
+> \\ 
+> 1 \quad \quad \quad \quad ， x \geq 0
+> \end{cases}$ 
 
-
-<font color="red">待解决问题：g(x,y).t(x,y) 这个关系式是否正确？</font>
-
-
-
-
-
-
+接着进行**编码验证**环节，但是我们需要了解MATLAB中的傅里叶变化实现与原理，具体内容查看[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）) 。
 
 
 
