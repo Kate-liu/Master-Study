@@ -788,7 +788,7 @@ $$
 基于上面的傅里叶变化公式，可以继续化简，化掉积分项：
 $$
 s = 
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 \cdot
 \frac{2 \pi i d} {k} 
 \exp(- \frac {i d} {2 k} \cdot  \frac {k^2} {f^2} (x^2 + y^2))
@@ -799,7 +799,7 @@ $$
 继续化简，得到：
 $$
 s = 
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 \cdot
 \frac{2 \pi i d} {k} 
 \exp(- \frac {i d k} {2 f^2} \cdot  (x^2 + y^2))
@@ -811,7 +811,7 @@ $$
 所以，上式还可以化简：
 $$
 s = 
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 \cdot
  i d \lambda
 \cdot
@@ -828,13 +828,13 @@ U_2 (x,y)
 \iint _{-\infty}^{+\infty}
 U(\xi, \eta)
 \frac {
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 \cdot
  i d \lambda
 \cdot
 \exp(- \frac {i d k} {2 f^2} \cdot  (x^2 + y^2))} 
 {df}
-d \xi d \eta 
+d \xi d \eta
 $$
 进行化简得到：
 $$
@@ -847,7 +847,7 @@ U_2 (x,y)
 \\
 \iint _{-\infty}^{+\infty}
 U(\xi, \eta)
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 {f}
 d \xi d \eta
 $$
@@ -864,7 +864,7 @@ U_2 (x,y)
 \\
 \iint _{-\infty}^{+\infty}
 U(\xi, \eta)
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 {f}
 d \xi d \eta
 $$
@@ -882,7 +882,7 @@ U_2 (x,y)
 \cdot
 \iint _{-\infty}^{+\infty}
 U(\xi, \eta)
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) ))
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
 {f}
 d \xi d \eta
 $$
@@ -902,9 +902,120 @@ $$
 
 
 
+
+
 ### Fourier transform in MATLAB（MATLAB中的傅里叶变化）
 
-这块主要将MATLAB中的傅里叶变化应用到[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) ，最终反应在MATLAB中。
+> 这块主要将MATLAB中的傅里叶变化应用到[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) ，最终反应在MATLAB中。
+>
+> 注：另一个烧脑的地方开始了，我会尽量详细一点。
+
+在[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 中，我们得到公式：
+$$
+U_2 (x,y) 
+=
+\frac { 1}
+{f \lambda}
+\cdot
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
+{f}
+d \xi d \eta
+$$
+如果将 $k$ 变为 $k = \frac{2 \pi n}{\lambda}$ ,此时可以得到：
+$$
+U_2 (x,y) 
+=
+\frac { 1}
+{f \lambda}
+\cdot
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( - 2 \pi i \frac  { n } {f \lambda} ( x \xi +  y  \eta) )
+{f}
+d \xi d \eta
+$$
+在**傅里叶积分（Fourier integral）及傅里叶变换（Fourier Transform）**中，若函数 $f(\xi, \eta)$ 在整个无限 $\xi $, $\eta $ 平面上满足狄里赫利条件，且绝对可积， $f(\xi, \eta)$ 可以使用叠加积分表示：
+$$
+\mathcal{F}  (x,y) 
+=
+\iint _{-\infty}^{+\infty}
+f(\xi, \eta)
+\exp [ -  2 \pi i  ( x \xi +  y  \eta) ]
+d \xi d \eta
+$$
+此时我们只看上式子中的积分部分（暂时不考虑常数项部分），将公式中的 $\frac  { n } {f \lambda} $ 表示为 $b$ ，得到：
+$$
+\mathcal{F}  (x,y) 
+=
+\iint _{-\infty}^{+\infty}
+f(\xi, \eta)
+\exp [ -  2 \pi i b ( x \xi +  y  \eta) ]
+d \xi d \eta
+$$
+也就是：
+$$
+\mathcal{F}  (x,y) 
+=
+\iint _{-\infty}^{+\infty}
+f(\xi, \eta)
+\exp [ -  2 \pi i  ( b x \xi + b y  \eta) ]
+d \xi d \eta
+$$
+将上式转换一个形式，使用 $x' = bx$ 和 $y' = by$ ，此时可以得到：
+$$
+\mathcal{F}    (x' , y' ) 
+=
+\iint _{-\infty}^{+\infty}
+f(\xi, \eta)
+\exp [ -  2 \pi i  ( x' \xi +  y'  \eta) ]
+d \xi d \eta
+$$
+所以，我们的最终计算，一定会使用到**傅里叶变化**，目前编程语言中有相应的实现，我们只需要发挥**拿来主义**，但是我们还需要更深入的了解一下MATLAB内部是基于什么方式实现的。
+
+目前MATLAB实现的是快速傅里叶变换（FFT），其中**二维傅里叶变化（2D-FFT）**定义为：
+$$
+\mathcal{F}    (k_x , k_y ) 
+=
+\sum _{a=1}^{n}
+\sum _{b=1}^{n}
+f(a, b)
+\exp [ -  2 \pi i \frac {(a-1) (k_x -1)} {n} ]
+\exp [ -  2 \pi i \frac {(b-1) (k_y -1)} {n} ]
+$$
+上式中，表示的是长度为 $n$ 的向量。
+
+在真实的计算中，需要将上面的 $\mathcal{F}    (x' , y' ) $ 公式转换成为 $\mathcal{F}    (k_x , k_y ) $ 的形式。所以，我们使用**黎曼和求积分**方式，进行 $N$ 步积分，可得：
+$$
+\xi = \frac {L_n}{N}
+\\
+\eta = \frac {L_m}{N}
+$$
+也即：
+$$
+\mathcal{F}    (x' , y' ) 
+=
+\sum _{n = \frac {-N}{2}} ^{\frac {N}{2} -1}
+\sum _{m = \frac {-N}{2}} ^{\frac {N}{2} -1}
+f(\frac {L_n }{N} , \frac {L_m }{N})
+\exp [ -  2 \pi i  ( x' \frac {L_n }{N}+  y'  \frac {L_m }{N} ) ]
+(\frac {L }{N}) ^2
+$$
+我们需要计算的是光通过特定的孔径时发生的衍射现象，假设 $f(\frac {L_n }{N} , \frac {L_m }{N}) =0$  在 $\left [  - \frac {L_n}{2}, \frac {L_n}{2}   \right] \times \left [  - \frac {L_m}{2}, \frac {L_m}{2}   \right] $ 之外。
+
+上式中的 $x'$ 和 $y'$ 原来是是连续频域上的变量，由于进行傅里叶变化，所以这些变量也被**离散化**了，所以最终的到的 $\mathcal{F}    (x' , y' ) $ 是一个与输入数组 $f(\frac {L_n }{N} , \frac {L_m }{N})$ 大小相等的数组。
+
+> 简单地说就是之前的连续积分变成了一个个小块拼起来的，也叫做离散了，想一下最初学习积分的时候，进行的无限等分。
+
+由于采样输入数据点（离散点）之间的距离是 $\Delta \xi = \frac {L}{N} $ ，所以我们可以根据**内奎斯特频率（Nyquist frequency）**，得到最大空间频率表达式：
+$$
+|f_{max}| = \frac {1}{2 \Delta \xi}
+$$
+由于我们有n个数据点（离散点），我们通过快速傅里叶变换（FFT）获得 $n$ 个频率，将整个空间频率等距之后，表示如下：
+$$
+
+$$
 
 
 
@@ -915,6 +1026,21 @@ $$
 
 
 
+> 参考资料：
+>
+> 1.《高等数学》
+>
+> 2.二维傅里叶变换.pdf
+>
+> 3.https://ww2.mathworks.cn/help/matlab/math/two-dimensional-fft.html
+>
+> 4.https://ww2.mathworks.cn/help/matlab/ref/fft2.html
+>
+> 5.https://ww2.mathworks.cn/help/matlab/math/fourier-transforms.html
+>
+> 6.https://ww2.mathworks.cn/help/matlab/ref/fftw.html
+>
+> 7.http://xueshu.baidu.com/usercenter/paper/show?paperid=a90ae128ceb12a99aecb5b089fe67ba3&site=xueshu_se
 
 
 
@@ -923,9 +1049,7 @@ $$
 
 
 
-
-
-## Plasma Model（等离子体模型）
+## Plasma Model and Simulation（等离子体模型和仿真）
 
 本块主要介绍等离子体的一些仿真模型，也就是将等离子体等效为一些形状，其中包括：
 
@@ -1041,6 +1165,16 @@ $$
 
 
 ### Plasma Capillary（毛细血管形等离子体）
+
+
+
+
+
+## Experimental(实验)
+
+这一块，主要的任务是进行光学实验，并获得被测对象的**折射率**信息。
+
+
 
 
 
