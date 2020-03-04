@@ -98,7 +98,7 @@
 
 ## Utils(工具箱)
 
-这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）)，[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）)等。
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）) ， [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）)，[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）)等。
 
 
 
@@ -886,7 +886,7 @@ U(\xi, \eta)
 {f}
 d \xi d \eta
 $$
-继续化简得到：
+继续简化，得到：
 $$
 U_2 (x,y) 
 =
@@ -988,9 +988,9 @@ $$
 
 在真实的计算中，需要将上面的 $\mathcal{F}    (x' , y' ) $ 公式转换成为 $\mathcal{F}    (k_x , k_y ) $ 的形式。所以，我们使用**黎曼和求积分**方式，进行 $N$ 步积分，可得：
 $$
-\xi = \frac {L_n}{N}
+\xi = \frac {L n}{N}
 \\
-\eta = \frac {L_m}{N}
+\eta = \frac {L m}{N}
 $$
 也即：
 $$
@@ -998,13 +998,13 @@ $$
 =
 \sum _{n = \frac {-N}{2}} ^{\frac {N}{2} -1}
 \sum _{m = \frac {-N}{2}} ^{\frac {N}{2} -1}
-f(\frac {L_n }{N} , \frac {L_m }{N})
-\exp [ -  2 \pi i  ( x' \frac {L_n }{N}+  y'  \frac {L_m }{N} ) ]
+f(\frac {L n }{N} , \frac {L m }{N})
+\exp [ -  2 \pi i  ( x' \frac {L n }{N}+  y'  \frac {L m }{N} ) ]
 (\frac {L }{N}) ^2
 $$
-我们需要计算的是光通过特定的孔径时发生的衍射现象，假设 $f(\frac {L_n }{N} , \frac {L_m }{N}) =0$  在 $\left [  - \frac {L_n}{2}, \frac {L_n}{2}   \right] \times \left [  - \frac {L_m}{2}, \frac {L_m}{2}   \right] $ 之外。
+我们需要计算的是光通过特定的孔径时发生的衍射现象，假设 $f(\frac {L n }{N} , \frac {L m }{N}) =0$  在 $\left [  - \frac {L n}{2}, \frac {L n}{2}   \right] \times \left [  - \frac {L m}{2}, \frac {L m}{2}   \right] $ 之外。
 
-上式中的 $x'$ 和 $y'$ 原来是是连续频域上的变量，由于进行傅里叶变化，所以这些变量也被**离散化**了，所以最终的到的 $\mathcal{F}    (x' , y' ) $ 是一个与输入数组 $f(\frac {L_n }{N} , \frac {L_m }{N})$ 大小相等的数组。
+上式中的 $x'$ 和 $y'$ 原来是是连续频域上的变量，由于进行傅里叶变化，所以这些变量也被**离散化**了，所以最终的到的 $\mathcal{F}    (x' , y' ) $ 是一个与输入数组 $f(\frac {L n }{N} , \frac {L m }{N})$ 大小相等的数组。
 
 > 简单地说就是之前的连续积分变成了一个个小块拼起来的，也叫做离散了，想一下最初学习积分的时候，进行的无限等分。
 
@@ -1014,16 +1014,85 @@ $$
 $$
 由于我们有n个数据点（离散点），我们通过快速傅里叶变换（FFT）获得 $n$ 个频率，将整个空间频率等距之后，表示如下：
 $$
+\{   
+-\frac {1}{2 \Delta \xi},
+-\frac {1}{2 \Delta \xi}+ \frac {1}{L},
+-\frac {1}{2 \Delta \xi}+ \frac {2}{L},
+...,
+-\frac {1}{2 \Delta \xi}+ \frac {\frac {N}{2}}{L},
+...,
+\frac {1}{2 \Delta \xi}- \frac {2}{L},
+\frac {1}{2 \Delta \xi}- \frac {1}{L},
+\}
+$$
 
+或者：
+$$
+\{   
+-\frac {1}{2 \Delta \xi},
+-\frac {1}{2 \Delta \xi}+ \frac {1}{L},
+-\frac {1}{2 \Delta \xi}+ \frac {2}{L},
+...,
+\frac {1}{2 \Delta \xi}+ - \frac {\frac {N}{2}}{L},
+...,
+\frac {1}{2 \Delta \xi}- \frac {2}{L},
+\frac {1}{2 \Delta \xi}- \frac {1}{L},
+\}
+$$
+或者：
+$$
+\{   
+-\frac {1}{2 \Delta \xi},
+-\frac {1}{2 \Delta \xi}+ \frac {1}{L},
+-\frac {1}{2 \Delta \xi}+ \frac {2}{L},
+...,
+0,
+...,
+\frac {1}{2 \Delta \xi}- \frac {2}{L},
+\frac {1}{2 \Delta \xi}- \frac {1}{L},
+\}
 $$
 
 
+> 上面的表示详解，上表达式是基于最大空间频率得到的，由于最大空间频率的限制，必然出现了一个区间 $[ - \frac {1}{2 \Delta \xi} , \frac {1}{2 \Delta \xi}  ]$ ，将$\Delta \xi = \frac {L}{N} $ 代入，得到：$[ - \frac {N}{2 L} , \frac {N}{2 L}  ]$ 。
 
+将整个区间等分为 $N$ 块，那么就是上述的是三种表示形式，如果准确的说应该是奇数个采样点，偶数个区间，这也就表明了我们的**采样点需要设置为奇数**。
 
+现在回到上面的 $\mathcal{F}    (x' , y' ) $ 公式中，我们的 $x'$ 和 $y'$ 取值 ，需要取上面空间频率的等距区间值。使用 $P$ 与 $Q$ 分别表示在 $x$ 和 $y$ 上的点，则得到：
+$$
+x' = bx  = \frac {P}{L}
+ \\
+ y' = by = \frac {Q}{L}
+$$
+将其带入使用**黎曼和求积分**方式，进行 $N$ 步积分的公式，得到：
+$$
+\mathcal{F}    (P , Q ) 
+=
+\sum _{n = \frac {-N}{2}} ^{\frac {N}{2} -1}
+\sum _{m = \frac {-N}{2}} ^{\frac {N}{2} -1}
+f(\frac {L n }{N} , \frac {L m }{N})
+\exp [ -  2 \pi i  ( \frac {P n }{N}+   \frac {Q m }{N} ) ]
+(\frac {L }{N}) ^2
+$$
+然后我们可以知道，输入一个尺寸为 $L $ 的电场，输出的是一个长度为 $\frac {N} {L b}$ 的电场，其中 $ b = \frac  { n } {f \lambda}$ 由上文得到，在其他文献中表示：
+$$
+b = \frac  { 1 } {z \lambda}
+$$
+其中，$z $ 是透镜的焦距的距离（原文：z is the distance from aperture to screen. 翻译之后总感觉不对，备注于此）。
 
+所以基于上式，可以得到输出的电场尺寸：
+$$
+L_x= L_y= \frac{N z \lambda}{L}
+$$
+从公式 $\mathcal{F}    (P , Q ) $ 可以得到，在数值计算的时候，我们选择的**数据范围不同**，在MATLAB内部使用的是 $[1,N]$ ，所以我们在计算的时候需要进行数据范围的移动，使用的是ifftshift和fftshift。
 
+> ifftshift和fftshift执行的都是圆周位移的操作。
+>
+> fftshift是将数组或矩阵按正方向（向右和向下）做圆周位移，而ifftshift是按负方向（向左和向上）做圆周位移。
+>
+> 圆周位移的步长等于数组或矩阵长度的一半，对于偶数是$N/2$ ，对于奇数是 $(N-1)/2$ 。这也就是为什么对于偶数长的数组，fftshift和ifftshift的结果相同，而对于奇数长的数组，两者结果却不一样的原因。
 
-
+下面就是相关资料。
 
 
 > 参考资料：
@@ -1043,6 +1112,59 @@ $$
 > 7.http://xueshu.baidu.com/usercenter/paper/show?paperid=a90ae128ceb12a99aecb5b089fe67ba3&site=xueshu_se
 
 
+
+
+
+### Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）
+
+> 主要完成的任务：使用MATLAB语言实现透镜傅里叶特性。
+
+我们基于[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) ，在 [MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）) 中得：
+$$
+\mathcal{F}    (P , Q ) 
+=
+\sum _{n = \frac {-N}{2}} ^{\frac {N}{2} -1}
+\sum _{m = \frac {-N}{2}} ^{\frac {N}{2} -1}
+f(\frac {L n }{N} , \frac {L m }{N})
+\exp [ -  2 \pi i  ( \frac {P n }{N}+   \frac {Q m }{N} ) ]
+(\frac {L }{N}) ^2
+$$
+而，最终需要计算的输出电场公式为：
+$$
+U_2 (x,y) 
+=
+\frac { 1}
+{f \lambda}
+\cdot
+\iint _{-\infty}^{+\infty}
+U(\xi, \eta)
+\exp( - 2 \pi i \frac  { n } {f \lambda} ( x \xi +  y  \eta) )
+{f}
+d \xi d \eta
+$$
+其中，积分部分表示为 $\mathcal{F}    (P , Q ) $ 。
+
+
+
+> 1.**输出电场的傅里叶变化**：上式子中 $\mathcal{F}    (P , Q ) $ 表示的是**输出电场的傅里叶变化**。
+>
+> 2.**输出电场**：上式中 $U_2 (x,y) $ 表示的是输出电场。公式中的积分部分等于输出电场的傅里叶变化。
+>
+> 3.**MATLAB中的 `fft2`** : 在运算的时候，将 $\sum _{n = \frac {-N}{2}} ^{\frac {N}{2} -1}
+> \sum _{m = \frac {-N}{2}} ^{\frac {N}{2} -1}
+> f(\frac {L n }{N} , \frac {L m }{N})
+> \exp [ -  2 \pi i  ( \frac {P n }{N}+   \frac {Q m }{N} ) ]$ 使用**MATLAB中的傅里叶变化** `fft2​` 代替。
+>
+> 4.**输入电场尺寸**：公式中的 $(\frac {L }{N}) ^2$ 表示为 $\frac {L_x }{N} \frac {L_y }{N}  $ 。其中，$L_x$ 和 $L_y$ 分别是输入电场在 $x$ 和 $y$ 方向的尺寸。
+
+由 [MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）) 得：
+$$
+L_x= L_y= \frac{N z \lambda}{L}
+$$
+
+> 5.**输出电场尺寸**：上式子中 $L_x, L_y$ 表示的是**输出电场** $x$ 和 $y$ 方向上的**尺寸**。
+
+所以我们的代码可以表示为： [lenProperties.m](#lenProperties.m) 。
 
 
 
@@ -1278,4 +1400,86 @@ figure(4);
 plot(x, U0(Nx/2, :), 'c');
 grid on;
 ```
+
+
+
+
+
+### 像素知识
+
+借用摄影知识内容的像素补充这一块的知识。
+
+
+
+
+
+
+
+
+
+### lenProperties.m
+
+这个示例代码，实现了光线在透镜前焦平面的电场经过透镜，得到透镜后焦平面的电场。
+
+详细内容参看：[透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
+
+```matlab
+function [ U2, Lx2, Ly2 ] = lenProperties( U1, Lx1, Ly1, lambda, z )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fourier Properties of the lens in MATLAB
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U1: 输入电场
+% Lx1: 输入电场x方向尺寸
+% Ly1: 输入电场y方向尺寸
+% lambda: 激光波长 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U2: 输出电场
+% Lx2: 输出电场x方向尺寸
+% Ly2: 输出电场y方向尺寸
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+    [N, M] = size(U1);
+    
+    dx = Lx1 / N;
+    dy = Ly1 / M;
+    
+    Lx2 = lambda * z / dx;
+    Ly2 = lambda * z / dy;
+    
+    constant = 1 / lambda * z;
+    
+    U2 = constant * fftshift(fft2(ifftshift(U1))) * dx * dy;
+
+end
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
