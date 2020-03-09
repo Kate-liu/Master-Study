@@ -1209,8 +1209,8 @@ k(air) \cdot 2R
 \quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
 \\ 
 \\
-k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot \Delta z(x)  
-\quad \quad \quad \quad \quad  ,|x| \leq R
+k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot 2 \cdot \Delta  z(x)  
+\quad \quad \quad \quad   ,|x| \leq R
 \end{cases}
 $$
 
@@ -1232,11 +1232,14 @@ $$
 - 光线经过等离子体柱之后的电场公式，由[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 得到： $U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))$ 。
 - 光线经过第一个凸透镜的之后，在到达刀口前的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_2^- (x,y) 
   =
-  \frac { 2 \pi}
-  {f_3 \lambda}
+  \frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
+  {f \lambda}
   \cdot
-  \mathcal{F} (U (x,y))
-  (\frac {k}{f_3} x , \frac {k}{f_3} y )$ 。
+  \iint _{-\infty}^{+\infty}
+  U(\xi, \eta)
+  \exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
+  {f}
+  d \xi d \eta$ ，其中积分部分使用傅里叶变化结算，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
 - 光线经过刀口之后的电场，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $U_2^+ (x,y)  = H(x) \cdot U_2^-  (x,y)$ 。
 - 光线经过第二个凸透镜，到达像平面的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_3 (x,y) 
   =
@@ -1244,7 +1247,7 @@ $$
   {f_4 \lambda}
   \cdot
   \mathcal{F} (U_2^+(x,y))
-  (\frac {k}{f_4} x , \frac {k}{f_4} y )$ 。
+  (\frac {k}{f_4} x , \frac {k}{f_4} y )$ ，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
 
 > 上面所述中，涉及的**辅助量**如下所示：
 >
@@ -1254,8 +1257,8 @@ $$
 > \quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
 > \\ 
 > \\
-> k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot \Delta z(x)  
-> \quad \quad \quad \quad \quad  ,|x| \leq R
+> k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot 2 \cdot \Delta z(x)  
+> \quad \quad \quad \quad  ,|x| \leq R
 > \end{cases}$ 
 >
 > 2.刀口对电场的影响，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $H(x) = 
@@ -1272,36 +1275,330 @@ $$
 - 光源代码：
 
   ```matlab
+  %% Gaussian beam 
+  % Field size and sampling
+  % Set 5 * 5 mm field
+  L0 = 5e-3;
+  Nx = 1000;
+  Ny = 1000;
+  x = L0 * linspace(-1, 1, Nx);  
+  y = L0 * linspace(-1, 1, Ny);
+  [X, Y] = meshgrid(x, y); 
   
+  
+  % Standard deviation 
+  % Set 1 mm
+  sigma_r = 1e-3;
+  
+  
+  % Gaussian function with a=I0, b=x-scale, c=y-scale, d=standard deviation
+  f_gauss2D = @(a,b,c,d) (a .* exp(-((b.^2+c.^2)/(2*((d).^2)))));
+  U0 = f_gauss2D(1, X, Y, sigma_r);
+  
+  % Figure
+  figure(1);
+  mesh(X, Y, U0);
   ```
 
 - 圆柱形等离子体柱代码：
 
   ```matlab
+  function [ U1 ] = PlasmaCylinder( U0, X, Y, r, n1, n2, lambda )
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Plasma Cylinder
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U1: 平行光的电场（未进入圆柱形等离子体柱的电场）
+  % X: x 方向数据
+  % Y: y 方向数据
+  % r: 圆柱形等离子体柱的半径
+  % n1: 空气的折射率
+  % n2: 圆柱形等离子体柱的折射率
+  % lambda: 激光的波长
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U2: 通过等离子体柱的电场
+  % 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  U1 = U0;
+  
+  kAir = 2 * pi * n1 / lambda;
+  kPlasma = 2 * pi * n2 / lambda;
+  
+  for i = 1 : size(U0, 1)
+      if abs(X(1, i)) >= r
+          U1(:, i) = U0(:, i) .* exp(1i * kAir * 2 * r);
+          
+          ComplexDouble = U1(:, i);
+          ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+          U1(:, i) = ComplexDouble;
+      else
+          Delta = sqrt(r^2 - X(1, i)^2);
+          U1(:, i) = U0(:, i) .* exp(1i * (kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta));
+          
+          ComplexDouble = U1(:, i);
+          ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+          U1(:, i) = ComplexDouble;
+      end
+  end
+  
   
   ```
 
 - 第一个凸透镜代码：
 
   ```matlab
+  function [ U2, Lx2, Ly2 ] = firstLenProperties( U1, Lx1, Ly1, X, Y, lambda, f, d )
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Fourier Properties of the lens in MATLAB
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U1: 输入电场
+  % Lx1: 输入电场x方向尺寸
+  % Ly1: 输入电场y方向尺寸
+  % X: x 方向数据
+  % Y: y 方向数据
+  % lambda: 激光波长 
+  % f: 透镜后电场距离（焦距）
+  % d: 透镜前电场距离（只是一定的距离，特例是等于焦距）
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U2: 输出电场
+  % Lx2: 输出电场x方向尺寸
+  % Ly2: 输出电场y方向尺寸
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning：ifftshift and fftshift  %%%%%%
+  % ifftshift是按负方向（向左和向上）做圆周位移；
+  % fftshift 是将数组或矩阵按正方向（向右和向下）做圆周位移；
+  % 圆周位移的步长 等于数组或矩阵长度的一半，对于偶数是N/2，对于奇数是（N-1）/2；
+  % 对于偶数长的数组，fftshift和ifftshift的结果相同，而对于奇数长的数组，两者结果却不一样；
+  % 所以需要将N 设置为奇数。
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning：1i  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  % 常量中使用1i，表示为矩阵的行向量，也就是：  0.0000 + 1.0000i
+  % 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+      [N, M] = size(U1);
+      
+      dx = Lx1 / N;
+      dy = Ly1 / M;
+      
+      Lx2 = lambda * f / dx;
+      Ly2 = lambda * f / dy;
+      
+      k = 2 * pi / lambda;
+      constant = 1 / (1i * lambda * f);
+  
+      U2 = exp(1i .* k ./ 2 ./ f .* (1 - d/f) .* (X.^2 + Y.^2)) ...
+          .* constant .* fftshift(fft2(ifftshift(U1))) .* dx .* dy;
+  
+  end
+  
   
   ```
 
 -  刀口代码：
 
   ```matlab
+  function [ U2 ] = knifeEdge( U1, X, Y, p )
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Knife Edge
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U1: 刀口之前的电场
+  % X: x 方向数据
+  % Y: y 方向数据
+  % p: 刀口与光轴之间的垂直距离
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U2: 通过刀口之后的电场
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % zeros(size(num)) 表示获得一个与num一样维度的全0数组
+  % find(X < p) 表示找到X数组中小于给定刀口位置的数据
+  % 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+      zeroU1 = zeros(size(Y));
+      zeroU1(find(X < p)) = 1;
+     
+      U2 = U1 .* zeroU1;
+  
+  end
+  
   
   ```
 
 -  第二个凸透镜代码：
 
   ```matlab
+  function [ U2, Lx2, Ly2 ] = secondLenProperties( U1, Lx1, Ly1, lambda, z )
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Fourier Properties of the lens in MATLAB
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U1: 输入电场
+  % Lx1: 输入电场x方向尺寸
+  % Ly1: 输入电场y方向尺寸
+  % lambda: 激光波长
+  % z: 第二个透镜的焦距
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % U2: 输出电场
+  % Lx2: 输出电场x方向尺寸
+  % Ly2: 输出电场y方向尺寸
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning：ifftshift and fftshift  %%%%%%
+  % ifftshift是按负方向（向左和向上）做圆周位移；
+  % fftshift 是将数组或矩阵按正方向（向右和向下）做圆周位移；
+  % 圆周位移的步长 等于数组或矩阵长度的一半，对于偶数是N/2，对于奇数是（N-1）/2；
+  % 对于偶数长的数组，fftshift和ifftshift的结果相同，而对于奇数长的数组，两者结果却不一样；
+  % 所以需要将N 设置为奇数。
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning：1i  %%%%%%%%%%%%%%%%%%%%%%%%%%
+  % 常量中使用1i，表示为矩阵的行向量，也就是：  0.0000 + 1.0000i
+  % 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+      [N, M] = size(U1);
+      
+      dx = Lx1 / N;
+      dy = Ly1 / M;
+      
+      Lx2 = lambda * z / dx;
+      Ly2 = lambda * z / dy;
+      
+      constant = 1 / (1i * lambda * z);
+      
+      U2 = constant * fftshift(fft2(ifftshift(U1))) * dx * dy;
+  
+  end
+  
   
   ```
 
 - 变量参数代码：
 
   ```matlab
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Schlieren MATLAB code
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  clear; 
+  clc;  
+  clf;
+  close all;
+  
+  %% Gaussian beam 
+  % Field size and sampling
+  % Set 5 * 5 mm field
+  L0 = 5e-3;
+  Nx = 1000+1;
+  Ny = 1000+3;
+  x = L0 * linspace(-1, 1, Nx);  
+  y = L0 * linspace(-1, 1, Ny);
+  [X, Y] = meshgrid(x, y); 
+  
+  
+  % Standard deviation 
+  % Set 1 mm
+  sigma_r = 1e-3;
+  
+  % Wave length
+  lambda = 532e-9;
+  
+  % Gaussian function with a=I0, b=x-scale, c=y-scale, d=standard deviation
+  f_gauss2D = @(a,b,c,d) (a .* exp(-((b.^2+c.^2)/(2*((d).^2)))));
+  U0 = f_gauss2D( 1, X, Y, sigma_r );
+  
+  % Figure
+  figure(1);
+  mesh(X, Y, U0);
+  
+  
+  %% PlasmaCylinder
+  
+  % Plasma Cylinder diameter
+  % Set 0.8 mm
+  r = 0.8e-3;
+  
+  % Air and Plasma Refractive
+  n1 = 1;
+  n2 = 1 - 4 * 10^(-3);
+  
+  U1 = PlasmaCylinder( U0, X, Y, r, n1, n2, lambda );
+  
+  
+  
+  % Figure
+  % for i = 1: size(U1, 1)
+  %     ComplexDouble = U1(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U1(i, :) = ComplexDouble;
+  % end 
+  % figure(2);
+  % mesh(X, Y, U1);
+  
+  
+  %% First Len Properties
+  
+  % Focal length of lens
+  d = 100e-3;
+  f = 100e-3;
+  
+  [ U2, Lx2, Ly2 ] = firstLenProperties( U1, L0, L0, X, Y, lambda, f, d );
+  
+  
+  % Figure
+  % for i = 1: size(U2, 1)
+  %     ComplexDouble = U2(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U2(i, :) = ComplexDouble;
+  % end    
+  % figure(3);
+  % mesh(X, Y, U2);
+  
+  
+  %% Knife Edge
+  
+  % knife edge position
+  p = 0;
+  
+  [ U3 ] = knifeEdge( U2, X, Y, p );
+  
+  % Figure
+  % for i = 1: size(U3, 1)
+  %     ComplexDouble = U3(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U3(i, :) = ComplexDouble;
+  % end    
+  % figure(4);
+  % mesh(X, Y, U3);
+  
+  
+  %% Second Len Properties
+  
+  % Focal length of lens
+  z = 100e-3;
+  
+  [ U4, Lx2, Ly2 ] = secondLenProperties( U3, Lx2, Ly2, lambda, z );
+  
+  % Figure
+  % for i = 1: size(U4, 1)
+  %     ComplexDouble = U4(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U4(i, :) = ComplexDouble;
+  % end    
+  % figure(5);
+  % mesh(X, Y, U4);
   
   ```
 

@@ -1,4 +1,4 @@
-function [ U2, Lx2, Ly2 ] = lenProperties( U1, Lx1, Ly1, lambda, z )
+function [ U2, Lx2, Ly2 ] = secondLenProperties( U1, Lx1, Ly1, lambda, z )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % Fourier Properties of the lens in MATLAB
@@ -7,7 +7,8 @@ function [ U2, Lx2, Ly2 ] = lenProperties( U1, Lx1, Ly1, lambda, z )
 % U1: 输入电场
 % Lx1: 输入电场x方向尺寸
 % Ly1: 输入电场y方向尺寸
-% lambda: 激光波长 
+% lambda: 激光波长
+% z: 第二个透镜的焦距
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % U2: 输出电场
