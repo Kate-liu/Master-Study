@@ -1,7 +1,7 @@
 function [ U2, Lx2, Ly2 ] = firstLenProperties( U1, Lx1, Ly1, X, Y, lambda, f, d )
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Fourier Properties of the lens in MATLAB
+% Fourier Properties of the lens in MATLAB 
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % U1: 输入电场
@@ -11,7 +11,8 @@ function [ U2, Lx2, Ly2 ] = firstLenProperties( U1, Lx1, Ly1, X, Y, lambda, f, d
 % Y: y 方向数据
 % lambda: 激光波长 
 % f: 透镜后电场距离（焦距）
-% d: 透镜前电场距离（只是一定的距离，特例是等于焦距）
+% d: 透镜前电场距离（表示一定的距离，特例是等于焦距）
+% 注：此时的输入的电场是一个距离透镜为d的，刚刚经过等离子体区域的电场
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % U2: 输出电场
