@@ -1590,7 +1590,7 @@ p = 0;  % 刀口与主光轴之间的垂直距离
 z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 ```
 
-当改变等离子体的折射率之后，我们可以得到对应的图像，如下所示：
+当改变等离子体的折射率之后，我们可以得到**对应的图像**，如下所示：
 
 当 $n2 = 1 - 4 * 10^{-4}$ 时：
 
@@ -1598,22 +1598,224 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 <center><font color="red">图19 纹影图像（0.9996）</font><cebnter>
 
+当 $n2 = 1 - 4 * 10^{-3}$ 时：
+
+<img src="ModeDetails.assets/Schlieren0.9960.bmp" alt="Schlieren0.9960" style="zoom:50%;" />
+
+<center><font color="red">图20 纹影图像（0.9960）</font><cebnter>
+
 当 $n2 = 1 - 4 * 10^{-2}$ 时：
 
 <img src="ModeDetails.assets/Schlieren0.9600.bmp" alt="Schlieren0.9600" style="zoom:50%;" />
 
-<center><font color="red">图20 纹影图像（0.9600）</font><cebnter>
+<center><font color="red">图21 纹影图像（0.9600）</font><cebnter>
+
+**分析**：
+
+观察上图中衍射图像的变化，知道等离子体的折射率与空气的折射率越接近，刀口的阻挡作用越明显。
+
+随着等离子体折射率的降低，最终可以在图像上看到完整的信息，但是左右两端的信号减弱区域之间的距离一直没有变化，而这个变化就是我们的等离子体直径。
 
 
 
 
 
+#### Variable r（变量r）
+
+设置**光源的信息**如下：
+
+```matlab
+L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+Nx = 1024 + 1;  % x 方向采样 1025个点，奇数点有利于ifftshift
+Ny = 4096 + 1;  % y 方向采样 4097个点
+sigma_r = 1e-3;  % 激光束标准差
+lambda = 532e-9;  % 激光束为绿光
+```
+
+**等离子柱的信息**如下：
+
+```matlab
+% r = 0.8e-3;  % 等离子体柱的半径 % 变量
+n1 = 1;  % 空气的折射率
+n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
+```
+
+**第一个凸透镜的信息**如下：
+
+```matlab
+d = 100e-3;  % 等离子体距离透镜的前距离
+f = 100e-3;  % 透镜的后焦距 
+```
+
+**刀口的信息**如下：
+
+```matlab
+p = 0;  % 刀口与主光轴之间的垂直距离
+```
+
+**第二个透镜的信息**如下：
+
+```matlab
+z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
+```
+
+当改变等离子体的半径之后，我们可以得到的图像如下所示：
+
+当 $r = 0.6 e-3$ 时：
+
+<img src="ModeDetails.assets/Schlieren0.6mm.bmp" alt="Schlieren0.6mm" style="zoom:50%;" />
+
+<center><font color="red">图22 纹影图像（0.6）</font><cebnter>
+
+当 $r = 0.8  e-3$ 时：
+
+<img src="ModeDetails.assets/Schlieren0.8mm.bmp" alt="Schlieren0.8mm" style="zoom:50%;" />
+
+<center><font color="red">图23 纹影图像（0.8）</font><cebnter>
+
+当 $r = 1 e-3$ 时：
+
+<img src="ModeDetails.assets/Schlieren1mm.bmp" alt="Schlieren1mm" style="zoom:50%;" />
+
+<center><font color="red">图24 纹影图像（1）</font><cebnter>
+
+**分析**：
+
+等离子体的半径的增大，导致两端信号减弱区域的增大。
+
+图中右半部分的振荡区域，随着半径的增大，振荡幅度也相应增大。
 
 
 
 
 
 ### Fuzzy Plasma Cylinder（模糊圆柱形等离子体）
+
+在实际的实验中与生活中，我们不可能遇到完全规整的圆柱形等离子体，那么我们可以更进一步**假设**我们使用的等离子体是模糊圆柱形等离子体，那么就正式开始介绍了。
+
+由于，模糊圆柱形等离子体柱不会与空气有明显的界限，在模型中，使用**波数**表示波在传播方向上不同区域的波的周期数目。
+
+假设距离中心点**大于** $r_a$  的位置就全部是空气，其波数为 $k_a$ ；距离中心点**小于** $r_p$ 的位置就全是等离子体，其波数为 $k_p$ ；还剩下一个**距离区间** $[r_p , r_a]$ 的位置是等离子体和空气的混合，使用线性插值方式表示波数。
+
+可以得到**模糊圆柱形等离子体的模型图**：
+
+<img src="ModeDetails.assets/模糊圆柱形等离子体的模型图.png" alt="模糊圆柱形等离子体的模型图" style="zoom:80%;" />
+
+<center><font color="red">图25 模糊圆柱形等离子体的模型图</font><cebnter>
+
+基于模型图，可以得到**波数的分段函数**表示：
+$$
+\Delta k_f(z, x) =
+\begin{cases} 
+k_a \quad \quad \quad \quad \quad \quad \quad \quad \quad ，\sqrt {z^2 + x^2} \geq r_a
+\\ 
+\\
+m \cdot \sqrt {z^2 + x^2} + t \quad \quad \quad ， r_p \leq \sqrt {z^2 + x^2} < r_a
+\\
+\\
+k_p \quad \quad \quad \quad \quad \quad \quad\quad \quad  ，\sqrt {z^2 + x^2} < r_p
+\end{cases}
+$$
+其中**线性插值的参数**表示为：
+$$
+m  = \frac {k_a - k_p}{r_a - r_p}
+\\
+t  = k_a - m \cdot r_a
+$$
+基于模糊圆柱形等离子体的模型图，从光线的传播方向看，从左到右，可以看作总共穿过了三层，分别解释如下：
+
+**第一层**，光线在空气中的传播，其传播距离为：
+$$
+s_{air} = 2 r_a - 2 \Delta_1 (x) = 2 r_a - 2 \sqrt {r_a^2 - x^2}
+$$
+所以，其引起的相位偏移为：
+$$
+\Delta \Phi_{air} (x) = k_a \cdot s_{air}
+= k_a \cdot (2 r_a - 2 \sqrt {r_a^2 - x^2})
+$$
+**第二层**，光线在等离子体中的传播，其传播距离为：
+$$
+s_{plasma} = 2 \Delta_2 (x) =  2 \sqrt {r_p^2 - x^2}
+$$
+所以，其引起的相位偏移为：
+$$
+\Delta \Phi_{plasma} (x) = k_a \cdot s_{plasma}= k_a \cdot 2 \sqrt {r_p^2 - x^2}
+$$
+**第三层**，光线在空气和等离子体之间的传播，其传播距离为：
+$$
+s_{air, plasma} = 2 \Delta_1 (x) - 2 \Delta_2 (x) = 2 \sqrt {r_a^2 - x^2} - 2 \sqrt {r_p^2 - x^2}
+$$
+由于没有恒定的波数表示，使用其在光轴 $z $  方向上的无穷小相移 $dz$ 表示：
+$$
+d(\Delta \Phi_{air, plasma} (x, z) ) =  (m \cdot \sqrt {z^2 + x^2} + t ) dz
+$$
+我们可以使其表示为积分形式：
+$$
+\Delta \Phi_{air, plasma} (x)  =  2 z (m \cdot \sqrt {z^2 + x^2} + t) |_{z1}^{z2}
+$$
+继续化简得到：
+$$
+\Delta \Phi_{air, plasma} (x)  =  2 z t + 2 z  m \cdot \sqrt {z^2 + x^2}  |_{z1}^{z2} 
+\\
+= 2 z t +  z  m \cdot \sqrt {z^2 + x^2} + mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}
+$$
+其中， $z_1 = \Delta_1 (x) $ ， $z_2 = \Delta_2 (x) $ 。
+
+基于上述，我们可以看到光线穿过等离子体的**三种情况**，详细介绍如下：
+
+**第一种**情况，当 $ |x| \geq r_a$ 时，也就是光线不经过等离子体区域，此时的相移变化可以表示为：
+$$
+\Delta \Phi (x) =  k_a \cdot 2r_a
+$$
+**第二种**情况，当 $  r_a > |x| \geq r_p $ 时，也就是光线只穿过空气和模糊区域的等离子体，不穿过全部是等离子体的区域，此时的相移变化可以表示为：
+$$
+\Delta \Phi (x) = \Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x) 
+\\
+= k_a \cdot (2 r_a - 2 \sqrt {r_a^2 - x^2}) + [2 z t +  z  m \cdot \sqrt {z^2 + x^2} + mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}]
+$$
+**第三种**情况，当 $  r_p > |x| $ 时，也就是光线只穿过等离子体区域，此时的相移变化可以表示为：
+$$
+\Delta \Phi (x) =  \Delta \Phi_{plasma} (x) + \Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x) 
+\\
+= 
+k_a \cdot 2 \sqrt {r_p^2 - x^2} 
++
+k_a \cdot (2 r_a - 2 \sqrt {r_a^2 - x^2}) 
++ 
+[2 z t +  z  m \cdot \sqrt {z^2 + x^2} + mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}]
+$$
+综上，可以得到光线经过模糊圆柱形等离子体，其对于**电场的相移表达式**：
+$$
+\Delta \Phi (x)=
+\begin{cases} 
+k_a \cdot 2r_a 
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+,  |x| \geq r_a
+\\
+\\
+\Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad 
+,  r_a > |x| \geq r_p 
+\\
+\\
+\Delta \Phi_{plasma} (x) + \Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x) 
+\quad \quad 
+,  r_p > |x| 
+\end{cases}
+$$
+此时，基于波动光学知识，可以得到**通过模糊圆柱形等离子体后的电场**，为初始激光束乘以等离子柱引起的相移，公式如下所示：
+$$
+U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
+$$
+上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
+
+
+
+
+
+
+
+
 
 
 
