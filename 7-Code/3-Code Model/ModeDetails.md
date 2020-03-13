@@ -1225,7 +1225,9 @@ $$
 $$
 U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
 $$
-上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
+上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位量。 
+
+
 
 #### Main Logic（主逻辑）
 
@@ -1472,8 +1474,8 @@ $$
 
 ```matlab
 L0 = 5e-3;  % 光源电场范围 5 m x 5mm
-Nx = 1024 + 1;  % x 方向采样 1025个点，奇数点有利于ifftshift
-Ny = 4096 + 1;  % y 方向采样 4097个点
+Nx = 4096 + 1;  % x 方向采样 4097个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
 sigma_r = 1e-3;  % 激光束标准差
 lambda = 532e-9;  % 激光束为绿光
 ```
@@ -1510,8 +1512,7 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图15 光源三维图像</font><cebnter>
-
-<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot" style="zoom:50%;" />
+<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图16 光源中心线强度图</font><cebnter>
 
@@ -1522,17 +1523,14 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <img src="ModeDetails.assets/SchlierenMesh.bmp" alt="SchlierenMesh" style="zoom:50%;" />
 
 <center><font color="red">图17 纹影图</font><cebnter>
-
 <img src="ModeDetails.assets/SchlierenPlot.bmp" alt="SchlierenPlot" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图</font><cebnter>
-
 <img src="ModeDetails.assets/SchlierenPlot1.bmp" alt="SchlierenPlot1 " style="zoom:50%;" />
 
 <img src="ModeDetails.assets/SchlierenPlot2.png" alt="SchlierenPlot2" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图（放大版）</font><cebnter>
-
 **分析结果**：
 
 从纹影图可以看到，左半部分的强度为0，右半部分的强度为常数，与**射线光学**相似，参考 [Main Setup（主装置）](Main Setup（主装置）) 。
@@ -1557,8 +1555,8 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 ```matlab
 L0 = 5e-3;  % 光源电场范围 5 m x 5mm
-Nx = 1024 + 1;  % x 方向采样 1025个点，奇数点有利于ifftshift
-Ny = 4096 + 1;  % y 方向采样 4097个点
+Nx = 4096  + 1;  % x 方向采样 4096 个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
 sigma_r = 1e-3;  % 激光束标准差
 lambda = 532e-9;  % 激光束为绿光
 ```
@@ -1618,16 +1616,14 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 
 
-
-
 #### Variable r（变量r）
 
 设置**光源的信息**如下：
 
 ```matlab
 L0 = 5e-3;  % 光源电场范围 5 m x 5mm
-Nx = 1024 + 1;  % x 方向采样 1025个点，奇数点有利于ifftshift
-Ny = 4096 + 1;  % y 方向采样 4097个点
+Nx = 4096  + 1;  % x 方向采样 4096 个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
 sigma_r = 1e-3;  % 激光束标准差
 lambda = 532e-9;  % 激光束为绿光
 ```
@@ -1757,9 +1753,9 @@ $$
 $$
 \Delta \Phi_{air, plasma} (x)  =  2 z t + 2 z  m \cdot \sqrt {z^2 + x^2}  |_{z1}^{z2} 
 \\
-= 2 z t +  z  m \cdot \sqrt {z^2 + x^2} + mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}
+= 2 z t + 2 z  m \cdot \sqrt {z^2 + x^2} + 2 mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}
 $$
-其中， $z_1 = \Delta_1 (x) $ ， $z_2 = \Delta_2 (x) $ 。
+其中， $0$ ， $z_2 = \Delta_1 (x) $ 。
 
 基于上述，我们可以看到光线穿过等离子体的**三种情况**，详细介绍如下：
 
@@ -1807,17 +1803,131 @@ $$
 $$
 U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
 $$
-上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位变换量。 
+上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是等离子体柱影响光源的相位量。 
 
 
 
+#### Main Logic（主逻辑）
+
+基于纹影法装置，按照光的传播方向，将已经知道的**整体内容**整理如下：
+
+- 光源的模型表达式，由 [激光光源](#Laser Source（激光光源）) 得到：$g(x,y)=A(- \exp(\frac {(x-x_0)^2} {2 \sigma _x^2} + \frac {(y-y_0)^2} {2 \sigma _y^2}))$ 。
+- 光线经过等离子体柱之后的电场公式，由[模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 得到： $U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))$ 。
+- 光线经过第一个凸透镜的之后，在到达刀口前的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_2^- (x,y) 
+  =
+  \frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
+  {f \lambda}
+  \cdot
+  \iint _{-\infty}^{+\infty}
+  U(\xi, \eta)
+  \exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
+  {f}
+  d \xi d \eta$ ，其中积分部分使用傅里叶变化结算，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
+- 光线经过刀口之后的电场，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $U_2^+ (x,y)  = H(x) \cdot U_2^-  (x,y)$ 。
+- 光线经过第二个凸透镜，到达像平面的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_3 (x,y) 
+  =
+  \frac { 2 \pi}
+  {f_4 \lambda}
+  \cdot
+  \mathcal{F} (U_2^+(x,y))
+  (\frac {k}{f_4} x , \frac {k}{f_4} y )$ ，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
+
+> 上面所述中，涉及的**辅助量**如下所示：
+>
+> 1.圆柱形等离子体引起的相移变化，由[模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 得到：$\Delta \Phi (x)=
+> \begin{cases} 
+> k_a \cdot 2r_a 
+> \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+> ,  |x| \geq r_a
+> \\
+> \\
+> \Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x)
+> \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+> ,  r_a > |x| \geq r_p 
+> \\
+> \\
+> \Delta \Phi_{plasma} (x) + \Delta \Phi_{air} (x) + \Delta \Phi_{air, plasma} (x) 
+> \quad \quad 
+> ,  r_p > |x| 
+> \end{cases}$ 
+>
+> 2.刀口对电场的影响，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $H(x) = 
+> \begin{cases} 
+> 0  \quad \quad \quad \quad ，x < 0
+> \\ 
+> 1 \quad \quad \quad \quad ， x \geq 0
+> \end{cases}$ 
+
+接着进行**编码验证**环节，但是我们需要了解MATLAB中的傅里叶变化实现与原理，具体内容查看[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）) 。
 
 
 
+#### Main Code (主代码)
+
+综合上述内容，我们可以进行相应的编码：
+
+- 主代码（Schlieren.m）：
+
+  ```matlab
+  
+  ```
+
+- 圆柱形等离子体柱代码，参看 [FuzzyPlasmaCylinder](#FuzzyPlasmaCylinder.m)：
+
+- 第一个凸透镜代码，参见 [firstLenProperties](#firstLenProperties.m)：
+
+- 刀口代码，参见 [knifeEdge](#knifeEdge.m)：
+
+- 第二个凸透镜代码，参见 [secondLenProperties](#secondLenProperties.m)：
 
 
 
+#### Main Setup（主装置）  
 
+基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
+
+
+
+#### Main Result（主结果）
+
+在仿真的时候，设置**光源的信息**如下：
+
+```matlab
+L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+Nx = 4096 + 1;  % x 方向采样 4097个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
+sigma_r = 1e-3;  % 激光束标准差
+lambda = 532e-9;  % 激光束为绿光
+```
+
+**等离子柱的信息**如下：
+
+```matlab
+r = 0.8e-3;  % 等离子体柱的半径
+n1 = 1;  % 空气的折射率
+n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
+```
+
+**第一个凸透镜的信息**如下：
+
+```matlab
+d = 100e-3;  % 等离子体距离透镜的前距离
+f = 100e-3;  % 透镜的后焦距
+```
+
+**刀口的信息**如下：
+
+```matlab
+p = 0;  % 刀口与主光轴之间的垂直距离
+```
+
+**第二个透镜的信息**如下：
+
+```matlab
+z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
+```
+
+**光源图像**：
 
 
 
@@ -2057,6 +2167,16 @@ for i = 1 : size(U0, 2)
     end
 end
 
+
+```
+
+
+
+
+
+### FuzzyPlasmaCylinder.m
+
+```matlab
 
 ```
 
