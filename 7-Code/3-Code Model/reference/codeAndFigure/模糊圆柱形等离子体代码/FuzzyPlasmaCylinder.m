@@ -32,10 +32,10 @@ kAir = 2 * pi * n1 / lambda;
 kPlasma = 2 * pi * n2 / lambda;
 
 m = (kAir - kPlasma) / (ra - rp);
-t = kAir - m * ra
-p = @(z , x) z * t + z * m * sqrt(z^2 + y^2) + m * x^2 * log(z + sqrt(z^2 + x^2));
+t = kAir - m * ra;
+p = @(z , x) z * t + 0.5 * z * m * sqrt(z^2 + x^2) + 0.5 * m * x^2 * log(z + sqrt(z^2 + x^2));
 
-for (i = 1 : size(U0, 2) )
+for i = 1 : size(U0, 2) 
 
 	if (abs(X(1, i)) >= ra)
 		U1(:, i) = U0(:, i) .* exp(1i * kAir * 2 * ra);
@@ -56,14 +56,14 @@ for (i = 1 : size(U0, 2) )
 		z2 = sqrt(rp^2 - x^2);
 
 		if x ~= 0
-			HalfDeltaP = p(z1, x) - p(z2, x);
+			HalfDeltaAirPlasma = p(z1, x) - p(z2, x);
 		else
-			HalfDeltaP = p(z1, 1e-15) - p(z2, 1e-15);
+			HalfDeltaAirPlasma = p(z1, 1e-15) - p(z2, 1e-15);
 		end
 
 
 		DeltaPhiAir = kAir * (2 * ra - 2 * (sqrt(ra^2 - x^2)));
-		DeltaPhiAirPlasma = 2 * ( p(z1, x) - p(z2, x) );
+		DeltaPhiAirPlasma = 2 * HalfDeltaAirPlasma;
 		DeltaPhiPlasma = kPlasma * (2 * (sqrt(rp^2 - x^2)));
 
 		U1(:, i) = U0(:, i) .* exp(1i * (DeltaPhiAir + DeltaPhiAirPlasma + DeltaPhiPlasma));

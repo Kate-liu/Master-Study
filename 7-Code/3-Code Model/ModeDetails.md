@@ -1281,7 +1281,7 @@ $$
 
 综合上述内容，我们可以进行相应的编码：
 
-- 主代码（Schlieren.m）：
+- 主代码（SchlierenPlasmaCylinder.m）：
 
   ```matlab
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1512,10 +1512,11 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图15 光源三维图像</font><cebnter>
+
+
 <img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图16 光源中心线强度图</font><cebnter>
-
 
 
 **纹影图像**：
@@ -1523,14 +1524,21 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <img src="ModeDetails.assets/SchlierenMesh.bmp" alt="SchlierenMesh" style="zoom:50%;" />
 
 <center><font color="red">图17 纹影图</font><cebnter>
+
+
 <img src="ModeDetails.assets/SchlierenPlot.bmp" alt="SchlierenPlot" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图</font><cebnter>
+
+
 <img src="ModeDetails.assets/SchlierenPlot1.bmp" alt="SchlierenPlot1 " style="zoom:50%;" />
 
-<img src="ModeDetails.assets/SchlierenPlot2.png" alt="SchlierenPlot2" style="zoom:50%;" />
+<img src="ModeDetails.assets/SchlierenPlot2.bmp" alt="SchlierenPlot2" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图（放大版）</font><cebnter>
+
+
+
 **分析结果**：
 
 从纹影图可以看到，左半部分的强度为0，右半部分的强度为常数，与**射线光学**相似，参考 [Main Setup（主装置）](Main Setup（主装置）) 。
@@ -1683,6 +1691,38 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 
 
+#### Photoconductive Detector Result（光电探测器的结果）
+
+光电探测器是平方强度探测器件，记录的强度信号正比于光电场强度和其复共轭乘积的时
+间平均量。 
+
+根据 [主逻辑](#Main Logic（主逻辑）) 中，光线经过第二个凸透镜，到达像平面的光电场，其表示为 $U_3 (x,y) $ ，
+
+所以，可以得到光电探测器的强度信号为：
+$$
+I(x,y) = <U_3 (x,y) \cdot U_3^* (x,y) >
+$$
+其中， $ < \cdot > $ 表示时间平均，也可以表示为：
+$$
+I(x,y)= 
+\lim_{T \rightarrow \infty} 
+\frac{1}{2T}
+\int_{-T}^{+T} 
+U_3 (x,y)  U_3^* (x,y)dt
+$$
+
+
+
+
+> 参考资料：
+>
+> 1.基于时域和频域的光学相干层析成像系统的研究_邹恒
+>
+> 2.https://blog.csdn.net/Reborn_Lee/article/details/83511762
+> 复共轭函数：conj(a) = real(a) - i*imag(a);
+
+
+
 
 
 ### Fuzzy Plasma Cylinder（模糊圆柱形等离子体）
@@ -1753,7 +1793,7 @@ $$
 $$
 \Delta \Phi_{air, plasma} (x)  =  2 z t + 2 z  m \cdot \sqrt {z^2 + x^2}  |_{z1}^{z2} 
 \\
-= 2 z t + 2 z  m \cdot \sqrt {z^2 + x^2} + 2 mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}
+= 2 z t +  z  m \cdot \sqrt {z^2 + x^2} +  mx^2 log(z + \sqrt {z^2 + x^2})   |_{z1}^{z2}
 $$
 其中， $0$ ， $z_2 = \Delta_1 (x) $ 。
 
@@ -1866,9 +1906,162 @@ $$
 
 综合上述内容，我们可以进行相应的编码：
 
-- 主代码（Schlieren.m）：
+- 主代码（SchlierenFuzzyPlasmaCylinder.m）：
 
   ```matlab
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Schlieren MATLAB code
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  clear; 
+  clc;  
+  clf;
+  close all;
+  
+  %% Gaussian beam 
+  % Field size and sampling
+  % Set 5 * 5 mm field
+  % Sampling 1024+ pixel
+  L0 = 5e-3;
+  Nx = 4096 + 1;
+  Ny = 1024 + 1;
+  x = L0 * linspace(-1, 1, Nx);  
+  y = L0 * linspace(-1, 1, Ny);
+  [X, Y] = meshgrid(x, y); 
+  
+  
+  % Laser Standard deviation 
+  % Set 1 mm
+  % Variable sigma_r
+  sigma_r = 1e-3;
+  
+  % Wave length
+  % Green
+  % Variable lambda
+  lambda = 532e-9;
+  
+  % Gaussian function with a = A, b = x-scale, c = y-scale, d = laser standard deviation
+  f_gauss2D = @(a,b,c,d) (a .* exp(- ((b.^2 + c.^2) / (2 * ((d).^2)))));
+  U0 = f_gauss2D( 1, X, Y, sigma_r );
+  
+  % Figure
+  figure(1);
+  mesh(X, Y, U0);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(2);
+  plot(x, U0(halfNy, :), 'c');
+  grid on;
+  
+  figure(3);
+  imagesc(U0);
+  
+  %% Plasma Cylinder
+  
+  % Plasma Cylinder diameter
+  % Set ra = 0.8 mm, rp = 0.7 * ra
+  % Variable ra rp
+  ra = 0.8e-3;
+  rp = 0.7 * ra;
+  
+  % Air（n1） and Plasma Refractive（n2）
+  % n2 < n1
+  % Variable n2
+  n1 = 1;
+  n2 = 1 - 4 * 10^(-3);
+  
+  U1 = FuzzyPlasmaCylinder( U0, X, Y, ra, rp, n1, n2, lambda );
+  
+  
+  % Figure
+  % for i = 1: size(U1, 1)
+  %     ComplexDouble = U1(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U1(i, :) = ComplexDouble;
+  % end 
+  % figure(11);
+  % mesh(X, Y, U1);
+  
+  
+  %% First Len Properties
+  
+  % Focal length of lens
+  % Variable d, f
+  d = 100e-3;
+  f = 100e-3;
+  
+  [ U2, Lx2, Ly2 ] = firstLenProperties( U1, L0, L0, X, Y, lambda, f, d );
+  
+  
+  % Figure
+  % for i = 1: size(U2, 1)
+  %     ComplexDouble = U2(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U2(i, :) = ComplexDouble;
+  % end    
+  % figure(21);
+  % mesh(X, Y, U2);
+  
+  
+  %% Knife Edge
+  
+  % knife edge position
+  % Variable p
+  % Default p = 0, expression the knife edge in the focal position
+  p = 0;
+  
+  [ U3 ] = knifeEdge( U2, X, Y, p );
+  
+  % Figure
+  % for i = 1: size(U3, 1)
+  %     ComplexDouble = U3(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U3(i, :) = ComplexDouble;
+  % end    
+  % figure(31);
+  % mesh(X, Y, U3);
+  
+  
+  %% Second Len Properties
+  
+  % Focal length of lens
+  % Variable z
+  z = 100e-3;
+  
+  [ U4, Lx2, Ly2 ] = secondLenProperties( U3, Lx2, Ly2, lambda, z );
+  
+  % Figure
+  for i = 1: size(U4, 1)
+      ComplexDouble = U4(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      U4(i, :) = ComplexDouble;
+  end    
+  figure(41);
+  mesh(X, Y, U4);
+  
+  figure(42);
+  imagesc(U4);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(43);
+  plot(x, U4(halfNy, :), 'c');
+  grid on;
+  
+  figure(44);
+  plot(x, U4(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.2]);
+  grid on;
   
   ```
 
@@ -1885,6 +2078,21 @@ $$
 #### Main Setup（主装置）  
 
 基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
+
+<img src="ModeDetails.assets/纹影法主装置-FuzzyPlasmaCylinder.png" alt="纹影法主装置-FuzzyPlasmaCylinder" style="zoom:50%;" />
+
+<center><font color="red">图26 纹影法主装置</font><cebnter>
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
+>
+> 电场：U0，U1，U2，U3，U4。
+>
+> 函数：xxx.m 。
+>
+> 变量：Nx，Ny，sigma_r，lambda，ra，rp，n1，n2，d，f，p，z。
+
+
 
 
 
@@ -1903,7 +2111,8 @@ lambda = 532e-9;  % 激光束为绿光
 **等离子柱的信息**如下：
 
 ```matlab
-r = 0.8e-3;  % 等离子体柱的半径
+ra = 0.8e-3;  % 等离子体 和 等离子体和空气的混合部分 的半径，当大于此半径之后，就可以全部认为是空气
+rp = 0.7 * ra;  % 等离子体 的半径，小于此半径的区域，认为全部是等离子体，目前取等离子体 和 等离子体和空气的混合部分 的半径 的0.7。
 n1 = 1;  % 空气的折射率
 n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
 ```
@@ -1927,9 +2136,51 @@ p = 0;  % 刀口与主光轴之间的垂直距离
 z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 ```
 
+
+
 **光源图像**：
 
+<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
+<center><font color="red">图27 光源三维图像</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+
+<center><font color="red">图28 光源中心线强度图</font><cebnter>
+
+
+
+**纹影图像**：
+
+<img src="ModeDetails.assets/SchlierenMesh-Fuzzy.bmp" alt="SchlierenMesh-Fuzzy" style="zoom:50%;" />
+
+<center><font color="red">图29 纹影图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPlot-Fuzzy.bmp" alt="SchlierenPlot-Fuzzy " style="zoom:50%;" />
+
+<center><font color="red">图30 纹影中心曲线图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPlot1-Fuzzy.bmp" alt="SchlierenPlot1-Fuzzy" style="zoom:50%;" />
+
+
+
+<img src="ModeDetails.assets/SchlierenPlot2-Fuzzy.bmp" alt="SchlierenPlot2-Fuzzy" style="zoom:50%;" />
+
+<center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
+
+
+
+**分析结果**：
+
+对比[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 和 [模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 中的纹影中心曲线图，可以发现刀口放置位置处的峰值，在模糊圆柱形等离子体中降低了大约三分之二的高度。
+
+在模糊圆柱形等离子体的模拟情况下，更加贴近真实的实验场景，但是实验中的等离子体柱也并不会完全是我们模糊圆柱形等离子体所描述的那样，还需要进一步探讨。
 
 
 
@@ -2176,7 +2427,82 @@ end
 
 ### FuzzyPlasmaCylinder.m
 
+这个代码是 [模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 中，关于等离子体的数据模型表示。
+
 ```matlab
+function [ U1 ] = FuzzyPlasmaCylinder( U0, X, Y, ra, rp, n1, n2, lambda )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fuzzy Plasma Cylinder
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U0: 平行光的电场（未进入模糊圆柱形等离子体的电场）
+% X: x 方向数据
+% Y: y 方向数据
+% ra: 等离子体的半径, 表示的是大于这个值之后就全是空气, 包含等离子体 和 等离子体与空气混合 部分。
+% rp: 表示的是小于这个值之后就全是等离子体
+% n1: 空气的折射率
+% n2: 圆柱形等离子体柱的折射率
+% lambda: 激光的波长
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U1: 通过模糊圆柱柱形等离子体后的电场
+%  
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% size(U0, 1) 表示取出的是Ny的大小
+% size(U0, 2) 表示取出的是Nx的大小
+% U0(:, i) 表示的是第i列的全部数据
+% U0(i, :) 表示的是第i行的全部数据
+% U0(a, b) 表示的是第a行第b行的数据点
+% m, t  表示的是等离子体与空气混合部分的波数 的线性插值的参数
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+U1 = U0;
+
+kAir = 2 * pi * n1 / lambda;
+kPlasma = 2 * pi * n2 / lambda;
+
+m = (kAir - kPlasma) / (ra - rp);
+t = kAir - m * ra;
+p = @(z , x) z * t + 0.5 * z * m * sqrt(z^2 + x^2) + 0.5 * m * x^2 * log(z + sqrt(z^2 + x^2));
+
+for i = 1 : size(U0, 2) 
+
+	if (abs(X(1, i)) >= ra)
+		U1(:, i) = U0(:, i) .* exp(1i * kAir * 2 * ra);
+
+	elseif (abs(X(1, i)) >= rp)
+		x = abs(X(1, i));
+		z1 = sqrt(ra^2 - x^2);
+		z2 = 0;
+
+		DeltaPhiAir = kAir * (2 * ra - 2 * (sqrt(ra^2 - x^2)));
+		DeltaPhiAirPlasma = 2 * ( p(z1, x) - p(z2, x) );
+		
+		U1(:, i) = U0(:, i) .* exp(1i * (DeltaPhiAir + DeltaPhiAirPlasma));
+
+	else
+		x = abs(X(1, i));
+		z1 = sqrt(ra^2 - x^2);
+		z2 = sqrt(rp^2 - x^2);
+
+		if x ~= 0
+			HalfDeltaAirPlasma = p(z1, x) - p(z2, x);
+		else
+			HalfDeltaAirPlasma = p(z1, 1e-15) - p(z2, 1e-15);
+		end
+
+
+		DeltaPhiAir = kAir * (2 * ra - 2 * (sqrt(ra^2 - x^2)));
+		DeltaPhiAirPlasma = 2 * HalfDeltaAirPlasma;
+		DeltaPhiPlasma = kPlasma * (2 * (sqrt(rp^2 - x^2)));
+
+		U1(:, i) = U0(:, i) .* exp(1i * (DeltaPhiAir + DeltaPhiAirPlasma + DeltaPhiPlasma));
+
+	end
+end
+
 
 ```
 

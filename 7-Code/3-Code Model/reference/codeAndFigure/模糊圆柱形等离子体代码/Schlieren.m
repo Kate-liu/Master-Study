@@ -39,21 +39,25 @@ U0 = f_gauss2D( 1, X, Y, sigma_r );
 figure(1);
 mesh(X, Y, U0);
 
-if (mod(Nx, 2)==0)
-	halfNx = Nx / 2;
+if (mod(Ny, 2)==0)
+	halfNy = Ny / 2;
 else
-	halfNx = (Nx + 1) / 2;
+	halfNy = (Ny + 1) / 2;
 end
 figure(2);
-plot(x, U0(halfNx, :), 'c');
+plot(x, U0(halfNy, :), 'c');
 grid on;
+
+figure(3);
+imagesc(U0);
 
 %% Plasma Cylinder
 
 % Plasma Cylinder diameter
-% Set 0.8 mm
-% Variable r
-r = 0.8e-3;
+% Set ra = 0.8 mm, rp = 0.7 * ra
+% Variable ra rp
+ra = 0.8e-3;
+rp = 0.7 * ra;
 
 % Air（n1） and Plasma Refractive（n2）
 % n2 < n1
@@ -61,8 +65,7 @@ r = 0.8e-3;
 n1 = 1;
 n2 = 1 - 4 * 10^(-3);
 
-U1 = plasmaCylinder( U0, X, Y, r, n1, n2, lambda );
-
+U1 = FuzzyPlasmaCylinder( U0, X, Y, ra, rp, n1, n2, lambda );
 
 
 % Figure
@@ -134,34 +137,19 @@ mesh(X, Y, U4);
 figure(42);
 imagesc(U4);
 
-if (mod(Nx, 2)==0)
-	halfNx = Nx / 2;
+if (mod(Ny, 2)==0)
+	halfNy = Ny / 2;
 else
-	halfNx = (Nx + 1) / 2;
+	halfNy = (Ny + 1) / 2;
 end
 figure(43);
-plot(x, U4(halfNx, :), 'c');
+plot(x, U4(halfNy, :), 'c');
 grid on;
 
 figure(44);
-plot(x, U4(halfNx, :), 'b');
+plot(x, U4(halfNy, :), 'b');
 hold on;
-axis([-2e-3, 2e-3, 0, 1.2e-3]);
+axis([-2e-3, 2e-3, 0, 1.2]);
 grid on;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
