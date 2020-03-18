@@ -311,6 +311,16 @@ $$
 
 
 
+### Fresnel's formula（菲涅耳公式）
+
+当我们在讨论光线穿过透镜的时候，忽略了反射带来的光强变化，我们为什么可以不考虑反射的影响？
+
+根据菲涅尔公式进行论证，并且直接基于之前的文件，补充完整。
+
+
+
+
+
 ### Fresnel Diffrection（菲涅尔衍射）
 
 一个很关键的公式！
@@ -432,7 +442,7 @@ $$
 
 由于上述中不同的波数，我们可以发现：**当光分别穿过空气和玻璃之后，会由于不同的波数，会产生光程差。**
 
-由于我们忽略了反射带来的光强变化，此时光线穿过透镜之后，只会出现**相移**，也就是相位的变化。
+由于我们忽略了反射带来的光强变化，此时光线穿过透镜之后，只会出现**相移**，也就是相位的变化。具体关于忽略反射的论证，参看 [菲涅耳公式](#Fresnel's formula（菲涅耳公式）) 。
 
 当我们使用**薄透镜**和**傍轴光线**组合的时候，我们可以假设光线穿过透镜的入射点和出射点是相同的，具体的透镜示意图如下图所示：
 
@@ -1682,7 +1692,6 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <img src="ModeDetails.assets/Schlieren1mm.bmp" alt="Schlieren1mm" style="zoom:50%;" />
 
 <center><font color="red">图24 纹影图像（1）</font><cebnter>
-
 **分析**：
 
 等离子体的半径的增大，导致两端信号减弱区域的增大。
@@ -1691,14 +1700,101 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 
 
+
+
+#### Variable p（变量p）
+
+设置**光源的信息**如下：
+
+```matlab
+L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+Nx = 4096  + 1;  % x 方向采样 4096 个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
+sigma_r = 1e-3;  % 激光束标准差
+lambda = 532e-9;  % 激光束为绿光
+```
+
+**等离子柱的信息**如下：
+
+```matlab
+r = 0.8e-3;  % 等离子体柱的半径
+n1 = 1;  % 空气的折射率
+n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
+```
+
+**第一个凸透镜的信息**如下：
+
+```matlab
+d = 100e-3;  % 等离子体距离透镜的前距离
+f = 100e-3;  % 透镜的后焦距 
+```
+
+**刀口的信息**如下：
+
+```matlab
+% p = 0;  % 刀口与主光轴之间的垂直距离 % 变量
+```
+
+**第二个透镜的信息**如下：
+
+```matlab
+z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
+```
+
+当改变等离子体的半径之后，我们可以得到的图像如下所示：
+
+当 $p = 0.1 e-3$ 时：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.1mm.bmp" alt="SchlierenPhotoconductiveDetector0.1mm" style="zoom:50%;" />
+
+<center><font color="red">图24 光电探测器图像（0.1）</font><cebnter>
+
+当 $p = 0.2 e-3$ 时：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.2mm.bmp" alt="SchlierenPhotoconductiveDetector0.2mm" style="zoom:50%;" />
+
+<center><font color="red">图24 光电探测器图像（0.2）</font><cebnter>
+
+当 $p = 0.3 e-3$ 时：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.3mm.bmp" alt="SchlierenPhotoconductiveDetector0.3mm" style="zoom:50%;" />
+
+<center><font color="red">图24 光电探测器图像（0.3）</font><cebnter>
+
+当 $p = 4 e-3$ 时：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector4mm.bmp" alt="SchlierenPhotoconductiveDetector4mm" style="zoom:50%;" />
+
+<center><font color="red">图24 光电探测器图像（4）</font><cebnter>
+
+当 $p = 5 e-3$ 时：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector5mm.bmp" alt="SchlierenPhotoconductiveDetector5mm" style="zoom:50%;" />
+
+<center><font color="red">图24 光电探测器图像（5）</font><cebnter>
+
+
+
+**分析**：
+
+随着刀口远离主光轴，可以看到探测器采集到的图像，左右两边会存在一条明显的亮纹，如果测量会发现其间距正好是等离子体的直径。
+
+当刀口远离光轴无穷远的时候，我们看到的光电探测器图像与光源图像比较相似，但是其由于穿过了等离子体区域，所以其图像是包含等离子体信息的。
+
+
+
+
+
 #### Photoconductive Detector Result（光电探测器的结果）
+
+**光电探测器理论**
 
 光电探测器是平方强度探测器件，记录的强度信号正比于光电场强度和其复共轭乘积的时
 间平均量。 
 
 根据 [主逻辑](#Main Logic（主逻辑）) 中，光线经过第二个凸透镜，到达像平面的光电场，其表示为 $U_3 (x,y) $ ，
 
-所以，可以得到光电探测器的强度信号为：
+所以，可以得到**光电探测器的强度信**号为：
 $$
 I(x,y) = <U_3 (x,y) \cdot U_3^* (x,y) >
 $$
@@ -1713,6 +1809,70 @@ $$
 
 
 
+**光电探测器代码**
+
+将其翻译为**MATLAB代码**，可以表示为：
+
+```matlab
+%% Photoconductive Detector Result
+CU4 = conj(U4);
+
+I = CU4 .* U4;
+
+% Figure
+for i = 1: size(I, 1)
+    ComplexDouble = I(i, :);
+    ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+    I(i, :) = ComplexDouble;
+end    
+figure(51);
+mesh(X, Y, I);
+
+figure(52);
+imagesc(I);
+
+if (mod(Ny, 2)==0)
+	halfNy = Ny / 2;
+else
+	halfNy = (Ny + 1) / 2;
+end
+figure(53);
+plot(x, I(halfNy, :), 'c');
+grid on;
+
+figure(54);
+plot(x, I(halfNy, :), 'b');
+hold on;
+axis([-2e-3, 2e-3, 0, 1.4]);
+grid on;
+```
+
+
+
+**光电探测器结果**
+
+基于主代码，将探测器表示的代码添加在其后面，可以得到**光电探测器的强度图**如下所示：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector.bmp" alt="SchlierenPhotoconductiveDetector" style="zoom:50%;" />
+
+<center><font color="red">图26 光电探测器强度图</font><cebnter>
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1.bmp" alt="SchlierenPhotoconductiveDetectorPlot1" style="zoom:50%;" />
+
+
+<center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2.bmp" alt="SchlierenPhotoconductiveDetectorPlot2" style="zoom:50%;" />
+
+
+<center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
+
+
+**结果分析**
+
+获得的光电探测器图像，可以很明显从曲线图中看到，刀口方向在等离子体边沿出现一个左峰值。
 
 > 参考资料：
 >
@@ -2082,6 +2242,7 @@ $$
 <img src="ModeDetails.assets/纹影法主装置-FuzzyPlasmaCylinder.png" alt="纹影法主装置-FuzzyPlasmaCylinder" style="zoom:50%;" />
 
 <center><font color="red">图26 纹影法主装置</font><cebnter>
+
 > 视觉角度：俯视图；
 >
 > 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
