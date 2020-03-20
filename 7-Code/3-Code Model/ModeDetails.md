@@ -98,7 +98,7 @@
 
 ## Utils(工具箱)
 
-这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）) ， [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）)，[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）)等。
+这一大块主要介绍整个模型中需要详细介绍的**小点**，其中主要围绕的是测试装置进行展开，包括[**激光光源**](#Laser Source（激光光源）)，[**光学4F系统**](#Optical 4F System（光学4F系统）)，[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)，  [**标量衍射理论**](#Scalar Diffraction  Theory（标量衍射理论）)，[菲涅耳公式](#Fresnel's formula（菲涅耳公式）) ， [**菲涅尔衍射**](#Fresnel Diffrection（菲涅尔衍射）)，[**泰勒展开式线性近似理论**](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)，[**透镜的相位变化理论**](#Lens Phase Change Theory（透镜的相位变化理论）)， [透镜制造方程](#Lensmaker's Equation（透镜制造方程）)，[**透镜的傅里叶特性**](#Fourier Properties of the lens（透镜的傅里叶特性）) ， [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）)，[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）)等。
 
 
 
@@ -313,9 +313,53 @@ $$
 
 ### Fresnel's formula（菲涅耳公式）
 
-当我们在讨论光线穿过透镜的时候，忽略了反射带来的光强变化，我们为什么可以不考虑反射的影响？
+当我们在讨论光线穿过透镜的时候，**忽略了反射带来的光强变化**，我们为什么可以不考虑反射的影响？光线穿过等离子体的时候，忽略了等离子表面带来的光强变化，为什么可以忽略呢？下面的内容给出了相关解释。
 
-根据菲涅尔公式进行论证，并且直接基于之前的文件，补充完整。
+首先，介绍一下**折射和反射定律**的相关内容：
+
+> 反射光的时间频率ω是不变的；反射波和折射波均在入射面内；反射角等于入射角；
+>
+> 折射定律中，折射介质折射率与折射角正弦之积等于入射介质折射率与入射角正弦之积。
+
+其中，折射和反射定律给出了反射波，折射波和入射波**传播方向**之间的关系。Fresnel公式描述了反射波，折射波和入射波在**振幅和相位之间**的定量关系。
+
+理论上，只要光经过一种介质到另一种介质，由于两种介质的折射率不同，在交界处光会发生**反射**，但是随着介质折射率差异的**变小**，将不会观察到这一反射效应，造成强度的显著损失。
+
+菲涅尔公式中的**反射相关公式**如下：
+$$
+r_p =
+\frac{n_2 \cos \theta_1 - n_1 \cos \theta_2}{n_2 \cos \theta_1 + n_1 \cos \theta_2}
+\\
+r_s =
+\frac{n_1 \cos \theta_1 - n_2 \cos \theta_2}{n_1 \cos \theta_1 + n_2 \cos \theta_2}
+$$
+其中， $r_p $ 是反射光中平行分量的反射系数， $r_s $ 是反射光中垂直分量的反射系数， $n_1$ 是入射光介质的折射率， $n_2 $ 是折射光介质的折射率， $\theta_1 $ 是入射光角度， $\theta_2 $ 是折射光角度。
+
+与上式配套的图，如下所示：
+
+<img src="ModeDetails.assets/Fresnel公式示意图.png" alt="image-20200320184150167" style="zoom:80%;" />
+
+<center><font color="red">图13 Fresnel公式示意图</font><cebnter>
+
+基于菲涅尔公式，我们可以编写相应的程序，示例代码查看：[Fresnel.m](#Fresnel.m) 。
+
+基于程序，可以得到当光从空气介质，进入等离子体介质的时候，随着入射角度的变化，带来反射光强变化的示意图。
+
+当空气介质折射率为 $n=1$ ，等离子体介质折射率为 $n=1 - 4 * 10^{-3} $ 的时候，得到不同入射角度与反射光强的示意图如下所示：
+
+<img src="ModeDetails.assets/Fresnel.bmp" alt="Fresnel" style="zoom:50%;" />
+
+<center><font color="red">图14 不同入射角度对应的反射光强示意图</font><cebnter>
+
+从上图可以看到，在入射角大于 $70^{\circ}$ 左右之后，我们的反射光强才会开始增强，也就是说，此时的透射光强开始减弱，就必须考虑反射带来的光强损失变化。
+
+但是，在实际的实验中，入射角连 $50^{\circ}$ 都不可能达到，所以反射对于强度的损失，我们可以忽略不计了。
+
+> 参考资料：
+>
+> matlab-对菲涅尔公式画图.pdf
+>
+> 折射和反射定律、菲涅耳公式.pdf
 
 
 
@@ -2223,6 +2267,39 @@ $$
   axis([-2e-3, 2e-3, 0, 1.2]);
   grid on;
   
+  
+  %% Photoconductive Detector Result
+  CU4 = conj(U4);
+  
+  I = CU4 .* U4;
+  
+  % Figure
+  for i = 1: size(I, 1)
+      ComplexDouble = I(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      I(i, :) = ComplexDouble;
+  end    
+  figure(51);
+  mesh(X, Y, I);
+  
+  figure(52);
+  imagesc(I);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(53);
+  plot(x, I(halfNy, :), 'c');
+  grid on;
+  
+  figure(54);
+  plot(x, I(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.4]);
+  grid on;
+  
   ```
 
 - 圆柱形等离子体柱代码，参看 [FuzzyPlasmaCylinder](#FuzzyPlasmaCylinder.m)：
@@ -2336,6 +2413,28 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
 
 
+**光电探测器图像**：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetector-Fuzzy" style="zoom:50%;" />
+
+<center><font color="red">图26 光电探测器强度图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Fuzzy" style="zoom:50%;" />
+
+
+<center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Fuzzy" style="zoom:50%;" />
+
+
+<center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
+
+
+
 
 **分析结果**：
 
@@ -2343,11 +2442,17 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 在模糊圆柱形等离子体的模拟情况下，更加贴近真实的实验场景，但是实验中的等离子体柱也并不会完全是我们模糊圆柱形等离子体所描述的那样，还需要进一步探讨。
 
+注：使用光电探测器显示的强度曲线，与纹影中心曲线图对比，可以发现，刀口方向（锁边）的光强峰值变得更小了（约为0.375-->0.175），远离刀口方向（右边）的光强峰值边的更大了（约为1.15-->1.21）。
+
+
+
 
 
 
 
 ### Plasma Capillary（毛细血管形等离子体）
+
+> 暂时不完成！
 
 
 
@@ -2461,6 +2566,65 @@ figure(4);
 plot(x, U0(Nx/2, :), 'c');
 grid on;
 ```
+
+
+
+
+
+### Fresnel.m
+
+此代码，基于 [菲涅耳公式](#Fresnel's formula（菲涅耳公式）) 进行的MATLAB编码，讨论光从一种介质到另一种介质之后，交界面的反射带来的影响。
+
+更加详细的理论参看： [菲涅耳公式](#Fresnel's formula（菲涅耳公式）) 。
+
+```matlab
+%% Fresnel's formula
+
+clear; 
+clc;  
+clf;
+close all;
+
+n1 = 1;  % n(air)
+n2 = 1 - 4 * 10^(-3);  % n(plasma)
+n = n1 / n2; % 相对折射率
+
+zeta1 = linspace(0, pi/2, 1000);  % 入射角，弧度，将0 - pi/2等分为1000?份
+x = zeta1 * 180 / pi;  % 入射角角度
+
+zeta2 = real(asin(n .* sin(zeta1)));  % 折射角，弧度
+
+rpz = -n .* cos(zeta2) + cos(zeta1);  % 反射光中平行分量的反射系数分子
+rpm = n .* cos(zeta2) + cos(zeta1);  % 反射光中平行分量的反射系数分母
+rp = rpz ./ rpm;  % 反射光中平行分量的反射系数
+
+rsz = n .* cos(zeta1) - cos(zeta2);  % 反射光中垂直分量的反射系数分子
+rsm = n .* cos(zeta1) + cos(zeta2);  % 反射光中垂直分量的反射系数分母
+rs = rsz ./ rsm;  % 反射光中垂直分量的反射系数
+
+% Rp = rp.^2;  % 平行分量反射率
+% Rs = rs.^2;  % 垂直分量反射率
+% critical = acsc(n) * 180 / pi;  % 临界角
+% Brewster = acot(n) * 180 / pi;  % 布鲁斯特角
+
+figure(1);
+plot(x, rp, x, rs);
+xlabel( 'x/Angle' );
+ylabel( 'y/Reflectance' );
+title( 'Fresnel' );
+legend('rp', 'rs', 'location', 'northwest');
+
+% figure(2);
+% plot(x, rp); % 小于0
+% 
+% figure(3);
+% plot(x, rs); % 大于0
+
+```
+
+
+
+
 
 
 

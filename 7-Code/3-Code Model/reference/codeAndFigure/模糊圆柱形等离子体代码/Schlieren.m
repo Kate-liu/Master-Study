@@ -153,3 +153,34 @@ axis([-2e-3, 2e-3, 0, 1.2]);
 grid on;
 
 
+%% Photoconductive Detector Result
+CU4 = conj(U4);
+
+I = CU4 .* U4;
+
+% Figure
+for i = 1: size(I, 1)
+    ComplexDouble = I(i, :);
+    ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+    I(i, :) = ComplexDouble;
+end    
+figure(51);
+mesh(X, Y, I);
+
+figure(52);
+imagesc(I);
+
+if (mod(Ny, 2)==0)
+	halfNy = Ny / 2;
+else
+	halfNy = (Ny + 1) / 2;
+end
+figure(53);
+plot(x, I(halfNy, :), 'c');
+grid on;
+
+figure(54);
+plot(x, I(halfNy, :), 'b');
+hold on;
+axis([-2e-3, 2e-3, 0, 1.4]);
+grid on;
