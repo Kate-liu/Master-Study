@@ -1220,6 +1220,105 @@ $$
 
 
 
+### Cylindrical glass focal length（圆柱形玻璃焦距）
+
+> 将圆柱形玻璃等效为近轴近似的透镜，求解其焦距表达式。
+
+仿真的时候，需要设置**圆柱形玻璃的焦距**，此时可以重新将光线穿过圆柱形玻璃的情况绘制如下图所示：
+
+<img src="ModeDetails.assets/圆柱形玻璃光线传输示意图.png" alt="圆柱形玻璃光线传输示意图" style="zoom:80%;" />
+
+<center><font color="red">图28 圆柱形玻璃光线传输示意图</font><cebnter>
+
+由于，我们假设的被测对象是圆柱形玻璃，那么其具有对称和均匀折射率等特性，圆柱可以等效为是近轴近似的透镜。
+
+假设光线进入圆柱形玻璃的入射角度$\alpha$和出射角度$\beta$很小。根据折射定律：折射介质折射率与折射角正弦之积等于入射介质折射率与入射角正弦之积，得到:
+$$
+sin(\alpha) \cdot n(air) = sin(\beta) \cdot n(glass)
+$$
+也即：
+$$
+\alpha \cdot n(air) = \beta \cdot n(glass)
+$$
+其中，$\alpha$为与光轴平行的光线入射圆柱形玻璃的入射角，$\beta$为对应的出射角，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，其中 $n(air) \approx 1 > n(glass)$ 。
+
+从[格拉斯通-戴尔公式](#Gladstone-Dale Formula（格拉斯通-戴尔公式）) 中，可以知道标准状态下空气对可见光的折射率$n(air)$ 约为$1.0002967$ 。
+
+根据三角形角度关系，可得角度 $\gamma$ 为：
+$$
+\gamma = 180^\circ - \alpha - (180^\circ - 2 \beta)= 2 \beta - \alpha
+$$
+出射圆柱形玻璃的光线与玻璃柱的交点，距离主光轴的高度 $\mathsf{X}'$ 可以表示：
+$$
+\mathsf{X}' = \mathsf{R} \cdot tan(\gamma )
+$$
+当角度 $\gamma$ 很小的时候，高度 $\mathsf{X}'$ 为：
+$$
+\mathsf{X}' = \mathsf{R} \cdot \gamma
+$$
+其中，R为圆柱形玻璃的半径。
+
+根据三角形角度关系，可得出射玻璃柱的光线与主光轴的夹角 $\delta$ 为：
+$$
+\delta= 180^\circ - \alpha - (180^\circ - \gamma)= \gamma - \alpha= 2 \beta - 2 \alpha
+$$
+综上，可以得到 $\mathsf{Z}'$ 为：
+$$
+\mathsf{Z}' = \frac{\mathsf{X}'}{tan(\delta)}= \frac{\mathsf{R} \cdot \gamma}{\delta}= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}
+$$
+基于三角形关系，可以得到$\mathsf{Z}''$ 为：
+$$
+\mathsf{Z}''= \sqrt{\mathsf{R}^2 - (\mathsf{X}')^2}= \sqrt{\mathsf{R}^2 - ( \mathsf{R} \cdot \gamma)^2}= \mathsf{R} \sqrt{1 - \gamma^2}= \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+$$
+将整个玻璃柱看成是一个透镜，可以得到其焦距 $f$ 相对于中心点为:
+$$
+f = \mathsf{Z}' - \mathsf{Z}''= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+$$
+已知入射角$\alpha$，出射角$\beta$，空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ 的关系式：
+$$
+\alpha \cdot n(air) = \beta \cdot n(glass)
+$$
+写成分式形式：
+$$
+\frac{\alpha}{\beta}=\frac{n(glass)}{ n(air)}
+$$
+将其带入焦距 $f$ 的公式，得到：
+$$
+f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+$$
+由[泰勒展开式线性近似理论](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)对应的**函数线性近似表达式**为：
+$$
+f(a+ \Delta x)
+=
+f(a)
++
+f' (a) \Delta x
+$$
+所以，当 $b \ll a$ 时，则满足下面的等价公式：
+$$
+\sqrt {a+b} 
+\approx 
+\sqrt{a} (1 + \frac {b}{2a})
+$$
+在焦距 $f$ 的公式中，当 $1 \gg (2 \beta - \alpha)^2$ 时，我们可以得到：
+$$
+\mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}\approx \mathsf{R}
+$$
+
+所以，焦距 $f$ 的公式可以化简为：
+$$
+f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R}
+$$
+其中，上式的变量空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ ，圆柱形玻璃的半径R，都可以获得。
+
+所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的焦距是负数，属于一个发散透镜，即凹透镜。
+
+由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的球面相差。
+
+
+
+
+
 
 
 
@@ -2389,7 +2488,6 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图28 光源中心线强度图</font><cebnter>
 
 
-
 **纹影图像**：
 
 <img src="ModeDetails.assets/SchlierenMesh-Fuzzy.bmp" alt="SchlierenMesh-Fuzzy" style="zoom:50%;" />
@@ -2397,11 +2495,9 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图29 纹影图</font><cebnter>
 
 
-
 <img src="ModeDetails.assets/SchlierenPlot-Fuzzy.bmp" alt="SchlierenPlot-Fuzzy " style="zoom:50%;" />
 
 <center><font color="red">图30 纹影中心曲线图</font><cebnter>
-
 
 
 <img src="ModeDetails.assets/SchlierenPlot1-Fuzzy.bmp" alt="SchlierenPlot1-Fuzzy" style="zoom:50%;" />
@@ -2420,20 +2516,16 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
-
 <img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Fuzzy" style="zoom:50%;" />
 
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
-
 <img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Fuzzy" style="zoom:50%;" />
 
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
-
-
 
 
 **分析结果**：
@@ -2451,10 +2543,12 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 ### Glass Cylinder（圆柱形玻璃）
 
 > 这里介绍圆柱形玻璃的原因，可以通过**仿真与具体的实验进行交叉验证**。在实验中，我们并不能保证我们的等离子形状，所以我们可以在这块将被测对象更换为圆柱形玻璃，可以很方便的完成实验。
+>
+> 将圆柱形玻璃等效为是近轴近似的透镜。
 
-类比于实验，我们使用的圆柱形玻璃的**轴心方向**为整个纹影装置的 `Z` 轴方向，所以我们只要将实验对象（圆柱形玻璃）水平放置在**世界坐标系的水平方向**即可。可以使用**水平仪**等工具，就可以非常方便的实现。
+类比于实验，我们使用的圆柱形玻璃的**轴心方向**为整个纹影装置的 `Y` 轴方向，所以我们只要将实验对象（圆柱形玻璃）垂直放置在**世界坐标系的水平方向**即可。可以使用**水平仪**等工具，就可以非常方便的实现。
 
-具体的展示图，当然这张图左右两边是比较夸张的，实际上曲率是很小的，如下所示：
+具体的展示图，如下所示：
 
 <img src="ModeDetails.assets/圆柱形玻璃示意图.png" alt="image-20200323224710251" style="zoom:80%;" />
 
@@ -2464,17 +2558,23 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 >
 >图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
 
-上图中，所绘制的圆柱形玻璃两端被放大了，只是为了更好地理解圆柱形玻璃的放置方式。
+上图中，所绘制的圆柱形玻璃可以保证其内部的折射率大约为 $n=1.5$ 。
 
-在上述的情况下，圆柱形透镜在`Y` 轴只有一个曲率（类比于世界坐标中的每一条水平线），而沿着`X` 轴则没有曲率。（理解起来有点难，需要空间思维，可以想一下顺着光轴方向看过去的是一个圆形，接着在圆上面的每一个横线，也即水平线就是我们的X轴曲率，所以没有曲率。相反，竖线则是我们的Y轴曲率。）
+在上述的情况下，圆柱形透镜在`X` 轴有一个曲率（类比于世界坐标中的每一条水平线），而沿着`Y` 轴则没有曲率。（理解起来有点难，需要空间思维，可以想一下顺着光轴方向看过去的是圆柱形的侧面，接着在圆柱上面的每一个横线，也即水平线就是我们的X轴曲率，存在曲率。相反，竖线则是我们的Y轴，是一条直线。）
+
+基于 [圆柱形玻璃焦距](#Cylindrical glass focal length（圆柱形玻璃焦距）) ，得到**圆柱形玻璃的焦距公式**为：
+$$
+f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R}
+$$
+其中，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，R是圆柱形玻璃的半径。
 
 在 [透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）) 中，得到光线通过薄透镜之后，对应的**相位变化**公式：
 $$
 t(x,y) = \exp (i \frac{k}{2 f} (x^2 + y^2))
 $$
-那么，我们可以得到：
+那么，将圆柱形等效为曲率半径为 $r$ 的薄透镜，我们可以得到：
 $$
-t(x,y) = \exp (i \frac{k}{2 f} ( y^2))
+t(x,y) = \exp (i \frac{k}{2 f} ( x^2))
 $$
 上面的所有式子成立的条件是：忽略光线的反射效应，详细内容参见[菲涅耳公式](#Fresnel's formula（菲涅耳公式）) 。
 
@@ -2483,18 +2583,24 @@ $$
 t(x,y) =
 \begin{cases}
 1 \quad \quad \quad \quad \quad \quad \quad   
-y > \frac{h}{2} 
+x > \frac{d}{2} 
 \\
 \\
-\exp (i \frac{k}{2 f} ( y^2)) \quad \quad 
- y \leq \frac{h}{2} 
+\exp (i \frac{k}{2 f} ( x^2)) \quad \quad 
+x \leq \frac{d}{2} 
 \end{cases}
 $$
+其中，$d$ 表示的是圆柱形玻璃的直径。
+
 此时，基于波动光学知识，可以得到**通过圆柱形玻璃后的电场**，为初始激光束乘以圆柱形玻璃引起的相移，公式如下所示：
 $$
 U(x,y) = g(x,y)\cdot t(x,y)
 $$
 上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是圆柱形玻璃影响光源的相位量。 
+
+
+
+
 
 
 
@@ -2528,11 +2634,11 @@ $$
 > 1.圆柱形等离子体引起的相移变化，由[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 得到：$t(x,y) =
 > \begin{cases}
 > 1 \quad \quad \quad \quad \quad \quad \quad   
-> y > \frac{h}{2} 
+> x > \frac{d}{2} 
 > \\
 > \\
-> \exp (i \frac{k}{2 f} ( y^2)) \quad \quad 
->  y \leq \frac{h}{2} 
+> \exp (i \frac{k}{2 f} ( x^2)) \quad \quad 
+> x \leq \frac{d}{2} 
 > \end{cases}$ 
 >
 > 2.刀口对电场的影响，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $H(x) = 
@@ -2553,10 +2659,192 @@ $$
 - 主代码（SchlierenGlassCylinder.m）：
 
   ```matlab
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Schlieren MATLAB code
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  clear; 
+  clc;  
+  clf;
+  close all;
+  
+  %% Gaussian beam 
+  % Field size and sampling
+  % Set 5 * 5 mm field
+  % Sampling 1024+ pixel
+  L0 = 5e-3;
+  Nx = 4096 + 1;
+  Ny = 1024 + 1;
+  x = L0 * linspace(-1, 1, Nx);  
+  y = L0 * linspace(-1, 1, Ny);
+  [X, Y] = meshgrid(x, y); 
+  
+  
+  % Laser Standard deviation 
+  % Set 1 mm
+  % Variable sigma_r
+  sigma_r = 1e-3;
+  
+  % Wave length
+  % Green
+  % Variable lambda
+  lambda = 532e-9;
+  
+  % Gaussian function with a = A, b = x-scale, c = y-scale, d = laser standard deviation
+  f_gauss2D = @(a,b,c,d) (a .* exp(- ((b.^2 + c.^2) / (2 * ((d).^2)))));
+  U0 = f_gauss2D( 1, X, Y, sigma_r );
+  
+  % Figure
+  figure(1);
+  mesh(X, Y, U0);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(2);
+  plot(x, U0(halfNy, :), 'c');
+  grid on;
+  
+  figure(3);
+  imagesc(U0);
+  
+  %% Glass Cylinder
+  
+  % Glass Cylinder diameter and focal length
+  % Set d = 1.5e-3, fglass = 62.5e-3
+  % Variable dglass, r, fglass, k
+  dglass = 1.6e-3;
+  r = dglass / 2;
+  fglass = 62.5e-3;
+  k = 2 * pi / lambda;
+  
+  U1 = GlassCylinder( U0, X, Y, k, fglass, r );
+  
+  
+  % Figure
+  % for i = 1: size(U1, 1)
+  %     ComplexDouble = U1(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U1(i, :) = ComplexDouble;
+  % end 
+  % figure(11);
+  % mesh(X, Y, U1);
+  
+  
+  %% First Len Properties
+  
+  % Focal length of lens
+  % Variable d, f
+  d = 100e-3;
+  f = 100e-3;
+  
+  [ U2, Lx2, Ly2 ] = firstLenProperties( U1, L0, L0, X, Y, lambda, f, d );
+  
+  
+  % Figure
+  % for i = 1: size(U2, 1)
+  %     ComplexDouble = U2(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U2(i, :) = ComplexDouble;
+  % end    
+  % figure(21);
+  % mesh(X, Y, U2);
+  
+  
+  %% Knife Edge
+  
+  % knife edge position
+  % Variable p
+  % Default p = 0, expression the knife edge in the focal position
+  p = 0;
+  
+  [ U3 ] = knifeEdge( U2, X, Y, p );
+  
+  % Figure
+  % for i = 1: size(U3, 1)
+  %     ComplexDouble = U3(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U3(i, :) = ComplexDouble;
+  % end    
+  % figure(31);
+  % mesh(X, Y, U3);
+  
+  
+  %% Second Len Properties
+  
+  % Focal length of lens
+  % Variable z
+  z = 100e-3;
+  
+  [ U4, Lx2, Ly2 ] = secondLenProperties( U3, Lx2, Ly2, lambda, z );
+  
+  % Figure
+  for i = 1: size(U4, 1)
+      ComplexDouble = U4(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      U4(i, :) = ComplexDouble;
+  end    
+  figure(41);
+  mesh(X, Y, U4);
+  
+  figure(42);
+  imagesc(U4);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(43);
+  plot(x, U4(halfNy, :), 'c');
+  grid on;
+  
+  figure(44);
+  plot(x, U4(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.3]);
+  grid on;
+  
+  
+  %% Photoconductive Detector Result
+  CU4 = conj(U4);
+  
+  I = CU4 .* U4;
+  
+  % Figure
+  for i = 1: size(I, 1)
+      ComplexDouble = I(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      I(i, :) = ComplexDouble;
+  end    
+  figure(51);
+  mesh(X, Y, I);
+  
+  figure(52);
+  imagesc(I);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(53);
+  plot(x, I(halfNy, :), 'c');
+  grid on;
+  
+  figure(54);
+  plot(x, I(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.6]);
+  grid on;
   
   ```
 
-- 圆柱形等离子体柱代码，参看 [plasmaCylinder](#plasmaCylinder.m)：
+- 圆柱形等离子体柱代码，参看 [GlassCylinder](#GlassCylinder.m)：
 
 - 第一个凸透镜代码，参见 [firstLenProperties](#firstLenProperties.m)：
 
@@ -2566,9 +2854,128 @@ $$
 
 
 
+#### Main Setup（主装置）  
+
+基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
+
+<img src="ModeDetails.assets/纹影法主装置-GlassCylinder.png" alt="image-20200326215425272" style="zoom:80%;" />
+
+<center><font color="red">图26 纹影法主装置</font><cebnter>
+
+
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
+>
+> 电场：U0，U1，U2，U3，U4。
+>
+> 函数：xxx.m 。
+>
+> 变量：Nx，Ny，sigma_r，lambda，dglass，r， fglass，k，d，f，p，z。
 
 
 
+#### Main Result（主结果）
+
+在仿真的时候，设置**光源的信息**如下：
+
+```matlab
+L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+Nx = 4096 + 1;  % x 方向采样 4097个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
+sigma_r = 1e-3;  % 激光束标准差
+lambda = 532e-9;  % 激光束为绿光
+```
+
+**圆柱形玻璃的信息**如下：
+
+```matlab
+dglass = 1.6e-3;  % 圆柱形玻璃的直径
+r = dglass / 2;  % 圆柱形玻璃的半径
+fglass = 62.5e-3;  % 圆柱形玻璃的焦距
+```
+
+**第一个凸透镜的信息**如下：
+
+```matlab
+d = 100e-3;  % 等离子体距离透镜的前距离
+f = 100e-3;  % 透镜的后焦距
+```
+
+**刀口的信息**如下：
+
+```matlab
+p = 0;  % 刀口与主光轴之间的垂直距离
+```
+
+**第二个透镜的信息**如下：
+
+```matlab
+z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
+```
+
+
+
+**光源图像**：
+
+<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+
+<center><font color="red">图27 光源三维图像</font><cebnter>
+
+
+
+
+<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+
+<center><font color="red">图28 光源中心线强度图</font><cebnter>
+
+
+
+**纹影图像**：
+
+<img src="ModeDetails.assets/SchlierenMesh-Glass.bmp" alt="SchlierenMesh-Glass" style="zoom:50%;" />
+
+<center><font color="red">图29 纹影图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPlot-Glass.bmp" alt="SchlierenPlot-Glass" style="zoom:50%;" />
+
+<center><font color="red">图30 纹影中心曲线图</font><cebnter>
+
+<img src="ModeDetails.assets/SchlierenPlot1-Glass.bmp" alt="SchlierenPlot1-Glass" style="zoom:50%;" />
+
+
+
+<img src="ModeDetails.assets/SchlierenPlot2-Glass.bmp" alt="SchlierenPlot2-Glass" style="zoom:50%;" />
+
+<center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
+
+
+
+**光电探测器图像**：
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector-Glass.bmp" alt="SchlierenPhotoconductiveDetector-Glass" style="zoom:50%;" />
+
+<center><font color="red">图26 光电探测器强度图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Glass" style="zoom:50%;" />
+
+<center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
+
+
+
+<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Glass" style="zoom:50%;" />
+
+<center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
+
+
+
+**分析结果**：
+
+明显可以从[圆柱形玻璃](#Glass Cylinder（圆柱形玻璃）) 中看到，我们的纹影图像和光电探测器在左右的两个峰值位置出现明显的上升，这种变化与 [圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 和 [模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 很明显。
 
 
 
@@ -2577,6 +2984,112 @@ $$
 ### Glass Capillary（毛细血管形玻璃）
 
 > 使用毛细血管形玻璃作为仿真对象，主要是想通过这种方式实现类似于模拟模糊圆柱形等离子体，但是由于模糊圆柱形等离子体的形状无法保证，所以我们更换对象为毛细血管形玻璃，方便我们进行仿真与实验的对比。
+
+
+
+#### Main Result（主结果）
+
+在仿真的时候，设置**光源的信息**如下：
+
+```matlab
+L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+Nx = 4096 + 1;  % x 方向采样 4097个点，奇数点有利于ifftshift
+Ny = 1024 + 1;  % y 方向采样 1025个点
+sigma_r = 1e-3;  % 激光束标准差
+lambda = 532e-9;  % 激光束为绿光
+```
+
+**圆柱形玻璃的信息**如下：
+
+```matlab
+dglass = 1.6e-3;  % 圆柱形玻璃的直径
+r = dglass / 2;  % 圆柱形玻璃的半径
+fglass = 62.5e-3;  % 圆柱形玻璃的焦距
+```
+
+**第一个凸透镜的信息**如下：
+
+```matlab
+d = 100e-3;  % 等离子体距离透镜的前距离
+f = 100e-3;  % 透镜的后焦距
+```
+
+**刀口的信息**如下：
+
+```matlab
+p = 0;  % 刀口与主光轴之间的垂直距离
+```
+
+**第二个透镜的信息**如下：
+
+```matlab
+z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
+```
+
+
+
+**光源图像**：
+
+<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+
+<center><font color="red">图27 光源三维图像</font><cebnter>
+
+
+
+
+<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+
+<center><font color="red">图28 光源中心线强度图</font><cebnter>
+
+
+
+**纹影图像**：
+
+
+
+<center><font color="red">图29 纹影图</font><cebnter>
+
+
+
+
+
+<center><font color="red">图30 纹影中心曲线图</font><cebnter>
+
+
+
+
+
+<center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
+
+
+
+**光电探测器图像**：
+
+
+
+<center><font color="red">图26 光电探测器强度图</font><cebnter>
+
+
+
+
+
+<center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
+
+
+
+
+
+<center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
+
+
+
+**分析结果**：
+
+
+
+
+
+
 
 
 
@@ -2590,7 +3103,101 @@ $$
 
 
 
-## Fluent Simulation（fluent仿真）
+## Schlieren Theory（纹影法理论）
+
+> 纹影法的理论包括使用其**纹影法本身的数学模型**，还包括**诊断被测对象的物理参数模型**。
+
+
+
+### Ideal Gas Law（理想气体状态方程）
+
+> 其主要解释了气体的**温度与密度**之间的关系。
+
+在气体温度为20℃，1个标准大气压的环境中，等质量的气体遵循气体状态方程，可以表示为：
+$$
+P V = \frac{M}{\mu } \mathsf{R} T
+$$
+其中，$P$ 为压强，$V$ 为体积，$M$ 为气体的质量，$\mu$ 为气体的摩尔质量，$\mathsf{R}$ 为普适气体常数，其取值与状态参量的单位有关，在国际单位制中$\mathsf{R} = 8.31 \mathsf{J}/(\mathsf{mol}・\mathsf{K})$ ，$T$ 为气体的温度，并且式中的$\frac{M}{\mu }$ 也被常称为 $\mathsf{n}$ 。
+
+被测对象气体的温度、体积、压强也遵循理想气体状态方程。
+
+气体**密度与体积**的关系，可以表示为：
+$$
+M = V *\rho 
+$$
+其中，$\rho$ 为气体的密度。
+
+联立上式，消去体积 $V$ ，可以得到被测气体的温度、密度、压强之间的关系：
+$$
+\frac{P} {\rho}= \frac{1}{\mu } \mathsf{R} T
+$$
+其中，$\frac{1}{\mu } \mathsf{R}$ 可以看做是一个常数$\mathsf{K}$。也即：
+$$
+\frac{P} {\rho}= \mathsf{K} T
+$$
+所以可以得到被测对象的温度表达式为：
+$$
+T = 
+\frac{P} {\rho \mathsf{K}}
+$$
+基于[格拉斯通-戴尔公式](#Gladstone-Dale Formula（格拉斯通-戴尔公式）) 可以获得被测对象的气体密度，并且环境温度与环境密度可以得到，那么我们可以得到**被测气体温度**的公式如下所示：
+$$
+\frac{\frac{P} {\rho _{air}}} {\frac{P} {\rho_{plasma}}}
+=
+\frac{\mathsf{K} T_{air}} {\mathsf{K} T_{plasma}}
+$$
+化简得到：
+$$
+\frac{\rho_{plasma}} {\rho _{air}}
+=
+\frac{ T_{air}} { T_{plasma}}
+$$
+也即：
+$$
+T_{plasma} =
+\frac {\rho _{air} \times T_{air}} {\rho_{plasma}}
+$$
+其中， $T_{plasma}$ 为被测对象温度，$\rho_{plasma}$ 为被测对象密度，$T_{air} $ 为环境中空气的温度，$\rho _{air}$ 为环境中空气的密度。
+
+注：环境中的温度与密度可以参看标准文档：常用的空气密度表(-20~100度).pdf
+
+
+
+
+
+### Gladstone-Dale Formula（格拉斯通-戴尔公式）
+
+> 其主要解释了气体**密度与折射率**之间的关系。
+>
+> 并得到标准参数：空气的折射率 $n = 1.0002967$ 。当单色光源波长为 $532nm$，此时 $k$ 值为 $2.2598 \times 10^{-4} m^3/kg$ 。
+
+对于空气和其他气体的**折射率与密度**之间存在线性关系(Gladstone-Dale)，如下所示：
+$$
+n - 1= k \cdot \rho
+$$
+在标准大气中，对于可见光，格拉斯通-戴尔常数（Gladstone-Dale常数） $k≈0.23cm^3/g$ 。对于其他气体也可能会发生变化，大致的范围是$0.1～1.5 m^3/g$ 。
+
+在标准条件下（ $0 ^{\circ} \mathsf{C}$ ，即 $273 \mathsf{K}$ ，1个标准大气压（1atm））的封闭环境，环境密度为 $1.29kg/m^3$，通过计算可以得到空气的折射率约为 $1.0002967$ 。
+
+通常环境温度为 $20^{\circ} \mathsf{C}$ ，即 $273 \mathsf{K}$时，环境密度为 $1.205kg/m^3$，此时的空气的折射率约为 $1.0002772$ 。
+
+由于格拉斯通-戴尔公式中，$k \cdot \rho$ 的值远小于常数 1，那么就有空气密度 $\rho $ 两个量级的变化只能引起折射率 $n$ 的值变化30%，我们需要测试的对象是火工品，其折射率小于空气的折射率。
+
+所以，可以得到被测对象的密度公式为：
+$$
+\rho_{plasma} = \frac{n_{plasma}  - 1}{k}
+$$
+更加详细关于格拉斯通-戴尔常数（Gladstone-Dale常数）$k$ 的值计算，参见[Gladstone-Dale常数](#Gladstone-Dale常数) 。
+
+> 参考资料：
+>
+> 1.常用的空气密度表(-20~100度).pdf
+
+
+
+
+
+## Fluent Simulation（Fluent仿真）
 
 > Fluent作为目前国际上比较流行的商用CFD软件包，凡是和流体、热传递和化学反应等相关的工业均可使用。
 >
@@ -3164,6 +3771,42 @@ end
 
 
 
+### GlassCylinder.m
+
+这个代码是 [Glass Cylinder（圆柱形玻璃）](#Glass Cylinder（圆柱形玻璃）) 中，关于等离子体的数据模型表示。
+
+```matlab
+function [ U1 ] = GlassCylinder( U0, X, Y, k, f, r )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Glass Cylinder
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U0: 平行光的电场（未进入模糊圆柱形等离子体的电场）
+% X: x 方向数据
+% Y: y 方向数据
+% k: 表示光波的波数
+% f: 圆柱形玻璃的焦距
+% r: 圆柱形玻璃的半径
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U1: 通过模糊圆柱柱形等离子体后的电场
+%  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+U1 = U0;
+
+cylinder = @(x, y, r) (x.^2. < r^2) * 1.0;
+
+U1 = U0 .* exp(1i * k / 2 / f * X.^2) .* cylinder(X, Y, r) + U0 .* (1 - cylinder(X, Y, r));
+
+end
+
+
+```
+
+
+
 
 
 ### firstLenProperties.m
@@ -3325,6 +3968,42 @@ end
 
 
 ```
+
+
+
+
+
+### Gladstone-Dale常数
+
+更加详细的解释，[格拉斯通-戴尔公式](#Gladstone-Dale Formula（格拉斯通-戴尔公式）) 中，关于格拉斯通-戴尔常数（Gladstone-Dale常数）$k$ 的值计算。
+
+格拉斯通-戴尔常数（Gladstone-Dale常数），一般由**气体的组成成分**等特性决定，并且受光波长的影响。
+
+在**气体为空气时**，格拉斯通-戴尔常数与光波波长的关系如下所示：
+$$
+k = 
+2.2244 \times 10^{-4} \times 
+(1 + (\frac{6.7132 \times 10^{-8}}{\lambda})^2 )
+$$
+其中，$\lambda$ 为光波波长.
+
+假设单色光源波长为 $520nm$，那么此时可以计算出来 $k$ 值为 $2.261 \times 10^{-4} m^3/kg$ ，也可以表示为 $k = 0.2261cm^3/g ≈ 0.23cm^3/g$ 。
+
+当单色光源波长为 $532nm$，此时可以计算出来 $k$ 值为 $2.2598 \times 10^{-4} m^3/kg$ 。
+
+> 参考资料：
+>
+> 1.SCHLIEREN IMAGING BASED 2-D TEMPERATURE FIELD RECONSTRUCTION OF LAMINAR NATURAL CONVECTIVE AIR FROM VERTICAL HEATED PLATE
+
+
+
+
+
+
+
+
+
+
 
 
 

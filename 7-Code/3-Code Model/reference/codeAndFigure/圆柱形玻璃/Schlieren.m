@@ -51,21 +51,17 @@ grid on;
 figure(3);
 imagesc(U0);
 
-%% Plasma Cylinder
+%% Glass Cylinder
 
-% Plasma Cylinder diameter
-% Set ra = 0.8 mm, rp = 0.7 * ra
-% Variable ra rp
-ra = 0.8e-3;
-rp = 0.7 * ra;
+% Glass Cylinder diameter and focal length
+% Set d = 1.5e-3, fglass = 62.5e-3
+% Variable dglass, r, fglass, k
+dglass = 1.6e-3;
+r = dglass / 2;
+fglass = 62.5e-3;
+k = 2 * pi / lambda;
 
-% Air（n1） and Plasma Refractive（n2）
-% n2 < n1
-% Variable n2
-n1 = 1;
-n2 = 1 - 4 * 10^(-3);
-
-U1 = FuzzyPlasmaCylinder( U0, X, Y, ra, rp, n1, n2, lambda );
+U1 = GlassCylinder( U0, X, Y, k, fglass, r );
 
 
 % Figure
