@@ -666,7 +666,11 @@ $$
 \approx 
 (n-1)[\frac{1}{R_1} - \frac{1}{R_2} ]
 $$
-上面的这个公式会在[透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）)中使用到。
+上面的这个公式会在[透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）)中使用到，示意图参见下图：
+
+<img src="ModeDetails.assets/Lensmaker’s Equation.png" alt="Lensmaker’s Equation" style="zoom:50%;" />
+
+<center><font color="red">图17 Lensmaker’s Equation</font><cebnter>
 
 > 参考资料：
 >
@@ -1311,9 +1315,9 @@ f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mat
 $$
 其中，上式的变量空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ ，圆柱形玻璃的半径R，都可以获得。
 
-所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的焦距是负数，属于一个发散透镜，即凹透镜。
+所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的**焦距是负数**，属于一个发散透镜，即凹透镜。
 
-由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的球面相差。
+由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的**球面相差**。
 
 
 
