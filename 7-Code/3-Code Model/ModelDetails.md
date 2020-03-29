@@ -16,7 +16,7 @@
 
 先从装置开始讲起，纹影装置分为投射式和反射式，目前本文聚焦于透射式装置。见图1所示：
 
-![image-20200225192252039](ModeDetails.assets/没有被测对象的纹影装置示意图.png)
+![image-20200225192252039](ModelDetails.assets/没有被测对象的纹影装置示意图.png)
 
 <center><font color="red">图1 没有被测对象的纹影装置示意图</font><cebnter>
 
@@ -28,7 +28,7 @@
 
 在图1的基础上，增加测试对象之后，可以看到其光线传播图，如下图2所示：
 
-![含被测对象的纹影装置示意图](ModeDetails.assets/含被测对象的纹影装置示意图.png)
+![含被测对象的纹影装置示意图](ModelDetails.assets/含被测对象的纹影装置示意图.png)
 
 <center><font color="red">图2 含被测对象的纹影装置示意图</font><cebnter>
 
@@ -56,7 +56,7 @@
 
 典型的阴影成像装置示意图，见图3所示：
 
-<img src="ModeDetails.assets/没有被测对象的阴影装置示意图.png" alt="没有被测对象的阴影装置示意图" style="zoom:50%;" />
+<img src="ModelDetails.assets/没有被测对象的阴影装置示意图.png" alt="没有被测对象的阴影装置示意图" style="zoom:50%;" />
 
 <center><font color="red">图3 没有被测对象的阴影装置示意图</font><cebnter>
 
@@ -68,7 +68,7 @@
 
 当放置被测对象之后，可以得到阴影装置示意图，如图4所示：
 
-<img src="ModeDetails.assets/含被测对象的阴影装置示意图.png" alt="含被测对象的阴影装置示意图" style="zoom:50%;" />
+<img src="ModelDetails.assets/含被测对象的阴影装置示意图.png" alt="含被测对象的阴影装置示意图" style="zoom:50%;" />
 
 <center><font color="red">图4 含被测对象的阴影装置示意图</font><cebnter>
 
@@ -80,7 +80,7 @@
 
 为了方便拓展阴影法，故将被测对象作为**聚焦透镜**的实验装置示意图绘制如下图5所示：
 
-<img src="ModeDetails.assets/含被测对象的阴影装置示意图（聚焦透镜）.png" alt="含被测对象的阴影装置示意图（聚焦透镜）" style="zoom:50%;" />
+<img src="ModelDetails.assets/含被测对象的阴影装置示意图（聚焦透镜）.png" alt="含被测对象的阴影装置示意图（聚焦透镜）" style="zoom:50%;" />
 
 <center><font color="red">图5 含被测对象的阴影装置示意图（聚焦透镜）</font><cebnter>
 
@@ -108,7 +108,7 @@
 
 首先，需要**回顾一下纹影法和阴影法装置**，两个装置都需要将光源扩束准直为**直径大于等离子体半径2R**的光束，而在实际的仿真中，忽略扩束准直的过程，直接设置光源的大小，接着光线进入等离子体内部，可以分别查看下面的装置示意图：
 
-<img src="ModeDetails.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
+<img src="ModelDetails.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
 
 <center><font color="red">图6 纹影法装置示意图（仿真）</font><cebnter>
 
@@ -116,9 +116,9 @@
 >
 > 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
 
-<img src="ModeDetails.assets/阴影法装置示意图（仿真）1.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
+<img src="ModelDetails.assets/阴影法装置示意图（仿真）1.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
 
-<img src="ModeDetails.assets/阴影法装置示意图（仿真）2.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
+<img src="ModelDetails.assets/阴影法装置示意图（仿真）2.png" alt="阴影法装置示意图（仿真）" style="zoom:50%;" />
 
 <center><font color="red">图7 阴影法装置示意图（仿真）</font><cebnter>
 
@@ -138,15 +138,15 @@ g(x,y)=A \exp( - \frac {x^2 + y^2} {2 \sigma _r^2} )
 $$
 在实际的仿真中，假设 `A = 1` , $\sigma _r= 1 \cdot 10^{-3} m$ ，编写**MATLAB代码**可以得到光源的强度分布图，如下所示：（在实际使用中，光源是否具有高斯光束形状并不重要，只需要找到可以近似描述光源形状的方法即可。）
 
-<img src="ModeDetails.assets/GaussianBeam1.bmp" alt="GaussianBeam1" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam1.bmp" alt="GaussianBeam1" style="zoom:50%;" />
 
 <center><font color="red">图8 光源强度图</font><cebnter>
 
-<img src="ModeDetails.assets/GaussianBeam2.bmp" alt="GaussianBeam2" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam2.bmp" alt="GaussianBeam2" style="zoom:50%;" />
 
 <center><font color="red">图9 光源三维图</font><cebnter>
 
-<img src="ModeDetails.assets/GaussianBeam3.bmp" alt="GaussianBeam3" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam3.bmp" alt="GaussianBeam3" style="zoom:50%;" />
 
 <center><font color="red">图10 光源曲线图（中心线）</font><cebnter>
 
@@ -160,7 +160,7 @@ $$
 
 在介绍纹影法装置的时候，说到**扩束准直镜之后的部分叫做4F系统**。一个经典的纹影光学4F系统，如下图所示：
 
-<img src="ModeDetails.assets/光学4F系统.png" alt="光学4F系统" style="zoom:50%;" />
+<img src="ModelDetails.assets/光学4F系统.png" alt="光学4F系统" style="zoom:50%;" />
 
 <center><font color="red">图11 光学4F系统</font><cebnter>
 
@@ -194,7 +194,7 @@ U_2 (x,y)
 $$
 将[4F系统](#Optical 4F System（光学4F系统）) 中的图像添加上电场的表示，如下图所示：
 
-<img src="ModeDetails.assets/纹影装置电场示意图.png" alt="纹影装置电场示意图" style="zoom:60%;" />
+<img src="ModelDetails.assets/纹影装置电场示意图.png" alt="纹影装置电场示意图" style="zoom:60%;" />
 
 <center><font color="red">图12 纹影装置电场示意图</font><cebnter>
 
@@ -218,7 +218,7 @@ $$
 
 为了更好视觉效果，将纹影法装置中的刀口位置进行放大，见下图：
 
-<img src="ModeDetails.assets/刀口局部示意图.png" alt="刀口局部示意图" style="zoom:70%;" />
+<img src="ModelDetails.assets/刀口局部示意图.png" alt="刀口局部示意图" style="zoom:70%;" />
 
 <center><font color="red">图13 刀口局部示意图</font><cebnter>
 
@@ -275,7 +275,7 @@ $$
 
 针对上述理论，其表现为对于**比波长大得多的孔径和拥有适当的角度**，其衍射的结果是相同的。可以看到孔径衍射经典图如下图所示;
 
-<img src="ModeDetails.assets/孔径衍射示意图.png" alt="孔径衍射示意图" style="zoom:50%;" />
+<img src="ModelDetails.assets/孔径衍射示意图.png" alt="孔径衍射示意图" style="zoom:50%;" />
 
 <center><font color="red">图12 孔径衍射示意图</font><cebnter>
 
@@ -337,7 +337,7 @@ $$
 
 与上式配套的图，如下所示：
 
-<img src="ModeDetails.assets/Fresnel公式示意图.png" alt="image-20200320184150167" style="zoom:80%;" />
+<img src="ModelDetails.assets/Fresnel公式示意图.png" alt="image-20200320184150167" style="zoom:80%;" />
 
 <center><font color="red">图13 Fresnel公式示意图</font><cebnter>
 
@@ -347,7 +347,7 @@ $$
 
 当空气介质折射率为 $n=1$ ，等离子体介质折射率为 $n=1 - 4 * 10^{-3} $ 的时候，得到不同入射角度与反射光强的示意图如下所示：
 
-<img src="ModeDetails.assets/Fresnel.bmp" alt="Fresnel" style="zoom:50%;" />
+<img src="ModelDetails.assets/Fresnel.bmp" alt="Fresnel" style="zoom:50%;" />
 
 <center><font color="red">图14 不同入射角度对应的反射光强示意图</font><cebnter>
 
@@ -442,7 +442,7 @@ $$
 
 先画一个关于函数 $f(x)$ 的函数图，如下图所示：
 
-<img src="ModeDetails.assets/f(x)函数图.png" alt="f(x)函数图" style="zoom:50%;" />
+<img src="ModelDetails.assets/f(x)函数图.png" alt="f(x)函数图" style="zoom:50%;" />
 
 <center><font color="red">图13 <i>f(x)</i>函数图</font><cebnter>
 
@@ -490,7 +490,7 @@ $$
 
 当我们使用**薄透镜**和**傍轴光线**组合的时候，我们可以假设光线穿过透镜的入射点和出射点是相同的，具体的透镜示意图如下图所示：
 
-<img src="ModeDetails.assets/薄透镜示意图.png" alt="薄透镜示意图" style="zoom:80%;" />
+<img src="ModelDetails.assets/薄透镜示意图.png" alt="薄透镜示意图" style="zoom:80%;" />
 
 <center><font color="red">图14 薄透镜示意图</font><cebnter>
 
@@ -506,11 +506,11 @@ $$
 $$
 当光线穿过薄透镜时，对应的**薄透镜两边**分别等效为下面的切面图：
 
-![薄透镜示意图(左边)](ModeDetails.assets/薄透镜示意图(左边).png)
+![薄透镜示意图(左边)](ModelDetails.assets/薄透镜示意图(左边).png)
 
 <center><font color="red">图15 薄透镜示意图(左边)</font><cebnter>
 
-![薄透镜示意图(右边)](ModeDetails.assets/薄透镜示意图(右边).png)
+![薄透镜示意图(右边)](ModelDetails.assets/薄透镜示意图(右边).png)
 
 <center><font color="red">图16 薄透镜示意图(右边)</font><cebnter>
 
@@ -536,7 +536,7 @@ $$
 
 现在从左视图或者透视图想一下透镜，可以参看下面的图：
 
-![薄透镜左（右）视图](ModeDetails.assets/薄透镜左（右）视图.png)
+![薄透镜左（右）视图](ModelDetails.assets/薄透镜左（右）视图.png)
 
 <center><font color="red">图17 薄透镜左（右）视图</font><cebnter>
 
@@ -668,7 +668,7 @@ $$
 $$
 上面的这个公式会在[透镜的相位变化理论](#Lens Phase Change Theory（透镜的相位变化理论）)中使用到，示意图参见下图：
 
-<img src="ModeDetails.assets/Lensmaker’s Equation.png" alt="Lensmaker’s Equation" style="zoom:50%;" />
+<img src="ModelDetails.assets/Lensmaker’s Equation.png" alt="Lensmaker’s Equation" style="zoom:50%;" />
 
 <center><font color="red">图17 Lensmaker’s Equation</font><cebnter>
 
@@ -690,7 +690,7 @@ $$
 
 首先，我们从一个透镜开始看，下图是一个**典型的薄凸透镜**：
 
-<img src="ModeDetails.assets/薄凸透镜.png" alt="薄凸透镜" style="zoom:50%;" />
+<img src="ModelDetails.assets/薄凸透镜.png" alt="薄凸透镜" style="zoom:50%;" />
 
 <center><font color="red">图12 薄凸透镜</font><cebnter>
 
@@ -1230,7 +1230,7 @@ $$
 
 仿真的时候，需要设置**圆柱形玻璃的焦距**，此时可以重新将光线穿过圆柱形玻璃的情况绘制如下图所示：
 
-<img src="ModeDetails.assets/圆柱形玻璃光线传输示意图.png" alt="圆柱形玻璃光线传输示意图" style="zoom:80%;" />
+<img src="ModelDetails.assets/圆柱形玻璃光线传输示意图.png" alt="圆柱形玻璃光线传输示意图" style="zoom:80%;" />
 
 <center><font color="red">图28 圆柱形玻璃光线传输示意图</font><cebnter>
 
@@ -1312,12 +1312,48 @@ $$
 所以，焦距 $f$ 的公式可以化简为：
 $$
 f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R}
+\\ 
+= \frac{\mathsf{R}  n(glass)}{2 n(air) - 2 n(glass)}
+\\
+= \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
 $$
 其中，上式的变量空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ ，圆柱形玻璃的半径R，都可以获得。
 
 所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的**焦距是负数**，属于一个发散透镜，即凹透镜。
 
+注：在计算的时候我们需要保证计算出来的焦距是一个正数，方便进行仿真计算。
+
 由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的**球面相差**。
+
+
+
+
+
+### Glass Capillary focal length（毛细血管形玻璃管焦距）
+
+>推导玻璃管的焦距，进行仿真计算的焦距求解。
+
+基于 [圆柱形玻璃焦距](#Cylindrical glass focal length（圆柱形玻璃焦距）) ，得到**圆柱形玻璃的焦距公式**为：
+$$
+f = \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
+$$
+其中，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，R是圆柱形玻璃的半径。
+
+当 $n(glass) = 1.5$ ， $R = 0.8mm$ ，$n(air) = 1$  时，可以得到其焦距为：
+$$
+f = 1.2 mm
+$$
+其圆柱形玻璃的半径与[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 的半径相等，但是圆柱形玻璃的焦距比圆柱形等离子体的焦距小很多。
+
+所以我们可以使用一个厚度远远小于其外径的玻璃管作为测试对象，得到示意图如下所示：
+
+
+
+<center><font color="red">图28 毛细血管形玻璃管光线传播示意图</font><cebnter>
+
+
+
+
 
 
 
@@ -1342,7 +1378,7 @@ $$
 
 我们假设被测对象等离子体可以等效为一个**圆柱体**（当然实验中是不可能出现的），并且此时的等离子体柱表面不会反射大量的光线（保证足够的光可以进入柱体内部），当光线通过等离子体柱的时候，其相位才会发生变化。
 
-<img src="ModeDetails.assets/圆柱形等离子体.png" alt="圆柱形等离子体" style="zoom:70%;" />
+<img src="ModelDetails.assets/圆柱形等离子体.png" alt="圆柱形等离子体" style="zoom:70%;" />
 
 <center><font color="red">图13 圆柱形等离子体</font><cebnter>
 
@@ -1609,7 +1645,7 @@ $$
 
 基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
 
-![纹影法主图](ModeDetails.assets/纹影法主图.png)
+![纹影法主图](ModelDetails.assets/纹影法主图.png)
 
 <center><font color="red">图14 纹影法主装置</font><cebnter>
 
@@ -1666,31 +1702,31 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光源图像**：
 
-<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图15 光源三维图像</font><cebnter>
 
 
-<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图16 光源中心线强度图</font><cebnter>
 
 
 **纹影图像**：
 
-<img src="ModeDetails.assets/SchlierenMesh.bmp" alt="SchlierenMesh" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenMesh.bmp" alt="SchlierenMesh" style="zoom:50%;" />
 
 <center><font color="red">图17 纹影图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPlot.bmp" alt="SchlierenPlot" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot.bmp" alt="SchlierenPlot" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPlot1.bmp" alt="SchlierenPlot1 " style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot1.bmp" alt="SchlierenPlot1 " style="zoom:50%;" />
 
-<img src="ModeDetails.assets/SchlierenPlot2.bmp" alt="SchlierenPlot2" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot2.bmp" alt="SchlierenPlot2" style="zoom:50%;" />
 
 <center><font color="red">图18 纹影中心曲线图（放大版）</font><cebnter>
 
@@ -1757,19 +1793,19 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 当 $n2 = 1 - 4 * 10^{-4}$ 时：
 
-<img src="ModeDetails.assets/Schlieren0.9996.bmp" alt="Schlieren0.9996" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren0.9996.bmp" alt="Schlieren0.9996" style="zoom:50%;" />
 
 <center><font color="red">图19 纹影图像（0.9996）</font><cebnter>
 
 当 $n2 = 1 - 4 * 10^{-3}$ 时：
 
-<img src="ModeDetails.assets/Schlieren0.9960.bmp" alt="Schlieren0.9960" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren0.9960.bmp" alt="Schlieren0.9960" style="zoom:50%;" />
 
 <center><font color="red">图20 纹影图像（0.9960）</font><cebnter>
 
 当 $n2 = 1 - 4 * 10^{-2}$ 时：
 
-<img src="ModeDetails.assets/Schlieren0.9600.bmp" alt="Schlieren0.9600" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren0.9600.bmp" alt="Schlieren0.9600" style="zoom:50%;" />
 
 <center><font color="red">图21 纹影图像（0.9600）</font><cebnter>
 
@@ -1824,19 +1860,19 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 当 $r = 0.6 e-3$ 时：
 
-<img src="ModeDetails.assets/Schlieren0.6mm.bmp" alt="Schlieren0.6mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren0.6mm.bmp" alt="Schlieren0.6mm" style="zoom:50%;" />
 
 <center><font color="red">图22 纹影图像（0.6）</font><cebnter>
 
 当 $r = 0.8  e-3$ 时：
 
-<img src="ModeDetails.assets/Schlieren0.8mm.bmp" alt="Schlieren0.8mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren0.8mm.bmp" alt="Schlieren0.8mm" style="zoom:50%;" />
 
 <center><font color="red">图23 纹影图像（0.8）</font><cebnter>
 
 当 $r = 1 e-3$ 时：
 
-<img src="ModeDetails.assets/Schlieren1mm.bmp" alt="Schlieren1mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/Schlieren1mm.bmp" alt="Schlieren1mm" style="zoom:50%;" />
 
 <center><font color="red">图24 纹影图像（1）</font><cebnter>
 **分析**：
@@ -1892,31 +1928,31 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 当 $p = 0.1 e-3$ 时：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.1mm.bmp" alt="SchlierenPhotoconductiveDetector0.1mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector0.1mm.bmp" alt="SchlierenPhotoconductiveDetector0.1mm" style="zoom:50%;" />
 
 <center><font color="red">图24 光电探测器图像（0.1）</font><cebnter>
 
 当 $p = 0.2 e-3$ 时：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.2mm.bmp" alt="SchlierenPhotoconductiveDetector0.2mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector0.2mm.bmp" alt="SchlierenPhotoconductiveDetector0.2mm" style="zoom:50%;" />
 
 <center><font color="red">图24 光电探测器图像（0.2）</font><cebnter>
 
 当 $p = 0.3 e-3$ 时：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector0.3mm.bmp" alt="SchlierenPhotoconductiveDetector0.3mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector0.3mm.bmp" alt="SchlierenPhotoconductiveDetector0.3mm" style="zoom:50%;" />
 
 <center><font color="red">图24 光电探测器图像（0.3）</font><cebnter>
 
 当 $p = 4 e-3$ 时：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector4mm.bmp" alt="SchlierenPhotoconductiveDetector4mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector4mm.bmp" alt="SchlierenPhotoconductiveDetector4mm" style="zoom:50%;" />
 
 <center><font color="red">图24 光电探测器图像（4）</font><cebnter>
 
 当 $p = 5 e-3$ 时：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector5mm.bmp" alt="SchlierenPhotoconductiveDetector5mm" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector5mm.bmp" alt="SchlierenPhotoconductiveDetector5mm" style="zoom:50%;" />
 
 <center><font color="red">图24 光电探测器图像（5）</font><cebnter>
 
@@ -2000,18 +2036,18 @@ grid on;
 
 基于主代码，将探测器表示的代码添加在其后面，可以得到**光电探测器的强度图**如下所示：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector.bmp" alt="SchlierenPhotoconductiveDetector" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector.bmp" alt="SchlierenPhotoconductiveDetector" style="zoom:50%;" />
 
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1.bmp" alt="SchlierenPhotoconductiveDetectorPlot1" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot1.bmp" alt="SchlierenPhotoconductiveDetectorPlot1" style="zoom:50%;" />
 
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2.bmp" alt="SchlierenPhotoconductiveDetectorPlot2" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2.bmp" alt="SchlierenPhotoconductiveDetectorPlot2" style="zoom:50%;" />
 
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
@@ -2042,7 +2078,7 @@ grid on;
 
 可以得到**模糊圆柱形等离子体的模型图**：
 
-<img src="ModeDetails.assets/模糊圆柱形等离子体的模型图.png" alt="模糊圆柱形等离子体的模型图" style="zoom:80%;" />
+<img src="ModelDetails.assets/模糊圆柱形等离子体的模型图.png" alt="模糊圆柱形等离子体的模型图" style="zoom:80%;" />
 
 <center><font color="red">图25 模糊圆柱形等离子体的模型图</font><cebnter>
 
@@ -2419,7 +2455,7 @@ $$
 
 基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
 
-<img src="ModeDetails.assets/纹影法主装置-FuzzyPlasmaCylinder.png" alt="纹影法主装置-FuzzyPlasmaCylinder" style="zoom:50%;" />
+<img src="ModelDetails.assets/纹影法主装置-FuzzyPlasmaCylinder.png" alt="纹影法主装置-FuzzyPlasmaCylinder" style="zoom:50%;" />
 
 <center><font color="red">图26 纹影法主装置</font><cebnter>
 
@@ -2481,52 +2517,52 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光源图像**：
 
-<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图27 光源三维图像</font><cebnter>
 
 
 
-<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图28 光源中心线强度图</font><cebnter>
 
 
 **纹影图像**：
 
-<img src="ModeDetails.assets/SchlierenMesh-Fuzzy.bmp" alt="SchlierenMesh-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenMesh-Fuzzy.bmp" alt="SchlierenMesh-Fuzzy" style="zoom:50%;" />
 
 <center><font color="red">图29 纹影图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPlot-Fuzzy.bmp" alt="SchlierenPlot-Fuzzy " style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot-Fuzzy.bmp" alt="SchlierenPlot-Fuzzy " style="zoom:50%;" />
 
 <center><font color="red">图30 纹影中心曲线图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPlot1-Fuzzy.bmp" alt="SchlierenPlot1-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot1-Fuzzy.bmp" alt="SchlierenPlot1-Fuzzy" style="zoom:50%;" />
 
 
 
-<img src="ModeDetails.assets/SchlierenPlot2-Fuzzy.bmp" alt="SchlierenPlot2-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot2-Fuzzy.bmp" alt="SchlierenPlot2-Fuzzy" style="zoom:50%;" />
 
 <center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
 
 
 **光电探测器图像**：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetector-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetector-Fuzzy" style="zoom:50%;" />
 
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Fuzzy" style="zoom:50%;" />
 
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Fuzzy" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Fuzzy.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Fuzzy" style="zoom:50%;" />
 
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
@@ -2554,7 +2590,7 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 具体的展示图，如下所示：
 
-<img src="ModeDetails.assets/圆柱形玻璃示意图.png" alt="image-20200323224710251" style="zoom:80%;" />
+<img src="ModelDetails.assets/圆柱形玻璃示意图.png" alt="image-20200323224710251" style="zoom:80%;" />
 
 <center><font color="red">图28 圆柱形玻璃示意图</font><cebnter>
 
@@ -2568,7 +2604,7 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 基于 [圆柱形玻璃焦距](#Cylindrical glass focal length（圆柱形玻璃焦距）) ，得到**圆柱形玻璃的焦距公式**为：
 $$
-f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R}
+f = \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
 $$
 其中，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，R是圆柱形玻璃的半径。
 
@@ -2719,10 +2755,14 @@ $$
   %% Glass Cylinder
   
   % Glass Cylinder diameter and focal length
-  % Set d = 1.5e-3, fglass = 62.5e-3
-  % Variable dglass, r, fglass, k
+  % Set d = 1.5e-3, fglass used Cylindrical glass focal length
+  % Variable dglass, r, fglass, k, fglass > 0
+  nglass = 1.5;
+  nair = 1.0002967;
   dglass = 1.6e-3;
+  
   r = dglass / 2;
+  % fglass = - (r * nglass) / ( 2 * (nair - nglass));
   fglass = 62.5e-3;
   k = 2 * pi / lambda;
   
@@ -2862,7 +2902,7 @@ $$
 
 基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
 
-<img src="ModeDetails.assets/纹影法主装置-GlassCylinder.png" alt="image-20200326215425272" style="zoom:80%;" />
+<img src="ModelDetails.assets/纹影法主装置-GlassCylinder.png" alt="image-20200326215425272" style="zoom:80%;" />
 
 <center><font color="red">图26 纹影法主装置</font><cebnter>
 
@@ -2884,7 +2924,7 @@ $$
 在仿真的时候，设置**光源的信息**如下：
 
 ```matlab
-L0 = 5e-3;  % 光源电场范围 5 m x 5mm
+L0 = 5e-3;  % 光源电场范围 5 mm x 5mm
 Nx = 4096 + 1;  % x 方向采样 4097个点，奇数点有利于ifftshift
 Ny = 1024 + 1;  % y 方向采样 1025个点
 sigma_r = 1e-3;  % 激光束标准差
@@ -2894,8 +2934,13 @@ lambda = 532e-9;  % 激光束为绿光
 **圆柱形玻璃的信息**如下：
 
 ```matlab
+nglass = 1.5;  % 玻璃的折射率
+nair = 1.0002967;  % 空气的折射率
 dglass = 1.6e-3;  % 圆柱形玻璃的直径
+
 r = dglass / 2;  % 圆柱形玻璃的半径
+fglass= (r * nglass) / ( 2 * (nair - nglass));  % 圆柱形玻璃的焦距
+k = 2 * pi / lambda;  % 波数
 fglass = 62.5e-3;  % 圆柱形玻璃的焦距
 ```
 
@@ -2922,14 +2967,14 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光源图像**：
 
-<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图27 光源三维图像</font><cebnter>
 
 
 
 
-<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图28 光源中心线强度图</font><cebnter>
 
@@ -2937,21 +2982,21 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **纹影图像**：
 
-<img src="ModeDetails.assets/SchlierenMesh-Glass.bmp" alt="SchlierenMesh-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenMesh-Glass.bmp" alt="SchlierenMesh-Glass" style="zoom:50%;" />
 
 <center><font color="red">图29 纹影图</font><cebnter>
 
 
 
-<img src="ModeDetails.assets/SchlierenPlot-Glass.bmp" alt="SchlierenPlot-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot-Glass.bmp" alt="SchlierenPlot-Glass" style="zoom:50%;" />
 
 <center><font color="red">图30 纹影中心曲线图</font><cebnter>
 
-<img src="ModeDetails.assets/SchlierenPlot1-Glass.bmp" alt="SchlierenPlot1-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot1-Glass.bmp" alt="SchlierenPlot1-Glass" style="zoom:50%;" />
 
 
 
-<img src="ModeDetails.assets/SchlierenPlot2-Glass.bmp" alt="SchlierenPlot2-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPlot2-Glass.bmp" alt="SchlierenPlot2-Glass" style="zoom:50%;" />
 
 <center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
 
@@ -2959,19 +3004,19 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光电探测器图像**：
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetector-Glass.bmp" alt="SchlierenPhotoconductiveDetector-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector-Glass.bmp" alt="SchlierenPhotoconductiveDetector-Glass" style="zoom:50%;" />
 
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Glass" style="zoom:50%;" />
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
 
-<img src="ModeDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Glass" style="zoom:50%;" />
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
 
@@ -2985,9 +3030,25 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 
 
-### Glass Capillary（毛细血管形玻璃）
+### Glass Capillary（毛细血管形玻璃管）
 
 > 使用毛细血管形玻璃作为仿真对象，主要是想通过这种方式实现类似于模拟模糊圆柱形等离子体，但是由于模糊圆柱形等离子体的形状无法保证，所以我们更换对象为毛细血管形玻璃，方便我们进行仿真与实验的对比。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3034,14 +3095,14 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光源图像**：
 
-<img src="ModeDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeam.bmp" alt="GaussianBeam" style="zoom:50%;" />
 
 <center><font color="red">图27 光源三维图像</font><cebnter>
 
 
 
 
-<img src="ModeDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
+<img src="ModelDetails.assets/GaussianBeamPlot.bmp" alt="GaussianBeamPlot " style="zoom:50%;" />
 
 <center><font color="red">图28 光源中心线强度图</font><cebnter>
 
@@ -3426,15 +3487,15 @@ CFD-POST是ANSYS CFD的御用后处理器，其来源于CFX-POST，具有强大�
 
 下面展示的是一部分网络上刀口的图片。
 
-![刀口1](ModeDetails.assets/The-LED-light-source-is-shaped-into-a-vertical-slit-positioned-just-in-front-of-the.png)
+![刀口1](ModelDetails.assets/The-LED-light-source-is-shaped-into-a-vertical-slit-positioned-just-in-front-of-the.png)
 
 <center><font color="red">刀口1</font><cebnter>
 
-<img src="ModeDetails.assets/schileren-systems-3-683x1024.jpg" alt="刀口2" style="zoom:50%;" />
+<img src="ModelDetails.assets/schileren-systems-3-683x1024.jpg" alt="刀口2" style="zoom:50%;" />
 
 <center><font color="red">刀口2</font><cebnter>
 
-![刀口3](ModeDetails.assets/SchlierenLens.jpg)
+![刀口3](ModelDetails.assets/SchlierenLens.jpg)
 
 <center><font color="red">刀口3</font><cebnter>
 

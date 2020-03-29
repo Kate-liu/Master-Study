@@ -56,8 +56,12 @@ imagesc(U0);
 % Glass Cylinder diameter and focal length
 % Set d = 1.5e-3, fglass = 62.5e-3
 % Variable dglass, r, fglass, k
+nglass = 1.5;
+nair = 1.0002967;
 dglass = 1.6e-3;
+
 r = dglass / 2;
+% fglass = - (r * nglass) / ( 2 * (nair - nglass));
 fglass = 62.5e-3;
 k = 2 * pi / lambda;
 
