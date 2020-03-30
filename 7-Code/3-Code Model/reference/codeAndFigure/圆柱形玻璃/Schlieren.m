@@ -61,7 +61,7 @@ nair = 1.0002967;
 dglass = 1.6e-3;
 
 r = dglass / 2;
-% fglass = - (r * nglass) / ( 2 * (nair - nglass));
+% fglass = (r * nglass) / ( 2 * ( nglass - nair ));
 fglass = 62.5e-3;
 k = 2 * pi / lambda;
 

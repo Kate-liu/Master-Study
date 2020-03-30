@@ -1227,12 +1227,17 @@ $$
 ### Cylindrical glass focal length（圆柱形玻璃焦距）
 
 > 将圆柱形玻璃等效为近轴近似的透镜，求解其焦距表达式。
+>
+> 为了补充说明，推导了等离子体圆柱形的焦距，参见：[圆柱形等离子体焦距](#Cylindrical plasma focal length（圆柱形等离子体焦距）)。
 
 仿真的时候，需要设置**圆柱形玻璃的焦距**，此时可以重新将光线穿过圆柱形玻璃的情况绘制如下图所示：
 
 <img src="ModelDetails.assets/圆柱形玻璃光线传输示意图.png" alt="圆柱形玻璃光线传输示意图" style="zoom:80%;" />
 
 <center><font color="red">图28 圆柱形玻璃光线传输示意图</font><cebnter>
+>视觉角度：俯视图。
+>
+>图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
 
 由于，我们假设的被测对象是圆柱形玻璃，那么其具有对称和均匀折射率等特性，圆柱可以等效为是近轴近似的透镜。
 
@@ -1244,7 +1249,7 @@ $$
 $$
 \alpha \cdot n(air) = \beta \cdot n(glass)
 $$
-其中，$\alpha$为与光轴平行的光线入射圆柱形玻璃的入射角，$\beta$为对应的出射角，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，其中 $n(air) \approx 1 > n(glass)$ 。
+其中，$\alpha$为与光轴平行的光线入射圆柱形玻璃的入射角，$\beta$为对应的出射角，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，其中 $n(air) \approx 1 < n(glass)$ 。
 
 从[格拉斯通-戴尔公式](#Gladstone-Dale Formula（格拉斯通-戴尔公式）) 中，可以知道标准状态下空气对可见光的折射率$n(air)$ 约为$1.0002967$ 。
 
@@ -1264,19 +1269,17 @@ $$
 
 根据三角形角度关系，可得出射玻璃柱的光线与主光轴的夹角 $\delta$ 为：
 $$
-\delta= 180^\circ - \alpha - (180^\circ - \gamma)= \gamma - \alpha= 2 \beta - 2 \alpha
+\delta= 180^\circ - \gamma - (180^\circ - \alpha)=  \alpha - \gamma = 2 \alpha - 2 \beta
 $$
 综上，可以得到 $\mathsf{Z}'$ 为：
 $$
-\mathsf{Z}' = \frac{\mathsf{X}'}{tan(\delta)}= \frac{\mathsf{R} \cdot \gamma}{\delta}= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}
-$$
-基于三角形关系，可以得到$\mathsf{Z}''$ 为：
-$$
-\mathsf{Z}''= \sqrt{\mathsf{R}^2 - (\mathsf{X}')^2}= \sqrt{\mathsf{R}^2 - ( \mathsf{R} \cdot \gamma)^2}= \mathsf{R} \sqrt{1 - \gamma^2}= \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+\mathsf{Z}' = \frac{\mathsf{X}'}{tan(\delta)}= \frac{\mathsf{R} \cdot \gamma}{\delta}= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \alpha - 2 \beta}
 $$
 将整个玻璃柱看成是一个透镜，可以得到其焦距 $f$ 相对于中心点为:
 $$
-f = \mathsf{Z}' - \mathsf{Z}''= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+f = \mathsf{Z}' + R = \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \alpha - 2 \beta}  - R
+\\
+= \frac{\mathsf{R} \cdot \alpha}{2 \alpha - 2 \beta}
 $$
 已知入射角$\alpha$，出射角$\beta$，空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ 的关系式：
 $$
@@ -1288,7 +1291,87 @@ $$
 $$
 将其带入焦距 $f$ 的公式，得到：
 $$
-f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+f = \frac{\mathsf{R} \cdot  n(glass)}{2 n(glass) - 2 n(air)}
+$$
+其中，上式的变量空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ ，圆柱形玻璃的半径R，都可以获得。
+
+所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的**焦距是正数**，属于一个聚焦透镜，即凸透镜。
+
+由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的**球面相差**。
+
+
+
+
+
+### Cylindrical plasma focal length（圆柱形等离子体焦距）
+
+> 本块内容做圆柱形玻璃焦距内容补充，主要想表达当光线穿过区域的折射率小于空气折射率的时候，对应的焦距表达方式。
+
+基于圆柱形等离子体的光线传播图进行相应的推导，如下图所示：
+
+<img src="ModelDetails.assets/圆柱形等离子体光线传输示意图.png" alt="圆柱形等离子体光线传输示意图" style="zoom:80%;" />
+
+<center><font color="red">图28 圆柱形等离子体光线传输示意图</font><cebnter>
+
+>视觉角度：俯视图。
+>
+>图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
+
+由于，我们假设的被测对象是圆柱形等离子体，那么其具有对称和均匀折射率等特性，圆柱可以等效为是近轴近似的透镜。
+
+假设光线进入圆柱形等离子体的入射角度$\alpha$和出射角度$\beta$很小。根据折射定律：折射介质折射率与折射角正弦之积等于入射介质折射率与入射角正弦之积，得到:
+$$
+sin(\alpha) \cdot n(air) = sin(\beta) \cdot n(plasma)
+$$
+也即：
+$$
+\alpha \cdot n(air) = \beta \cdot n(plasma)
+$$
+其中，$\alpha$为与光轴平行的光线入射圆柱形等离子体的入射角，$\beta$为对应的出射角，$n(air)$ 环境中空气的折射率，$n(plasma)$ 为圆柱形等离子体的折射率，其中 $n(air) \approx 1 > n(plasma)$ 。
+
+从[格拉斯通-戴尔公式](#Gladstone-Dale Formula（格拉斯通-戴尔公式）) 中，可以知道标准状态下空气对可见光的折射率$n(air)$ 约为$1.0002967$ 。
+
+根据三角形角度关系，可得角度 $\gamma$ 为：
+$$
+\gamma = 180^\circ - \alpha - (180^\circ - 2 \beta)= 2 \beta - \alpha
+$$
+出射圆柱形等离子体的光线与玻璃柱的交点，距离主光轴的高度 $\mathsf{X}'$ 可以表示：
+$$
+\mathsf{X}' = \mathsf{R} \cdot tan(\gamma )
+$$
+当角度 $\gamma$ 很小的时候，高度 $\mathsf{X}'$ 为：
+$$
+\mathsf{X}' = \mathsf{R} \cdot \gamma
+$$
+其中，R为圆柱形等离子体的半径。
+
+根据三角形角度关系，可得出射等离子体柱的光线与主光轴的夹角 $\delta$ 为：
+$$
+\delta= 180^\circ - \alpha - (180^\circ - \gamma)= \gamma - \alpha= 2 \beta - 2 \alpha
+$$
+综上，可以得到 $\mathsf{Z}'$ 为：
+$$
+\mathsf{Z}' = \frac{\mathsf{X}'}{tan(\delta)}= \frac{\mathsf{R} \cdot \gamma}{\delta}= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}
+$$
+基于三角形关系，可以得到$\mathsf{Z}''$ 为：
+$$
+\mathsf{Z}''= \sqrt{\mathsf{R}^2 - (\mathsf{X}')^2}= \sqrt{\mathsf{R}^2 - ( \mathsf{R} \cdot \gamma)^2}= \mathsf{R} \sqrt{1 - \gamma^2}= \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+$$
+将整个等离子体柱看成是一个透镜，可以得到其焦距 $f$ 相对于中心点为:
+$$
+f = \mathsf{Z}' - \mathsf{Z}''= \frac{\mathsf{R} \cdot (2 \beta - \alpha)}{2 \beta - 2 \alpha}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
+$$
+已知入射角$\alpha$，出射角$\beta$，空气的折射率$n(air)$ ，圆柱形等离子体的折射率$n(plasma)$ 的关系式：
+$$
+\alpha \cdot n(air) = \beta \cdot n(plasma)
+$$
+写成分式形式：
+$$
+\frac{\alpha}{\beta}=\frac{n(plasma)}{ n(air)}
+$$
+将其带入焦距 $f$ 的公式，得到：
+$$
+f = \frac{\mathsf{R} \cdot (2 n(air) - n(plasma))}{2 n(air) - 2 n(plasma)}  - \mathsf{R} \sqrt{1 - (2 \beta - \alpha)^2}
 $$
 由[泰勒展开式线性近似理论](#Taylor's expansion linear approximation theory（泰勒展开式线性近似理论）)对应的**函数线性近似表达式**为：
 $$
@@ -1311,19 +1394,17 @@ $$
 
 所以，焦距 $f$ 的公式可以化简为：
 $$
-f = \frac{\mathsf{R} \cdot (2 n(air) - n(glass))}{2 n(air) - 2 n(glass)}  - \mathsf{R}
-\\ 
-= \frac{\mathsf{R}  n(glass)}{2 n(air) - 2 n(glass)}
-\\
-= \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
+f = \frac{\mathsf{R} \cdot (2 n(air) - n(plasma))}{2 n(air) - 2 n(plasma)}  - \mathsf{R}\\ = \frac{\mathsf{R}  n(plasma)}{2 n(air) - 2 n(plasma)}\\= \frac{\mathsf{R}  n(plasma)}{2 (n(air) - n(plasma))}
 $$
-其中，上式的变量空气的折射率$n(air)$ ，圆柱形玻璃的折射率$n(glass)$ ，圆柱形玻璃的半径R，都可以获得。
+其中，上式的变量空气的折射率$n(air)$ ，圆柱形等离子体的折射率$n(plasma)$ ，圆柱形等离子体的半径R，都可以获得。
 
-所以，我们可以知道玻璃圆柱的焦距只取决于玻璃圆柱的折射率和直径。并且此时的**焦距是负数**，属于一个发散透镜，即凹透镜。
+所以，我们可以知道等离子体圆柱的焦距只取决于等离子体圆柱的折射率和直径。并且此时的**焦距是负数**，属于一个发散透镜，即凹透镜。
 
 注：在计算的时候我们需要保证计算出来的焦距是一个正数，方便进行仿真计算。
 
-由于玻璃圆柱并不是一个完美的透镜，实际实验中会观察到大量的**球面相差**。
+由于等离子体圆柱并不是一个完美的透镜，实际实验中会观察到大量的**球面相差**。
+
+
 
 
 
@@ -1335,7 +1416,7 @@ $$
 
 基于 [圆柱形玻璃焦距](#Cylindrical glass focal length（圆柱形玻璃焦距）) ，得到**圆柱形玻璃的焦距公式**为：
 $$
-f = \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
+f = \frac{\mathsf{R} \cdot  n(glass)}{2 n(glass) - 2 n(air)}
 $$
 其中，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，R是圆柱形玻璃的半径。
 
@@ -1343,13 +1424,69 @@ $$
 $$
 f = 1.2 mm
 $$
-其圆柱形玻璃的半径与[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 的半径相等，但是圆柱形玻璃的焦距比圆柱形等离子体的焦距小很多。
+其圆柱形玻璃的半径与[圆柱形等离子体](#Plasma Cylinder（圆柱形等离子体）) 的半径相等，但是圆柱形玻璃的焦距比圆柱形等离子体的焦距小很多，并不适合作为我们的实验目标。
 
 所以我们可以使用一个厚度远远小于其外径的玻璃管作为测试对象，得到示意图如下所示：
 
-
+<img src="ModelDetails.assets/毛细血管形玻璃管光线传播示意图.png" alt="毛细血管形玻璃管光线传播示意图" style="zoom:80%;" />
 
 <center><font color="red">图28 毛细血管形玻璃管光线传播示意图</font><cebnter>
+
+>视觉角度：俯视图。
+>
+>图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
+
+上图显示的是玻璃管中光线的示意图，其中玻璃管的内外直径之间满足下面的关系：
+$$
+r_{big} \gg r_{big} - r_{small}
+$$
+当光线经过玻璃管之后，光线拥有一个发散的角度，从图上可以看到角度的关系有：
+$$
+\beta < a'
+$$
+其中， $\beta$ 是光线入射到玻璃管之后的折射角， $a'$ 是玻璃管壁中的光线入射进玻璃管中的入射角度。
+
+所以，我们可以得到光线在玻璃管内传播并不是平行光，而是一个发散的，在最终出射玻璃管之后，一定是一个发散的，那么我们的玻璃管就等效为一个凹透镜，最终的光线会散焦。
+
+由于直接使用光线的几何方式计算，只会越计算越复杂，类似于相机的发散镜头设计，我们将整个玻璃管分成为两半，这两部分由两个玻璃透镜组成，其中两个透镜之间的距离假设为 $s = 2 * r_{small}$ ，从[透镜制造方程](#Lensmaker's Equation（透镜制造方程）) 中，我们可以得到分成两部分透镜的焦距表达式：
+$$
+\frac{1}{f}
+\approx 
+(n-1)[\frac{1}{R_1} - \frac{1}{R_2} ]
+$$
+可以将两个透镜组成一个**相对较薄的光学系统**，表达式如下所示：
+$$
+\frac{1}{f_{res}} =
+\frac{1}{f_1} + \frac{1}{f_2}
+- \frac{f_1 + f_2 - s}{f_1 f_2}
+$$
+其中， $f_{res}$ 表示光学系统的焦距，$f_1$ 表示左半部分焦距，$f_2$ 表示右半部分焦距。
+
+其中，左半部分和右半部分的焦距表示为：
+$$
+\frac{1}{f_1}
+=
+(n-1)[\frac{1}{r_{big}} - \frac{1}{r_{small}} ]
+
+\\
+
+\frac{1}{f_2}
+=
+-(n-1)[\frac{1}{r_{big}} - \frac{1}{r_{small}} ]
+$$
+所以，可以得到 $f_{res}$ 为：
+$$
+f_{res} 
+= \frac{f_1^2}{2 * f_1 - s}
+= \frac{f_1^2}{2 * f_1 - 2 * r_{small}}
+$$
+此时的焦距比圆柱形玻璃的焦距长很多，更适合作为实验的目标。
+
+
+
+
+
+
 
 
 
@@ -2604,7 +2741,7 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 基于 [圆柱形玻璃焦距](#Cylindrical glass focal length（圆柱形玻璃焦距）) ，得到**圆柱形玻璃的焦距公式**为：
 $$
-f = \frac{\mathsf{R}  n(glass)}{2 (n(air) - n(glass))}
+f = \frac{\mathsf{R} \cdot  n(glass)}{2 n(glass) - 2 n(air)}
 $$
 其中，$n(air)$ 环境中空气的折射率，$n(glass)$ 为圆柱形玻璃的折射率，R是圆柱形玻璃的半径。
 
@@ -2762,7 +2899,7 @@ $$
   dglass = 1.6e-3;
   
   r = dglass / 2;
-  % fglass = - (r * nglass) / ( 2 * (nair - nglass));
+  % fglass = (r * nglass) / ( 2 * ( nglass - nair ));
   fglass = 62.5e-3;
   k = 2 * pi / lambda;
   
