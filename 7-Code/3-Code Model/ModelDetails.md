@@ -1408,8 +1408,6 @@ $$
 
 
 
-
-
 ### Glass Capillary focal length（毛细血管形玻璃管焦距）
 
 >推导玻璃管的焦距，进行仿真计算的焦距求解。
@@ -1474,7 +1472,7 @@ $$
 =
 -(n-1)[\frac{1}{r_{big}} - \frac{1}{r_{small}} ]
 $$
-所以，可以得到 $f_{res}$ 为：
+所以，可以得到整个光学系统的焦距 $f_{res}$ 为：
 $$
 f_{res} 
 = \frac{f_1^2}{2 * f_1 - s}
@@ -1813,7 +1811,7 @@ lambda = 532e-9;  % 激光束为绿光
 **等离子柱的信息**如下：
 
 ```matlab
-r = 0.8e-3;  % 等离子体柱的半径
+r = 0.8e-3;  % 等离子体柱的半径，所有的仿真对于外半径的取值都是0.8mm
 n1 = 1;  % 空气的折射率
 n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
 ```
@@ -2625,7 +2623,7 @@ lambda = 532e-9;  % 激光束为绿光
 **等离子柱的信息**如下：
 
 ```matlab
-ra = 0.8e-3;  % 等离子体 和 等离子体和空气的混合部分 的半径，当大于此半径之后，就可以全部认为是空气
+ra = 0.8e-3;  % 等离子体 和 等离子体和空气的混合部分 的半径，当大于此半径之后，就可以全部认为是空气，所有的仿真对于外半径的取值都是0.8mm
 rp = 0.7 * ra;  % 等离子体 的半径，小于此半径的区域，认为全部是等离子体，目前取等离子体 和 等离子体和空气的混合部分 的半径 的0.7。
 n1 = 1;  % 空气的折射率
 n2 = 1 - 4 * 10^(-3);  % 等离子体的折射率
@@ -3073,10 +3071,10 @@ lambda = 532e-9;  % 激光束为绿光
 ```matlab
 nglass = 1.5;  % 玻璃的折射率
 nair = 1.0002967;  % 空气的折射率
-dglass = 1.6e-3;  % 圆柱形玻璃的直径
+dglass = 1.6e-3;  % 圆柱形玻璃的直径，
 
-r = dglass / 2;  % 圆柱形玻璃的半径
-fglass= (r * nglass) / ( 2 * (nair - nglass));  % 圆柱形玻璃的焦距
+r = dglass / 2;  % 圆柱形玻璃的半径，所有的仿真对于外半径的取值都是0.8mm
+fglass= (r * nglass) / ( 2 * (nair - nglass));  % 圆柱形玻璃的焦距公式
 k = 2 * pi / lambda;  % 波数
 fglass = 62.5e-3;  % 圆柱形玻璃的焦距
 ```
@@ -3124,11 +3122,9 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图29 纹影图</font><cebnter>
 
 
-
 <img src="ModelDetails.assets/SchlierenPlot-Glass.bmp" alt="SchlierenPlot-Glass" style="zoom:50%;" />
 
 <center><font color="red">图30 纹影中心曲线图</font><cebnter>
-
 <img src="ModelDetails.assets/SchlierenPlot1-Glass.bmp" alt="SchlierenPlot1-Glass" style="zoom:50%;" />
 
 
@@ -3146,14 +3142,12 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
-
 <img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot1-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-Glass" style="zoom:50%;" />
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
-
-<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Glass" style="zoom:50%;" />
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2-Glass.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-Glass" style="zoom:50%;" />![SchlierenMesh-GlassCapillary](ModelDetails.assets/SchlierenMesh-GlassCapillary.bmp)
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
 
@@ -3171,13 +3165,350 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 > 使用毛细血管形玻璃作为仿真对象，主要是想通过这种方式实现类似于模拟模糊圆柱形等离子体，但是由于模糊圆柱形等离子体的形状无法保证，所以我们更换对象为毛细血管形玻璃，方便我们进行仿真与实验的对比。
 
+首先，可以得到实验中使用的毛细血管形玻璃管的示意图，如下所示：
+
+<img src="ModelDetails.assets/毛细血管形玻璃管的示意图.png" alt="毛细血管形玻璃管的示意图" style="zoom:80%;" />
+
+
+<center><font color="red">图28 毛细血管形玻璃管的示意图</font><cebnter>
+
+>视觉角度：俯视图。
+>
+>图示：z轴正方向为光线传播方向，x轴正方向为世界坐标系的水平方向，y轴为世界坐标系的垂直方向。
+
+基于[毛细血管形玻璃管焦距](#Glass Capillary focal length（毛细血管形玻璃管焦距）) ，得到**玻璃管的焦距公式**为：
+$$
+f = \frac{f_1^2}{2 * f_1 - 2 * r_{small}}
+$$
+其中，$r_{small}$ 是毛细血管形玻璃管的内径，$f_1$可以由下面公式得到：
+$$
+\frac{1}{f_1}
+=
+(n-1)[\frac{1}{r_{big}} - \frac{1}{r_{small}} ]
+$$
+ 其中，$n$ 是玻璃的折射率，$r_{big}$ 是毛细血管形玻璃管的外径。
+
+参考[模糊圆柱形等离子体](#Fuzzy Plasma Cylinder（模糊圆柱形等离子体）) 中的推导方式，结合上图，可以得到相移表达式：
+$$
+\Delta_1 (x) =  \sqrt {r_{big}^2 - x^2}
+\\
+\Delta_2 (x) =  \sqrt {r_{small}^2 - x^2}
+$$
+所以，可以获得光线经过毛细血管形玻璃管的相移为：
+$$
+\Delta_z (x) 
+= \Delta_1 (x) - \Delta_2 (x)
+=  \sqrt {r_{big}^2 - x^2} - \sqrt {r_{small}^2 - x^2}
+$$
+将光线穿过毛细血管形玻璃管的所有情况展示如下，属于一个分段函数形式：
+$$
+\Delta \Phi (x)=
+\begin{cases} 
+2k \cdot r_{big}
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+,  |x| \geq r_{big}
+\\
+\\
+2k(r_{big} - \Delta _1(x)) + 2 k_g \Delta_1 (x)
+\quad \quad \quad \quad \quad \quad \quad
+,  r_{big} > |x| \geq r_{small} 
+\\
+\\
+2k(r_{big} - \Delta _z(x)) + 2 k_g \Delta_z (x)
+\quad \quad   \quad \quad  \quad \quad  \quad 
+,  r_{samll} > |x| 
+\end{cases}
+$$
+上式中，$k$ 和 $k_g $ 表示波数，$k = \frac{2 \pi}{\lambda}$ ，$k_g = \frac{2 \pi n_g}{\lambda}$ 。$r_{big}$ 是玻璃管的外径， $r_{small}$ 是玻璃管的内径，$n_g$ 是玻璃的折射率。
+
+此时，基于波动光学知识，可以得到**通过毛细血管形玻璃管后的电场**，为初始激光束乘以等离子柱引起的相移，公式如下所示：
+$$
+U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))
+$$
+上式中， `g(x,y)` 表示激光束在电场中呈高斯分布的光源，由 [激光光源](#Laser Source（激光光源）) 得到。 $t(x,y)$ 反应的是玻璃管影响光源的相位量。 
 
 
 
+#### Main Logic（主逻辑）
+
+基于纹影法装置，按照光的传播方向，将已经知道的**整体内容**整理如下：
+
+- 光源的模型表达式，由 [激光光源](#Laser Source（激光光源）) 得到：$g(x,y)=A(- \exp(\frac {(x-x_0)^2} {2 \sigma _x^2} + \frac {(y-y_0)^2} {2 \sigma _y^2}))$ 。
+- 光线经过等离子体柱之后的电场公式，由[毛细血管形玻璃管](#Glass Capillary（毛细血管形玻璃管）) 得到： $U(x,y) = g(x,y)\cdot t(x,y)= g(x,y) \cdot \exp(i \cdot \Delta \Phi(x))$ 。
+- 光线经过第一个凸透镜的之后，在到达刀口前的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_2^- (x,y) 
+  =
+  \frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
+  {f \lambda}
+  \cdot
+  \iint _{-\infty}^{+\infty}
+  U(\xi, \eta)
+  \exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
+  {f}
+  d \xi d \eta$ ，其中积分部分使用傅里叶变化结算，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
+- 光线经过刀口之后的电场，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $U_2^+ (x,y)  = H(x) \cdot U_2^-  (x,y)$ 。
+- 光线经过第二个凸透镜，到达像平面的电场，由[透镜的傅里叶特性](#Fourier Properties of the lens（透镜的傅里叶特性）) 得到： $U_3 (x,y) 
+  =
+  \frac { 2 \pi}
+  {f_4 \lambda}
+  \cdot
+  \mathcal{F} (U_2^+(x,y))
+  (\frac {k}{f_4} x , \frac {k}{f_4} y )$ ，详细参看 [透镜傅里叶特性的MATLAB表示](#Fourier Properties of the lens in MATLAB（透镜傅里叶特性的MATLAB表示）) 。
+
+> 上面所述中，涉及的**辅助量**如下所示：
+>
+> 1.毛细血管形玻璃管引起的相移变化，由[毛细血管形玻璃管](#Glass Capillary（毛细血管形玻璃管）) 得到：$\Delta \Phi (x)=
+> \begin{cases} 
+> 2k \cdot r_{big}
+> \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+> ,  |x| \geq r_{big}
+> \\
+> \\
+> 2k(r_{big} - \Delta _1(x)) + 2 k_g \Delta_1 (x)
+> \quad \quad \quad \quad \quad \quad \quad
+> ,  r_{big} > |x| \geq r_{small} 
+> \\
+> \\
+> 2k(r_{big} - \Delta _z(x)) + 2 k_g \Delta_z (x)
+> \quad \quad   \quad \quad  \quad \quad  \quad 
+> ,  r_{samll} > |x| 
+> \end{cases}$ 
+>
+> 2.刀口对电场的影响，由[刀口衍射理论](#Knife-edge diffraction theory（刀口衍射理论）)  得到： $H(x) = 
+> \begin{cases} 
+> 0  \quad \quad \quad \quad ，x < 0
+> \\ 
+> 1 \quad \quad \quad \quad ， x \geq 0
+> \end{cases}$ 
+
+接着进行**编码验证**环节，但是我们需要了解MATLAB中的傅里叶变化实现与原理，具体内容查看[MATLAB中的傅里叶变化](#Fourier transform in MATLAB（MATLAB中的傅里叶变化）) 。
 
 
 
+#### Main Code (主代码)
 
+综合上述内容，我们可以进行相应的编码：
+
+- 主代码（SchlierenGlassCapillary.m）：
+
+  ```matlab
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Schlieren MATLAB code
+  % 
+  % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  
+  clear; 
+  clc;  
+  clf;
+  close all;
+  
+  %% Gaussian beam 
+  % Field size and sampling
+  % Set 5 * 5 mm field
+  % Sampling 1024+ pixel
+  L0 = 5e-3;
+  Nx = 4096 + 1;
+  Ny = 1024 + 1;
+  x = L0 * linspace(-1, 1, Nx);  
+  y = L0 * linspace(-1, 1, Ny);
+  [X, Y] = meshgrid(x, y); 
+  
+  
+  % Laser Standard deviation 
+  % Set 1 mm
+  % Variable sigma_r
+  sigma_r = 1e-3;
+  
+  % Wave length
+  % Green
+  % Variable lambda
+  lambda = 532e-9;
+  
+  % Gaussian function with a = A, b = x-scale, c = y-scale, d = laser standard deviation
+  f_gauss2D = @(a,b,c,d) (a .* exp(- ((b.^2 + c.^2) / (2 * ((d).^2)))));
+  U0 = f_gauss2D( 1, X, Y, sigma_r );
+  
+  % Figure
+  figure(1);
+  mesh(X, Y, U0);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(2);
+  plot(x, U0(halfNy, :), 'c');
+  grid on;
+  
+  figure(3);
+  imagesc(U0);
+  
+  %% Glass Capillary
+  
+  % Glass Capillary radius and refraction index
+  % Set n_glass = 1.5
+  % Variable r_small, r_big
+  n_glass = 1.5;
+  r_small = 0.78995e-3;
+  r_big = 0.800e-3;
+  
+  % Calculate Glass Capillary focal lengh
+  % f1 = 1 / ((n_glass -1) * ((1 / r_big) - (1 / r_small)));
+  % focalLenth = f1^2 / (2 * f1 - 2 * r_small);
+  % if r_big = 0.750e-3; focalLenth = 62.5e-3; result r_small = 0.74116e-3; 
+  % if r_big = 0.800e-3; focalLenth = 62.5e-3; result r_small = 0.78995e-3;
+  
+  U1 = GlassCapillary( U0, X, Y, r_big, r_small, n_glass, lambda );
+  
+  
+  % Figure
+  % for i = 1: size(U1, 1)
+  %     ComplexDouble = U1(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U1(i, :) = ComplexDouble;
+  % end 
+  % figure(11);
+  % mesh(X, Y, U1);
+  
+  
+  %% First Len Properties
+  
+  % Focal length of lens
+  % Variable d, f
+  d = 100e-3;
+  f = 100e-3;
+  
+  [ U2, Lx2, Ly2 ] = firstLenProperties( U1, L0, L0, X, Y, lambda, f, d );
+  
+  
+  % Figure
+  % for i = 1: size(U2, 1)
+  %     ComplexDouble = U2(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U2(i, :) = ComplexDouble;
+  % end    
+  % figure(21);
+  % mesh(X, Y, U2);
+  
+  
+  %% Knife Edge
+  
+  % knife edge position
+  % Variable p
+  % Default p = 0, expression the knife edge in the focal position
+  p = 0;
+  
+  [ U3 ] = knifeEdge( U2, X, Y, p );
+  
+  % Figure
+  % for i = 1: size(U3, 1)
+  %     ComplexDouble = U3(i, :);
+  %     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+  %     U3(i, :) = ComplexDouble;
+  % end    
+  % figure(31);
+  % mesh(X, Y, U3);
+  
+  
+  %% Second Len Properties
+  
+  % Focal length of lens
+  % Variable z
+  z = 100e-3;
+  
+  [ U4, Lx2, Ly2 ] = secondLenProperties( U3, Lx2, Ly2, lambda, z );
+  
+  % Figure
+  for i = 1: size(U4, 1)
+      ComplexDouble = U4(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      U4(i, :) = ComplexDouble;
+  end    
+  figure(41);
+  mesh(X, Y, U4);
+  
+  figure(42);
+  imagesc(U4);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(43);
+  plot(x, U4(halfNy, :), 'c');
+  grid on;
+  
+  figure(44);
+  plot(x, U4(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.2]);
+  grid on;
+  
+  
+  %% Photoconductive Detector Result
+  CU4 = conj(U4);
+  
+  I = CU4 .* U4;
+  
+  % Figure
+  for i = 1: size(I, 1)
+      ComplexDouble = I(i, :);
+      ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
+      I(i, :) = ComplexDouble;
+  end    
+  figure(51);
+  mesh(X, Y, I);
+  
+  figure(52);
+  imagesc(I);
+  
+  if (mod(Ny, 2)==0)
+  	halfNy = Ny / 2;
+  else
+  	halfNy = (Ny + 1) / 2;
+  end
+  figure(53);
+  plot(x, I(halfNy, :), 'c');
+  grid on;
+  
+  figure(54);
+  plot(x, I(halfNy, :), 'b');
+  hold on;
+  axis([-2e-3, 2e-3, 0, 1.4]);
+  grid on;
+  
+  ```
+
+- 毛细血管形玻璃管代码，参看 [GlassCapillary](#GlassCapillary.m)：
+
+- 第一个凸透镜代码，参见 [firstLenProperties](#firstLenProperties.m)：
+
+- 刀口代码，参见 [knifeEdge](#knifeEdge.m)：
+
+- 第二个凸透镜代码，参见 [secondLenProperties](#secondLenProperties.m)：
+
+
+
+#### Main Setup（主装置）  
+
+基于主逻辑，主代码和纹影图，将所有信息合成一张图，方便理解，如下图所示：
+
+<img src="ModelDetails.assets/纹影法主装置-GlassCapillary.png" alt="纹影法主装置-GlassCapillary" style="zoom:50%;" />
+
+<center><font color="red">图26 纹影法主装置</font><cebnter>
+
+
+> 视觉角度：俯视图；
+>
+> 图示：1-物平面，2-被测对象，3-凸透镜，4-刀口（刀口实物图见附录），5-凸透镜，6-像平面。
+>
+> 电场：U0，U1，U2，U3，U4。
+>
+> 函数：xxx.m 。
+>
+> 变量：Nx，Ny，sigma_r，lambda，r_samll，r_big，n_glass，d，f，p，z。
 
 
 
@@ -3201,12 +3532,12 @@ sigma_r = 1e-3;  % 激光束标准差
 lambda = 532e-9;  % 激光束为绿光
 ```
 
-**圆柱形玻璃的信息**如下：
+**毛细血管形玻璃管的信息**如下：
 
 ```matlab
-dglass = 1.6e-3;  % 圆柱形玻璃的直径
-r = dglass / 2;  % 圆柱形玻璃的半径
-fglass = 62.5e-3;  % 圆柱形玻璃的焦距
+n_glass = 1.5;  % 玻璃的折射率
+r_small = 0.78995e-3;  % 毛细血管形玻璃管的内径，内径的取值需要权衡圆柱形玻璃的焦距 62.5mm， 根据毛细血管形玻璃管焦距的公式，计算得到内径的取值
+r_big = 0.800e-3;  % 毛细血管形玻璃管的外径，所有的仿真对于外半径的取值都是0.8mm
 ```
 
 **第一个凸透镜的信息**如下：
@@ -3244,21 +3575,24 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 <center><font color="red">图28 光源中心线强度图</font><cebnter>
 
 
-
 **纹影图像**：
 
-
+<img src="ModelDetails.assets/SchlierenMesh-GlassCapillary-5745853.bmp" alt="SchlierenMesh-GlassCapillary " style="zoom:50%;" />
 
 <center><font color="red">图29 纹影图</font><cebnter>
 
 
-
+<img src="ModelDetails.assets/SchlierenPlot-GlassCapillary.bmp" alt="SchlierenPlot-GlassCapillary" style="zoom:50%;" />
 
 
 <center><font color="red">图30 纹影中心曲线图</font><cebnter>
 
 
+<img src="ModelDetails.assets/SchlierenPlot1-GlassCapillary.bmp" alt="SchlierenPlot1-GlassCapillary" style="zoom:50%;" />
 
+
+
+<img src="ModelDetails.assets/SchlierenPlot2-GlassCapillary.bmp" alt="SchlierenPlot2-GlassCapillary" style="zoom:50%;" />
 
 
 <center><font color="red">图31 纹影中心曲线图（放大版）</font><cebnter>
@@ -3267,18 +3601,18 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **光电探测器图像**：
 
-
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetector-GlassCapillary.bmp" alt="SchlierenPhotoconductiveDetector-GlassCapillary" style="zoom:50%;" />
 
 <center><font color="red">图26 光电探测器强度图</font><cebnter>
 
 
-
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot1-GlassCapillary.bmp" alt="SchlierenPhotoconductiveDetectorPlot1-GlassCapillary" style="zoom:50%;" />
 
 
 <center><font color="red">图27 光电探测器强度曲线图</font><cebnter>
 
 
-
+<img src="ModelDetails.assets/SchlierenPhotoconductiveDetectorPlot2-GlassCapillary.bmp" alt="SchlierenPhotoconductiveDetectorPlot2-GlassCapillary" style="zoom:50%;" />
 
 
 <center><font color="red">图28 光电探测器强度曲线图（放大版）</font><cebnter>
@@ -3287,9 +3621,7 @@ z = 100e-3;  % 透镜的焦距（假设的是相平面刚好在焦平面上）
 
 **分析结果**：
 
-
-
-
+从光电探测器的图上可以看出来，图像的大致趋势与其他仿真的结果趋势是类似的，但是不完全相同，因为毛细血管形玻璃管的**球面像差**与其他仿真对象不同。
 
 
 
@@ -3856,7 +4188,7 @@ function [ U1 ] = plasmaCylinder( U0, X, Y, r, n1, n2, lambda )
 % lambda: 激光的波长
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% U1: 通过等离子体柱后的电场
+% U1: 通过圆柱形等离子体柱后的电场
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % size(U0, 1) 表示取出的是Ny的大小
@@ -3984,7 +4316,7 @@ function [ U1 ] = GlassCylinder( U0, X, Y, k, f, r )
 % Glass Cylinder
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% U0: 平行光的电场（未进入模糊圆柱形等离子体的电场）
+% U0: 平行光的电场（未进入圆柱形玻璃的电场）
 % X: x 方向数据
 % Y: y 方向数据
 % k: 表示光波的波数
@@ -3992,7 +4324,7 @@ function [ U1 ] = GlassCylinder( U0, X, Y, k, f, r )
 % r: 圆柱形玻璃的半径
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% U1: 通过模糊圆柱柱形等离子体后的电场
+% U1: 通过圆柱形玻璃后的电场
 %  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -4006,6 +4338,73 @@ end
 
 
 ```
+
+
+
+
+
+### GlassCapillary.m
+
+这个代码是 [毛细血管形玻璃管](#Glass Capillary（毛细血管形玻璃管）) 中，关于等离子体的数据模型表示。
+
+```matlab
+function [ U1 ] = GlassCapillary( U0, X, Y, r_big, r_small, n_glass, lambda )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Glass Capillary
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U0: 平行光的电场（未进入毛细血管形玻璃管的电场）
+% X: x 方向数据
+% Y: y 方向数据
+% r_big: 毛细血管形玻璃管的外径
+% r_small: 毛细血管形玻璃管的内径
+% n_glass: 毛细血管形玻璃管的折射率
+% lambda: 激光的波长
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% U1: 通过毛细血管形玻璃管后的电场
+%  
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% warning  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% size(U0, 1) 表示取出的是Ny的大小
+% size(U0, 2) 表示取出的是Nx的大小
+% U0(:, i) 表示的是第i列的全部数据
+% U0(i, :) 表示的是第i行的全部数据
+% U0(a, b) 表示的是第a行第b行的数据点
+% m, t  表示的是等离子体与空气混合部分的波数 的线性插值的参数
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+U1 = U0;
+
+k = 2 * pi / lambda;
+
+k_glass = 2 * pi / lambda * n_glass;
+
+
+for i = 1 : size(U0, 2)
+
+	Delta1 = sqrt(r_big^2 - X(1, i)^2);
+	Delta2 = sqrt(r_small^2 - X(1, i)^2);
+	DeltaZ = Delta1 - Delta2;
+
+	if abs(X(1, i)) >= r_big
+		U1(:, i) = U0(:, i) .* exp(1i * k * 2 * r_big);
+
+	elseif abs(X(1, i)) >= r_small
+		U1(:, i) = U0(:, i) .* exp(1i * (k * 2 * (r_big - Delta1) + k_glass * 2 * Delta1));
+
+	else
+		U1(:, i) = U0(:, i) .* exp(1i * (k * 2 * (r_big - DeltaZ) + k_glass * 2 * DeltaZ));
+
+	end
+
+end
+
+
+```
+
+
 
 
 
