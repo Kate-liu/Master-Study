@@ -3740,6 +3740,9 @@ $$
 
 
 <center><font color="red">图28 半导体桥点火装置示意图</font><cebnter>
+
+
+
 将半导体桥放入纹影装置之后，可以参见下面的示意图：
 
 **注**：这张图需要修改。（像平面需要换成相机）
@@ -3773,9 +3776,163 @@ HV6KV-4KV型冲击片雷管发火电源，实物图如下所示：
 <center><font color="red">图28 HV6KV-4KV型冲击片雷管发火电源</font><cebnter>
 
 
+### Experimental Code（实验代码）
+
+> 进行实验获得图像的数据处理，得到结果，全过程代码。
+
+#### Load image
 
 
 
+#### Convert to gray
+
+
+
+#### Convert to double
+
+
+
+
+
+#### Gladstone_Dale
+
+```matlab
+function [ density, density_average ] = Gladstone_Dale( n, k )
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Gladstone-Dale code, Conversion refractive to density
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% input  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% n: 折射率
+% k: Gladstone-Dale常数, [g/mL]
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% output  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% density: 密度
+% density_average : 密度各列的平均值
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Detail  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Galdstone-Dale constant reference: 
+%   https://books.google.co.il/books?id=DJCKI5qQdiAC&pg=PA119&lpg=PA119&dq=gladstone+dale+constant+water&source=bl&ots=q1XkV2tiYM&sig=cdTxBmgIsFh_k0fJrZ-cZVsKA_M&hl=it&sa=X&sqi=2&ved=0CCkQ6AEwAWoVChMI6uXTte2OxgIVUlnbCh14ZwQE#v=onepage&q=gladstone&f=false
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+density = (n - 1)./ k;
+
+density_average = mean(density);
+
+
+end
+
+
+```
+
+
+
+#### All in Code
+
+```matlab
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Schlieren MATLAB code
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%% Introduce Code %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 1) All figures window number is according '%%' area set;
+% 2)
+% 3)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Clear something
+clear; 
+clc;  
+clf;
+close all;
+
+
+%% Load the parameters file (some Variables)
+% [ output_args ] = Parameters();  % get some variables parameter from Parameters function.
+
+
+
+%% Load the image (fmt: uint8)
+imageFileName1 = 'Data/20190711-04_00000064.jpg';
+imageFileName2 = 'Data/20190711-04_00000065.jpg';
+
+image1 = imread(imageFileName1, 'JPEG');  % imread: Read image from graphics file.
+image2 = imread(imageFileName2, 'JPEG');
+
+
+figure(1);
+imshow(image1);  % imshow
+title(imageFileName1);
+figure(2);
+colormap(gray);
+imagesc(image1);  % imagesc
+title(imageFileName1);
+box on;
+grid on;
+axis equal;
+
+
+%% Convert the image to gray
+% Function gray (best result)
+imageGray1 = rgb2gray(image1);  % rgb2gray
+imageGray2 = rgb2gray(image2);
+
+figure(11);
+imshow(imageGray1);
+title(imageFileName1);
+figure(12);
+colormap(gray);
+imagesc(imageGray1);
+title(imageFileName1);
+box on;
+grid on;
+axis equal;
+
+% Matrix grayscale (bad result)
+% imageMatrix1 = image1(:, : ,1);
+% imageMatrix2 = image2(:, : ,1);
+% 
+% figure(12); 
+% colormap(gray);
+% imagesc(imageMatrix1);
+% title(imageFileName1);
+
+
+%% Convert the image to double (fmt: double)
+imageDoubleGray1 = im2double(imageGray1);  % im2double: Convert image to double precision.
+imageDoubleGray2 = im2double(imageGray2);
+
+figure(21);
+imshow(imageDoubleGray1);
+title(imageFileName1);
+
+figure(22);
+colormap(gray);
+imagesc(imageDoubleGray1);
+title(imageFileName1);
+box on;
+grid on;
+axis equal;
+
+
+%%
+
+
+
+
+%% Conversion refractive to density using Gladstone-Dale
+
+% Gladstone-Dale Constants
+K = 0.226;
+
+[ density, density_average ] = Gladstone_Dale( refractive, K );
+
+
+```
 
 
 
@@ -4645,9 +4802,17 @@ $$
 
 当单色光源波长为 $532nm$，此时可以计算出来 $k$ 值为 $2.2598 \times 10^{-4} m^3/kg$ 。
 
+根据**Flow Visualization**一书，可以得到常见气体的Gladstone-Dale常数。
+
+<img src="ModelDetails.assets/不同气体Gladstone-Dale常数表.png" alt="不同气体Gladstone-Dale常数表" style="zoom:50%;" />
+
+<center><font color="red">不同气体Gladstone-Dale常数表</font><cebnter>
+
 > 参考资料：
 >
 > 1.SCHLIEREN IMAGING BASED 2-D TEMPERATURE FIELD RECONSTRUCTION OF LAMINAR NATURAL CONVECTIVE AIR FROM VERTICAL HEATED PLATE
+>
+> 2.https://books.google.co.il/books?id=DJCKI5qQdiAC&pg=PA119&lpg=PA119&dq=gladstone+dale+constant+water&source=bl&ots=q1XkV2tiYM&sig=cdTxBmgIsFh_k0fJrZ-cZVsKA_M&hl=it&sa=X&sqi=2&ved=0CCkQ6AEwAWoVChMI6uXTte2OxgIVUlnbCh14ZwQE#v=onepage&q=gladstone&f=false
 
 
 
