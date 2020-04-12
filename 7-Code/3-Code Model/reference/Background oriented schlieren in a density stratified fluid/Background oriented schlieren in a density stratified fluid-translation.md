@@ -566,11 +566,107 @@ title('Not-corrected')
 
 
 
+# 椭圆PDE网格空间不均匀的二维网格的诺伊曼边界条件
+
+
+
+## 诺伊曼边界条件
+
+诺伊曼边界条件（Neumann boundary condition) 也被称为常微分方程或偏微分方程的“第二类边界条件” 怎么样实现三维的诺伊曼边界条件（Neumann boundary condition)?
+
+```matlab
+% 供参考 （二维的诺伊曼边界条件实现函数）
+function g=NeumannBoundCond(f)
+[nrow,ncol]=size(f);
+g=f;
+g([1 nrow],[1 ncol]) = g([3 nrow-2],[3 ncol-2]);
+g([1 nrow],2:end-1) = g([3 nrow-2],2:end-1);
+g(2:end-1,[1 ncol]) = g(2:end-1,[3 ncol-2]);
+```
+
+参考：
+https://blog.csdn.net/qq_41634276/article/details/80062931
+http://muchong.com/t-7434719-1-pid-3
+
+## 1 Introduction
+
+这是在具有Neumann边界条件的2D网格上求解椭圆PDE的2D Laplacian有限差分近似的推导。
+PDE是
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410164739093.png" alt="image-20200410164739093" style="zoom:50%;" />
+
+该推导是针对非均匀网格的一般情况给出的（意味着hx 是不等于hy）。 最后，通过设置hx = hy简化为统一网格。
+使用的表示法基于以下网格，其中假定网格大小为n×n
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410164756788.png" alt="image-20200410164756788" style="zoom:50%;" />
+
+
+
+从集中差异方案开始
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410164836293.png" alt="image-20200410164836293" style="zoom:50%;" />
+
+
+
+### 1.1诺伊曼边界条件公式的推导
+
+下面是使用诺伊曼边界条件时离散化的推导。
+
+#### 1.1.1左边缘
+
+给定一个2D网格，如果边缘（例如，左边缘）上存在Neumann边界条件，则这意味着uu xin到边缘的法线方向是y的某个函数。
+假设左边缘的∂u∂x= g（y）如下图所示
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410164956982.png" alt="image-20200410164956982" style="zoom:50%;" />
+
+
+
+未知u（x，y）的值不在左侧边界上给出，仅给出其导数（在垂直于边的方向上，朝外）。 因此，不可能在第一列j = 1上使用标准的5点拉普拉斯算子，因为这要求在左边缘知道u。
+
+因此，当j = 1时，Ui，1是未知的（如果这是Dirichlet边界条件，则Ui，1将是已知的）。
+诺伊曼边界条件的处理如下。 以左边缘为例，如下图所示，添加了位于实际左边缘左侧hx的虚边界
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410165038116.png" alt="image-20200410165038116" style="zoom:50%;" />
+
+
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410165054633.png" alt="image-20200410165054633" style="zoom:50%;" />
+
+
+
+因此，对于诺伊曼边界条件，该过程从寻找在其上指定了该条件的边开始，并且对于每个这样的边，将如上所述的一组方程式添加到当前内部点方程组中。
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410165143201.png" alt="image-20200410165143201" style="zoom:50%;" />
+
+
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410165213388.png" alt="image-20200410165213388" style="zoom:50%;" />
+
+
+
+#### 1.1.2右边缘
+
+<img src="Background oriented schlieren in a density stratified fluid-translation.assets/image-20200410165249553.png" alt="image-20200410165249553" style="zoom:50%;" />
+
+
+
+#### 1.1.3 上边缘
+
+
+
+#### 1.1.4 下边缘
 
 
 
 
 
+## 2 生成Jacobi迭代的求解方程
 
 
+
+## 3 生成高斯-赛德尔的解方程
+
+
+
+## 4 参考
 

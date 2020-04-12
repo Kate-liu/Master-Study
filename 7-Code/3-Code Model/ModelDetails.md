@@ -3831,6 +3831,8 @@ end
 
 #### All in Code
 
+> 目前存放所有已经完成的主代码内容。
+
 ```matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -3865,11 +3867,11 @@ image2 = imread(imageFileName2, 'JPEG');
 
 
 figure(1);
-imshow(image1);  % imshow
+imshow(image1);
 title(imageFileName1);
 figure(2);
 colormap(gray);
-imagesc(image1);  % imagesc
+imagesc(image1);
 title(imageFileName1);
 box on;
 grid on;
@@ -3878,8 +3880,16 @@ axis equal;
 
 %% Convert the image to gray
 % Function gray (best result)
-imageGray1 = rgb2gray(image1);  % rgb2gray
-imageGray2 = rgb2gray(image2);
+[row1 col1 depth1]=size(image1);
+if depth1 > 0
+    imageGray1 = rgb2gray(image1);
+end
+
+[row2 col2 depth2]=size(image2);
+if depth2 > 0
+    imageGray2 = rgb2gray(image2);
+end
+
 
 figure(11);
 imshow(imageGray1);
@@ -3902,15 +3912,37 @@ axis equal;
 % title(imageFileName1);
 
 
+%% Crop full image down to the area of interest ( 300 * 400 )
+imageGray1 = imcrop(imageGray1, [(col1 / 2 - 150) (row1 / 2 - 200) 300 400]);
+imageGray2 = imcrop(imageGray2, [(col2 / 2 - 150) (row1 / 2 - 200) 300 400]);
+
+
+
+%% Median filter （default: [3, 3]）
+imageGray1 = medfilt2(imageGray1);
+imageGray2 = medfilt2(imageGray2);
+
+figure(21);
+imshow(imageGray1);
+title(imageFileName1);
+figure(22);
+colormap(gray);
+imagesc(imageGray1);
+title(imageFileName1);
+box on;
+grid on;
+axis equal;
+
+
 %% Convert the image to double (fmt: double)
 imageDoubleGray1 = im2double(imageGray1);  % im2double: Convert image to double precision.
 imageDoubleGray2 = im2double(imageGray2);
 
-figure(21);
+figure(31);
 imshow(imageDoubleGray1);
 title(imageFileName1);
 
-figure(22);
+figure(32);
 colormap(gray);
 imagesc(imageDoubleGray1);
 title(imageFileName1);
@@ -3919,7 +3951,53 @@ grid on;
 axis equal;
 
 
-%%
+%% Calculate the gradient
+imageDoubleGray1 = imgradient(imageDoubleGray1);
+imageDoubleGray2 = imgradient(imageDoubleGray2);
+
+
+figure(41);
+imshow(imageDoubleGray1);
+figure(42);
+imshow(imageDoubleGray2);
+
+
+%% Change New image infomation
+thresholdValue1 = max(max(imageDoubleGray1))*0.017;
+newImage1 = zeros(row1, col1);
+for i = 1 : row1
+    for j = 1 : col1
+        if imageDoubleGray1(i, j) >= thresholdValue1
+            newImage1(i, j) = 1;
+        end
+    end
+end
+
+
+thresholdValue2 = max(max(imageDoubleGray1))*0.017;
+newImage2 = zeros(row2, col2);
+for i = 1 : row2
+    for j = 1 : col2
+        if imageDoubleGray2(i, j) >= thresholdValue2
+            newImage2(i, j) = 1;
+        end
+    end
+end
+
+figure(51);
+imshow(newImage1);
+figure(52);
+imshow(newImage2);
+
+
+%% Remove small objects from binary image
+newImage1 = bwareaopen(newImage1, fix(row1 * col1 * 0.003));
+newImage2 = bwareaopen(newImage2, fix(row2 * col2 * 0.003));
+
+figure(61);
+imshow(newImage1);
+figure(62);
+imshow(newImage2);
 
 
 
@@ -3928,8 +4006,19 @@ axis equal;
 
 % Gladstone-Dale Constants
 K = 0.226;
+refractive = 'NaN';
 
 [ density, density_average ] = Gladstone_Dale( refractive, K );
+
+
+
+
+
+
+
+
+
+
 
 
 ```

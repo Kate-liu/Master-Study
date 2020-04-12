@@ -523,6 +523,30 @@ imwrite(imageDoubleGray1,'imageDoubleGray1.bmp','bmp');
 
 
 
+
+
+### imview
+
+
+
+
+
+### imclose
+
+imclose函数
+
+该函数功能是对灰度图像执行形态学闭运算，即使用同样的结构元素先对图像进行膨胀操作后进行腐蚀操作。调用格式为：
+
+IM2=imclose(IM,SE)
+
+IM2=imclose(IM,NHOOD)
+
+
+
+
+
+
+
 ### save
 
 将工作区变量保存到文件中
@@ -683,6 +707,8 @@ hold off
 
 
 ### pcolor
+
+
 
 
 
@@ -854,23 +880,362 @@ end
 
 
 
+### medfilt2
+
+参考：
+https://blog.csdn.net/u010849228/article/details/48216919
+
+Matlab中消除图像噪声之**中值滤波器**：medfilt2
+
+medfilt2, matlab, 消除噪声, 中值滤波器, 椒盐噪声
+
+在图像处理中，在进行如边缘检测这样的进一步处理之前，通常需要首先进行一定程度的降噪。中值滤波是一种非线性数字滤波器技术，经常用于去除图像或者其它信号中的杂讯。
+
+这个设计思想就是检查输入信号中的采样并判断它是否代表了信号，使用技术个采样组成的观察窗实现这项功能。观察窗口中的数值进行排序，位于观察窗中间的中值作为输出。然后，丢弃最早的值，取得新的采样，重复上面的计算过程。
+
+中值滤波是图像处理中的一个常用步骤，它对于斑点噪声（en:speckle noise）和椒盐噪声（en:salt-and-pepper noise）来说尤其有用。保存边缘的特性使它在不希望出现边缘模糊的场合也很有用。当要求在降低噪声的同时要求保持边缘，中值滤波较卷积有更好的效果。
+
+在matlab中，medfilt2函数用于执行二维中值滤波，使用方法如下：
+
+```matlab
+B = medfilt2(A, [m n]) 
+B = medfilt2(A)
+B = medfilt2(A, ’indexed’, ...)
+
+% 其中[m n]表示邻域块的大小，默认值为[3 3]。
+% b=medfilt2(a,[m,n]);
+% b是中值滤波后的图象矩阵，a是原图矩阵，m和n是处理模版大小，默认3×3。
+
+
+% 例如：我们先在一个图像上加入椒盐噪声，然后使用中值滤波将其去除。 
+I = imread(’eight.tif’);
+J = imnoise(I,’salt & pepper’,0.02);
+K = medfilt2(J);
+imview(J), imview(K)
+```
+
+
+
+
+
+### imnoise
+
+
+
+### imgradient
+
+参考：
+https://ww2.mathworks.cn/help/images/ref/imgradient.html?requestedDomain=cn
+
+查找二维图像的梯度大小和方向
+
+
+
+### bwareaopen
+
+参考：
+https://www.cnblogs.com/saliency/archive/2014/03/11/3593308.html
+https://blog.csdn.net/colddie/article/details/6269073
+
+功能： 用于从对象中移除小对象。
+
+用法： 
+BW2 = bwareaopen(BW,P)
+BW2 = bwareaopen(BW,P,CONN)
+BW2 = bwareaopen(BW,P,CONN) 从二值图像 中移除所有小于P的连通对象。CONN对应邻域方法，默认为8邻域。
+
+例子：
+
+```matlab
+originalBW = imread('text.png');
+imview(originalBW)
+
+bwAreaOpenBW = bwareaopen(originalBW, 50);
+imview(bwAreaOpenBW)
+```
+
+
+
+
+
+### fix
+
+ps:方向以x轴为基准，x轴正方向为右，x轴负方向为左。
+
+fix(x)是向0取整，可以理解为中间取整，即向最靠近0的整数取整。
+
+floor(x)是向左取整，可以理解为对x取下限，通俗一点就是取不大于x的最大整数。
+
+ceil(x)是向右取整，可以理解为对x取上限，通俗一点就是取不小于x的最小整数。
 
 
 
 
 
 
+### bwlabel
+
+参考：
+https://blog.csdn.net/wanrenwangxuejing/article/details/25108191
+
+L = bwlabel(BW,n)
+
+返回一个和BW大小相同的L矩阵，包含了标记了BW中每个连通区域的类别标签，这些标签的值为1、2、num（连通区域的个数）。n的值为4或8，表示是按4连通寻找区域，还是8连通寻找，默认为8。
+
+4连通或8连通是图像处理里的基本感念：而8连通，是说一个像素，如果和其他像素在上、下、左、右、左上角、左下角、右上角或右下角连接着，则认为他们是联通的；4连通是指，如果像素的位置在其他像素相邻的上、下、左或右，则认为他们是连接着的，连通的，在左上角、左下角、右上角或右下角连接，则不认为他们连通。请注意“或”字的含义，就是满足其中一个条件就认为是连通的。
+
+[L,num] = bwlabel(BW,n)这里num返回的就是BW中连通区域的个数。
+
+通俗的说，这个函数的作用是用来找这个二值图像中的连通区域的，对于不同的符合条件的连通区域（4连通，8连通）分别用不同的标号加以区别，结果保存在L这个矩阵里，而num里保存的是输入图像中连通区域的总数。
 
 
 
 
 
+### regionprops
+
+参考：
+https://blog.csdn.net/langb2014/article/details/49886787
+
+语法：STATS = regionprops(L,properties)
+
+描述：测量标注矩阵L中每一个标注区域的一系列属性。L中不同的正整数元素对应不同的区域，例如：L中等于整数1的元素对应区域1；L中等于整数2的元素对应区域2；以此类推。返回值STATS是一个长度为max(L(:))的结构数组，结构数组的相应域定义了每一个区域相应属性下的度量。properties 可以是由逗号分割的字符串列表、饱含字符串的单元数组、单个字符串 'all' 或者 'basic'。如果 properties 等于字符串 'all'，则所有下述字串列表中的度量数据都将被计算，如果 properties 没有指定或者等于 'basic'，则属性: 'Area', 'Centroid', 和 'BoundingBox' 将被计算。下面的列表就是所有有效的属性字符串，它们大小写敏感并且可以缩写。
+
+image-Recognition的内容代码片段：
+
+```matlab
+img6 = zeros(row, col);
+rr = regionprops(img5, 'Centroid');
+aa = regionprops(img5, 'Area');
+for i = 1: max(max(img5))
+    cc = rr(i).Centroid;
+    dd = aa(i).Area / (cc(1) * cc(2));
+    
+    if  dd < 1
+        pp = find(img5 == i);
+        img6(pp) = 1;
+    end
+end
+figure(7)
+imshow(img6)
+```
 
 
 
 
 
+### strel
 
+参考：
+https://blog.csdn.net/qq_26093511/article/details/53761624
+
+strel——structuring element **运用各种形状和大小构造元素**，基本语法为
+SE = strel(shape, parameters)
+shape 是指定希望形状的字符串，parameters 是指定形状信息的一系列参数
+
+SE = strel('square', W)
+创建一个方形的结构元素，边长为N个像素
+
+image-Recognition的内容代码片段：
+
+```matlab
+se = strel('square', 1); 
+img7 = imclose(img6, se);
+figure(8)
+imshow(img7)
+```
+
+
+
+
+
+### fft, ifft, fftshift, and ifftshift
+
+```matlab
+%% Interplay of fft, ifft, fftshift, and ifftshift in MATLAB
+
+%This file is used to produce the blog post (MATLAB-> HTML publishing) at http://shalin.wordpress.com/2009/12/06/fftifft/
+
+%%%
+% Hello world,
+% 
+% I routinely simulate forward imaging in optical systems to understand how
+% they function. One of the beautiful phenomena of optics is that a lens is a
+% fourier transformer. It produces 2D fourier transform of field between
+% planes located one focal length away on either side of itself. MATLAB is a 'matrix laboratory', so it
+% implements discrete Fourier transform (DFT). The standard way of
+% implementing DFT is FFT (Fast fourier transform) algorithm.
+
+%%%
+% Although I have been using MATLAB since 6
+% years, I never quite grasped the interplay of |fft, ifft, fftshift,| and
+% |ifftshift| functions found in MATLAB. Well, the penny dropped
+% today after a comment from 
+% <http://blogs.mathworks.com/steve/2009/11/23/fourier-transforms/#comment-22411 Steve> 
+% on his blog that fftshift and ifftshift cause circular shifts and _nothing more_.
+% By the way, Steve's image processing blog is one of the most useful blogs and these days he is
+% clarifying how Fourier transforms work in MATLAB. 
+% <http://blogs.mathworks.com/steve/2009/12/04/fourier-transform-visualization-using-windowing/
+% He just described> that FFT alogrithm inherently assumes that the function is 
+% periodic in both space and frequency. This occurs because whenever one of
+% the domain  (space or spatial-frequency) is sampled, its Fourier
+% counterpart becomes periodic. 
+% Multiplication with impulse train (i.e., discretization) in one domain leads to convolution with impulse train
+% in the other domain (i.e., periodicity). In DFT, both space and spatial-frequency are
+% discrete (actually digital), and therefore, both domains are periodic.
+
+
+%% The problem - Fourier transform of a real and even function.
+% Typical functions that occur in optics (e.g., pupil of an imaging system
+% which is simply a circle) are real and even around origin (i.e., optical axis). 
+% We expect the Fourier transform or inverse Fourier transform of a real and even function 
+% to be real and even itself. However, I had trouble achieving this
+% seemingly basic task. After good amount of experimentation, I had decided that the
+% the _idiom_ |spec = fftshift(fft2(ifftshift(signal)))| gives real and
+% even spectrum for real and even signal. 
+% However, I understood why that is the case just recently.
+
+%% Let us take a concrete example - circular pupil
+% Usually, one defines a matrix with origin located at the center of the
+% matrix.
+% Let us use the pupil of a perfect optical system - which is simply a
+% circle. The pupil of the optical system is like a transfer function of
+% the system - it modifies the spectrum of the specimen being imaged to
+% give you the spectrum of the image. Therefore, here we are starting in
+% frequency domain and we want to find out how to obtain correct inverse
+% Fourier transform.
+
+set(0,'defaultaxesfontsize',14); %Increase fontsize on figures.
+figure(1); clf; set(1,'Position',[400   400 350   200]);
+ms=0.05; % Sampling rate in space.
+[mm nn]=meshgrid(-1:ms:1);
+pupil=double(sqrt(mm.^2+nn.^2)<=0.2);
+figure(2);
+surfl(mm,nn,pupil); colormap gray; shading interp;
+title('Circular pupil'); 
+
+%% First attempt at obtaining the point spread function.
+% The inverse Fourier transform of the pupil gives us the point spread
+% function (PSF) of the imaging system.
+
+psf1=fftshift(ifft2(pupil)); %psf = point spread function. 
+%%% 
+% Why |fftshift|? MATLAB documentation notes that FFT algorithm returns spectrum with
+% 'swapped quadrants' so that the center of the result is at index (1,1). 
+% The spectrum is re-centered using |fftshift|.
+
+
+%%%
+% To plot the PSF, we compute the space axis. Note that the space is periodic
+% with period of _1/ms_. Both frequency and space axes have the same number of samples.
+% We obtain one period of the space axis as follows.
+x=linspace(-1/(2*ms),1/(2*ms),length(mm)); 
+[xx yy]=meshgrid(x);
+
+figure(3);
+set(1,'Position',[400   400 350   400]); clf;
+subplot(211);
+surfl(xx,yy,real(psf1)); colormap gray; shading interp;
+title('Real part of the PSF1');
+subplot(212);
+surfl(xx,yy,imag(psf1)); colormap gray; shading interp;
+title('Imaginary part of the PSF1');
+
+%%% 
+% From the above result, we find that |ifft2| (function that computes two
+% dimensional inverse FFT) DOES NOT return an even and real function as
+% hoped for.
+
+%% Second attempt - change the origin before |ifft2|
+% The above anomaly occurs because the FFT algorithm assumes that the origin is located
+% at index (1,1)  rather than in the middle of the matrix.
+% Clearly the circular pupil that we started with is not even and symmetric around the point (1,1).
+% The |ifftshift| function swaps the quadrants of the matrix such that the center of the
+% matrix is now moved to index (1,1). Let's see what happens.
+pupil2=ifftshift(pupil);
+psf2=fftshift(ifft2(pupil2));
+figure(4);
+subplot(211);
+surfl(xx,yy,real(psf2)); colormap gray; shading interp;
+title('Real part of the PSF2');
+subplot(212);
+surfl(xx,yy,imag(psf2)); colormap gray; shading interp;
+title('Imaginary part of the PSF2');
+
+%%% 
+% Notice that the imaginary part is now zero! We got the real and even
+% function as expected.
+
+%% The prescribed use
+% From documentation and other resources, I perceived that |fftshift| is
+% only to be used for re-centering results of |fft2| and |ifftshift| to
+% de-center the spectrum before applying |ifft2|, as follows.
+pupil3=fftshift(fft2(psf2));
+psf3=ifft2(ifftshift(pupil3));
+figure(5);
+subplot(211);
+surfl(xx,yy,psf2); colormap gray; shading interp;
+title('PSF2');
+subplot(212);
+surfl(xx,yy,psf3); colormap gray; shading interp;
+title('PSF3');
+
+
+%% Where was the confusion?
+% Above prescribed sequence retrieves the PSF correctly. 
+% Therefore, the fact that |fftshift| had to be used after |ifft2|,  when
+% going from the pupil to the PSF,
+% puzzled me greatly. 
+
+%%%
+% The confusion was compounded by the fact that going the other way around -
+% from the PSF to the pupil- also required the same idiom, except that |ifft2| is replaced by |fft2|.
+% The idiom,
+pupil4 = fftshift(fft2(ifftshift(psf3)));
+%%%
+% gives a real and even pupil for real and even PSF. Here, we now have to use |ifftshift| before |fft2|- 
+% something that looks odd.
+% Let us compare a pupil obtained in this way with the pupil computed previously.
+clf;
+figure(6);
+subplot(211); surfl(mm,nn,real(pupil3)); colormap gray; shading interp;
+title('Real part of Pupil3');
+subplot(212); surfl(mm,nn,imag(pupil3)); colormap gray; shading interp;
+title('Imaginary part of Pupil3');
+snapnow;
+subplot(211); surfl(mm,nn,real(pupil4)); colormap gray; shading interp;
+title('Real part of Pupil4');
+subplot(212); surfl(mm,nn,imag(pupil4)); colormap gray; shading interp;
+title('Imaginary part of Pupil4');
+
+
+%% The confusion resolved
+% All of the above makes sense, once we realize that |fftshift| and
+% |ifftshift| do not have any deep connection with |fft2| and |ifft2| functions.
+% They exist only to apply circular shifts in opposite directions. And one
+% does need these shifts as the origin is assumed to be at different positions in the simulation and by the FFT algorithm. 
+
+%% After-thoughts
+% Having the centered PSF and the centered pupil all the time allows me to
+% simulate imaging of a test specimen (e.g. USAF resolution target) in a natural
+% looking co-ordinate system. A circular shift does not cause change in magnitude of the result returned
+% by the FFT algorithm. However, the phase does change. The correct shifts are
+% required so that the imaginary part is zero, or in other words, all parts
+% of the spectrum are in phase.  
+
+```
+
+
+
+
+
+### imcrop
+
+I2=imcrop(I,[a b c d]);
+
+利用裁剪函数裁剪图像，其中，（a,b）表示裁剪后左上角像素在原图像中的位置；c表示裁剪后图像的宽，d表示裁剪后图像的高
+
+关于矩形区域[Xmin Ymin Width Height],Xmin是横向第Xmin个像素,Ymin是纵向第Ymin个像素；
 
 
 
