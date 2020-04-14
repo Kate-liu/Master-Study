@@ -88,19 +88,11 @@ $$
 
 所以，可以得到被测对象的温度参数与折射率之间关系，表示为：
 $$
-T = \frac {PM K}{\mathsf{R} \cdot (n - 1)}
-
-\\
-
-n =K \frac{PM}{\mathsf{R} \cdot T} + 1
+T = \frac {PM K}{\mathsf{R} \cdot (n - 1)}\\n =K \frac{PM}{\mathsf{R} \cdot T} + 1
 $$
 所以，可以得到关于**温度**的变化，相位的偏移表达式也可以表示为：
 $$
-\Delta \Phi (x, y)=
-\int _{z_1} ^{z_2}
-\frac{2 \pi }{\lambda} \cdot 
-\{ K \frac{PM}{\mathsf{R} \cdot T(x, y, z)} + 1 \}
-\cdot dz
+\Delta \Phi (x, y)=\int _{z_1} ^{z_2}\frac{2 \pi }{\lambda} \cdot \{ K \frac{PM}{\mathsf{R} \cdot T(x, y, z)} + 1 \}\cdot dz
 $$
 其中，$\lambda$ 是光源的波长，$K$ 为格拉斯通-戴尔常数（Gladstone-Dale常数），$M$表示物质的摩尔质量，$P$ 为压强，$\mathsf{R}$ 为普适气体常数，其取值与状态参量的单位有关，$T(x, y, z)$ 为气体的温度。
 
@@ -110,71 +102,33 @@ $$
 
 ### First Len（第一个凸透镜）
 
-光线继续沿着光轴传播，穿过第一个凸透镜的时候，由于透镜具有傅里叶特性，根据ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节，可以得到凸透镜后焦距面上的光场表达式：
-$$
-U_2 (x,y) 
-=
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) 
-\exp (ik(d + f))}
-{i f \lambda}
-\cdot
-\\
-\iint _{-\infty}^{+\infty}
-U(\xi, \eta)
-\exp( - i  \frac  {k } {f} ( x \xi +  y  \eta) )
-
-d \xi d \eta
-$$
-其中，$U_2 (x,y) $ 为距离凸透镜的距离为 $f$ 的后焦距面上的光场，$U(\xi, \eta)$ 为距离凸透镜的距离为 $d$ 的前焦距面上的光场，$k$ 为波数，表示为 $k = \frac{2 \pi }{\lambda}$ ，关于经过凸透镜的光场图可参考下图进行理解，详细的推导请参见：ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节。
-
-<img src="Simple Model.assets/image-20200413130239776.png" alt="image-20200413130239776" style="zoom:50%;" />
-
-<center><font color="red">图3 凸透镜傅里叶特性示意图</font><cebnter>
-
-所以，可以得到纹影装置中光线经过第一个凸透镜之后的光场信息为：
+光线继续沿着光轴传播，穿过第一个凸透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到纹影装置中光线经过第一个凸透镜之后的光场信息为：
 $$
 E_2 (\xi, \eta)
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
-
+\mathcal{F} \{ E_1 (x,y) \}
+ \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
+\\
+=
 \iint _{-\infty}^{+\infty}
 E_1 (x,y) 
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
-
-d x d y
-$$
-其中，$E_2 (\xi, \eta)$ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
-
-进一步化简，可以得到：
-$$
-E_2 (\xi, \eta)
+\exp \{  - i  ( 2 \pi \xi +  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad \quad  \quad \quad \quad \quad 
+\\
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
-
 \iint _{-\infty}^{+\infty}
-C \cdot \exp \{i \cdot \Delta \Phi(x, y) \}
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
-
-d x d y
-$$
-也即：
-$$
-E_2 (\xi, \eta)
+C \cdot \exp \{ i \cdot \Delta \Phi(x, y) \}
+\exp \{ - i  ( 2 \pi \xi +  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad 
+\\
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
 \iint _{-\infty}^{+\infty}
-\mathcal{F} \{ E_1 (x,y) \}
-
-d x d y
+C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad \quad  \quad
 $$
-详细的推导请参见：ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节。
-
 
 
 
@@ -183,48 +137,92 @@ $$
 
 光线在纹影装置的刀口之前和刀口之后的光场信息是不一样的，根据纹影原理，刀口需要遮挡住一半的光场，所以此时使用阶跃函数表示刀口的作用，描述为：被刀口阻挡的光场全部变为0，没有被阻挡的光场全部变为1，所以可以得到：
 $$
-H(x) = 
+H(\xi) = 
 \begin{cases} 
-0  \quad \quad \quad \quad ，x < 0
+0  \quad \quad \quad \quad ，\xi < 0
 \\ 
-1 \quad \quad \quad \quad ， x \geq 0
+1 \quad \quad \quad \quad ， \xi \geq 0
 \end{cases}
 $$
-其中，$x$ 表示世界坐标系水平方向，$x=0$ 表示刀口遮挡住从主光轴开始，沿$x$ 方向一半的光。
+其中，$\xi$ 表示世界坐标系水平方向，$\xi=0$ 表示刀口遮挡住从主光轴开始，沿$\xi$ 方向一半的光。
 
 所以，可以得到**刀口后的电场**表达式：
 $$
-E_3 (\xi, \eta)  = H(x) \cdot E_2 (\xi, \eta)
+E_3 (\xi, \eta)  
+= 
+H(\xi) \cdot E_2 (\xi, \eta) \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad
+\\
+=
+\begin{cases} 
+0  
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+，\xi < 0
+
+\\ 
+\iint _{-\infty}^{+\infty}
+C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
+dx dy
+\quad 
+， \xi \geq 0
+\end{cases}
 $$
+
+
+
 
 
 ### Second  Len（第二个凸透镜）
 
-光线经过第二个透镜的时候，根据ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节，得到：
+光线经过第二个透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到纹影装置中光线经过第二个凸透镜之后的光场信息为：
 
-当 $d =f$ 的时候，透镜后焦距位置的相平面光场为：
 $$
-U_2 (x,y) =\frac { 1}{f \lambda}\cdot\iint _{-\infty}^{+\infty}U(\xi, \eta)\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )d \xi d \eta
-$$
-所以，可以得到纹影装置第二个凸透镜后相平面的电场为：
-$$
-E_4 (x,y) =
-\frac { 1}{f \lambda}
-\cdot
-\iint _{-\infty}^{+\infty} E_3 (\xi, \eta) \exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )d \xi d \eta
+E_4 (x,y) = \mathcal{F} \{ E_3 (\xi, \eta)  \} 
+\quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
+\\
+=
+\iint _{-\infty}^{+\infty}
+E_3 (\xi, \eta)
+\exp \{   i  ( 2 \pi \xi +  2 \pi  \eta) \}
+d \xi d \eta
+ \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad 
+\\
+=
+\begin{cases} 
+0  
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad  \quad  \quad \quad  \quad \quad 
+，\xi < 0
+\\
+\\ 
+\iint _{-\infty}^{+\infty}
+C \cdot \exp \{ i \cdot \Delta \Phi(x, y)  - i  ( 2 \pi \xi +  2 \pi  \eta) \}
+\exp \{   i  ( 2 \pi \xi +  2 \pi  \eta) \}
+d \xi d \eta
+
+\quad  
+， \xi \geq 0
+\end{cases}
+
+\\
+=
+\begin{cases} 
+0  
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad 
+，\xi < 0
+\\ 
+\\
+\iint _{-\infty}^{+\infty}
+C \cdot \exp \{ i \cdot \Delta \Phi(x, y)   \}
+d \xi d \eta
+
+\quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad 
+， \xi \geq 0
+\end{cases}
+ \quad \quad \quad \quad  \quad \quad
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
-可将其表示为：
-$$
-E_4 (x,y) =
-\frac { 1}{f \lambda}
-\cdot
-\iint _{- \infty} ^{ +\infty} 
 
-\mathcal{F} \{ E_3 (\xi, \eta) \}
-d \xi d \eta
-$$
+
 
 
 ### Light intensity（光强）
@@ -240,10 +238,45 @@ $$
 也即，
 $$
 I(x,y) 
-=  E_4 (x,y) \cdot E_4 ^* (x,y)   \quad \quad \quad \quad \quad \quad
+=  E_4 (x,y) \cdot E_4 ^* (x,y)   
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
 \\
-= 
+=
+\begin{cases} 
+0  
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad \quad 
+，\xi < 0
+\\ 
+\\
+\iint _{-\infty}^{+\infty}
+C \cdot \exp \{ i \cdot \Delta \Phi(x, y)   \}
+\cdot 
+C \cdot \exp \{ - i \cdot \Delta \Phi(x, y)   \}
+d \xi d \eta
+
+\quad \quad \quad \quad 
+， \xi \geq 0
+\end{cases}
+ \quad \quad \quad \quad  \quad \quad
+ 
+\\
+=
+ \begin{cases} 
+0  
+\quad \quad \quad \quad 
+，\xi < 0
+\\ 
+\\
+C ^2
+\quad \quad \quad 
+， \xi \geq 0
+\end{cases}
+ \quad \quad \quad \quad  \quad \quad\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad \quad 
 $$
+
+**注**：推导到这里，已经不知道对不对了。求老师解答。
+
+
 
 
 
