@@ -104,7 +104,7 @@ $$
 
 光线继续沿着光轴传播，穿过第一个凸透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到纹影装置中光线经过第一个凸透镜之后的光场信息为：
 $$
-E_2 (\xi, \eta)
+F (\xi, \eta)
 =
 \mathcal{F} \{ E_1 (x,y) \}
  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
@@ -135,7 +135,11 @@ $$
 
 ### Knife-edge （刀口）
 
-光线在纹影装置的刀口之前和刀口之后的光场信息是不一样的，根据纹影原理，刀口需要遮挡住一半的光场，所以此时使用阶跃函数表示刀口的作用，描述为：被刀口阻挡的光场全部变为0，没有被阻挡的光场全部变为1，所以可以得到：
+光线在纹影装置的刀口之前和刀口之后的光场信息是不一样的，根据纹影原理，需要调节刀口，使得刀口遮挡住一半的频谱面，例如：$\xi < 0$ 的部分。此时可以在像平面获得纹影像。
+
+所以此时使用阶梯函数表示刀口的作用，描述为：被刀口阻挡的频谱面全部变成0，没有被阻挡的频谱面不变。
+
+在频谱面上遮去一半的信息，即利用阶梯函数$H(\xi, \eta)$滤波。所以可以得到：
 $$
 H(\xi) = 
 \begin{cases} 
@@ -144,27 +148,15 @@ H(\xi) =
 1 \quad \quad \quad \quad ， \xi \geq 0
 \end{cases}
 $$
-其中，$\xi$ 表示世界坐标系水平方向，$\xi=0$ 表示刀口遮挡住从主光轴开始，沿$\xi$ 方向一半的光。
+其中，$\xi$ 表示世界坐标系水平方向，$\xi=0$ 表示刀口遮挡住从主光轴开始，沿$\xi$ 方向一半的频谱。
+
+注：为什么是$\xi $ 而不是 $ \eta$ 呢？ 因为在装置中规定了刀口的位置，为世界坐标系水平方向，也即$x$ 轴方向，故在进行傅里叶变换之后使用的是$\xi$ 。
 
 所以，可以得到**刀口后的电场**表达式：
 $$
 E_3 (\xi, \eta)  
 = 
-H(\xi) \cdot E_2 (\xi, \eta) \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad
-\\
-=
-\begin{cases} 
-0  
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
-，\xi < 0
-
-\\ 
-\iint _{-\infty}^{+\infty}
-C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
-dx dy
-\quad 
-， \xi \geq 0
-\end{cases}
+H(\xi, \eta) \cdot F (\xi, \eta) 
 $$
 
 
@@ -176,8 +168,12 @@ $$
 光线经过第二个透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到纹影装置中光线经过第二个凸透镜之后的光场信息为：
 
 $$
-E_4 (x,y) = \mathcal{F} \{ E_3 (\xi, \eta)  \} 
-\quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
+E_4 (x,y) 
+= 
+\mathcal{F} \{ E_3 (\xi, \eta)  \} 
+\\
+=
+\mathcal{F} \{ H(\xi, \eta) \cdot F (\xi, \eta)  \} 
 \\
 =
 \iint _{-\infty}^{+\infty}
@@ -220,6 +216,16 @@ d \xi d \eta
  \quad \quad \quad \quad  \quad \quad
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
+
+
+
+
+
+待w完成，哈哈哈！
+
+
+
+
 
 
 
