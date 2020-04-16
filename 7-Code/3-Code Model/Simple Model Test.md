@@ -129,6 +129,8 @@ C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
 dx dy
  \quad \quad \quad \quad  \quad
 $$
+其中，$F (\xi, \eta) $ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
+
 
 
 
@@ -156,7 +158,7 @@ $$
 $$
 E_3 (\xi, \eta)  
 = 
-H(\xi, \eta) \cdot F (\xi, \eta) 
+H(\xi, \eta) \cdot F (\xi, \eta)
 $$
 
 
@@ -170,58 +172,61 @@ $$
 $$
 E_4 (x,y) 
 = 
-\mathcal{F} \{ E_3 (\xi, \eta)  \} 
-\\
+\mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
 =
-\mathcal{F} \{ H(\xi, \eta) \cdot F (\xi, \eta)  \} 
-\\
-=
-\iint _{-\infty}^{+\infty}
-E_3 (\xi, \eta)
-\exp \{   i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d \xi d \eta
- \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad 
-\\
-=
-\begin{cases} 
-0  
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad  \quad  \quad \quad  \quad \quad 
-，\xi < 0
-\\
-\\ 
-\iint _{-\infty}^{+\infty}
-C \cdot \exp \{ i \cdot \Delta \Phi(x, y)  - i  ( 2 \pi \xi +  2 \pi  \eta) \}
-\exp \{   i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d \xi d \eta
-
-\quad  
-， \xi \geq 0
-\end{cases}
-
-\\
-=
-\begin{cases} 
-0  
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad 
-，\xi < 0
-\\ 
-\\
-\iint _{-\infty}^{+\infty}
-C \cdot \exp \{ i \cdot \Delta \Phi(x, y)   \}
-d \xi d \eta
-
-\quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad 
-， \xi \geq 0
-\end{cases}
- \quad \quad \quad \quad  \quad \quad
+\mathcal{F}^{-1} \{  F (\xi, \eta) \cdot H(\xi, \eta)   \}
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
+根据，
+$$
+\mathcal{F}^{-1} \{ H(x, y)  \}
+=
+\delta(y) \cdot (\frac{1}{2} \delta(x) - \frac{1}{2 i \pi x})
+$$
+和卷积定理，
+$$
+\mathcal{F}^{-1} \{ G(x, y) \cdot H (x, y)  \} 
+=
+\iint _{-\infty}^{+\infty} 
+g(\xi, \eta) \cdot h(x - \xi, y - \eta)  d\xi d\eta
+$$
+可以得到：
+$$
+E_4 (x,y) 
+= 
+\mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\\
+\\
+=
+\mathcal{F}^{-1} \{  F (\xi, \eta) \cdot H(\xi, \eta)   \}
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\\
+=
+\iint _{-\infty}^{+\infty} 
+f(x, y) \cdot \delta( \eta - y )  \cdot \{ \frac{1}{2} \delta(\xi - x ) - \frac{1}{2 i \pi (\xi - x ) } \}
+dx dy
+\\
+=
+\int _{-\infty}^{+\infty} 
+f(\xi , y)  \cdot \{ \frac{1}{2} \delta(\xi - x ) - \frac{1}{2 i \pi (\xi - x ) } \}
+ dx
+ \quad \quad \quad \quad \quad \quad 
+\\
+=
+\frac{1}{2} f(\xi, \eta) - \frac{1}{2} i \int _{-\infty}^{+\infty} \frac{-1}{\pi} \frac{f(\xi, y)}{\xi - x}  dx
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\\
+=
+\frac{1}{2} \{ f(\xi, \eta) + i h(\xi, \eta)  \}
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
+$$
+其中，$h(\xi, \eta) = \int _{-\infty}^{+\infty} \frac{1}{\pi} \frac{f(\xi, y)}{\xi - x}  dx $ ，表示为原光场在 $\xi$ 方向上的希尔伯特（Hilbert）变换，可以认为是给像面光场引入自生参考光，使得相移信息转换为光强信息。
 
 
 
 
-待w完成，哈哈哈！
 
 
 
@@ -277,7 +282,7 @@ C ^2
 \quad \quad \quad 
 ， \xi \geq 0
 \end{cases}
- \quad \quad \quad \quad  \quad \quad\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad \quad 
+ \quad \quad \quad \quad  \quad \quad\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad \quad
 $$
 
 **注**：推导到这里，已经不知道对不对了。求老师解答。
