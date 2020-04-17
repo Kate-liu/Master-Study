@@ -543,6 +543,31 @@ IM2=imclose(IM,NHOOD)
 
 
 
+### figure
+
+https://ww2.mathworks.cn/help/matlab/ref/figure.html?requestedDomain=cn
+
+可以设置背景的颜色：
+
+```matlab
+figure('color',[1 0 0]);  % 背景颜色为红色
+figure('color',[1 1 1]);  % 背景颜色为白色
+```
+
+
+
+
+
+### subplot
+
+在一个figure中，等分几块，的第几个位置上。
+
+```matlab
+subplot(3,3,1);  % figure分为3 * 3，9块，的第一个位置处。
+```
+
+
+
 
 
 
@@ -732,6 +757,31 @@ size（）：获取矩阵的行数和列数
 
 
 
+
+
+### floor
+
+地板除。
+
+
+
+### round
+
+调用格式：Y = round(X)
+
+　在matlab中round也是一个四舍五入函数。在matlab的命令窗口中输入doc round或者help round即可获得该函数的相关帮助信息。
+
+　　相关函数：ceil、floor、fix
+程序示例　　>>a = [-1.9, -0.2, 3.4, 5.6, 7.0, 2.4+3.6i]
+
+　　a =
+
+　　Columns 1 through 4
+
+
+
+
+
 ### mean
 
 **函数功能**
@@ -861,6 +911,34 @@ for i=1:m
     end
 end
 ```
+
+
+
+### imresize
+
+matlab中imresize()函数的功能是改变图像的大小。
+
+其用法有多种：
+
+1、B = imresize(A,m)  将图片A放大m倍
+
+2、B = imresize(A,m,method)  将图片A由参数method指定的插值运算方法来改变图像的大小到m倍，
+
+ method的几种可选值：
+
+ 'nearest'最近邻插值（默认）
+
+ 'bilinear'双线性插值
+
+ 'bicubic'双三次插值
+
+3、B = imresize(A,[mrows ncols],method) 将图片A由参数method指定的插值运算方法，来改变图像的大小到长宽为[mrows ncols]
+
+4、B = imresize(...,method,n)  
+
+5、B = imresize(...,method,h) 
+
+ 其中的h可以是任意一个FIR滤波器（h通常由函数ftrans2、fwind1、fwind2、或fsamp2等生成的二维FIR滤波器）。
 
 
 

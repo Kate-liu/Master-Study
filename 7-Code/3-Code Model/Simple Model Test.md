@@ -252,40 +252,9 @@ I(x,y)
 =  E_4 (x,y) \cdot E_4 ^* (x,y)   
 \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
 \\
-=
-\begin{cases} 
-0  
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad  \quad \quad 
-，\xi < 0
-\\ 
-\\
-\iint _{-\infty}^{+\infty}
-C \cdot \exp \{ i \cdot \Delta \Phi(x, y)   \}
-\cdot 
-C \cdot \exp \{ - i \cdot \Delta \Phi(x, y)   \}
-d \xi d \eta
-
-\quad \quad \quad \quad 
-， \xi \geq 0
-\end{cases}
- \quad \quad \quad \quad  \quad \quad
- 
-\\
-=
- \begin{cases} 
-0  
-\quad \quad \quad \quad 
-，\xi < 0
-\\ 
-\\
-C ^2
-\quad \quad \quad 
-， \xi \geq 0
-\end{cases}
- \quad \quad \quad \quad  \quad \quad\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad \quad
 $$
 
-**注**：推导到这里，已经不知道对不对了。求老师解答。
+
 
 
 
