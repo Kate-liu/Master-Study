@@ -127,7 +127,7 @@ d \xi d \eta
 $$
 其中，$U_2 (x,y) $ 为距离凸透镜的距离为 $f$ 的后焦距面上的光场，$U(\xi, \eta)$ 为距离凸透镜的距离为 $d$ 的前焦距面上的光场，$k$ 为波数，表示为 $k = \frac{2 \pi }{\lambda}$ ，关于经过凸透镜的光场图可参考下图进行理解，详细的推导请参见：ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节。
 
-<img src="Simple Model.assets/image-20200413130239776.png" alt="image-20200413130239776" style="zoom:50%;" />
+<img src="Simple Model.assets/凸透镜傅里叶特性示意图.png" alt="凸透镜傅里叶特性示意图" style="zoom:50%;" />
 
 <center><font color="red">图3 凸透镜傅里叶特性示意图</font><cebnter>
 

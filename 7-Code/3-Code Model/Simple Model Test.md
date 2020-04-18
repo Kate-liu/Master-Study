@@ -265,11 +265,178 @@ $$
 
 > 将上述模型内容实现成为代码。
 
+```matlab
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Schlieren MATLAB code
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+clear; 
+clc;  
+clf;
+close all;
+
+
+%% Laser Source（激光光源）
+
+% Field size and sampling
+% Set 5 * 5 mm field
+% Sampling 4096+ pixel
+L0 = 5e-3;
+Nx = 4096 + 1;
+Ny = 2048 + 1;
+x = L0 * linspace(-1, 1, Nx);  
+y = L0 * linspace(-1, 1, Ny);
+[X, Y] = meshgrid(x, y); 
+
+% Wave length
+% Green
+% Variable lambda
+lambda = 532e-9;
+
+% Constant Laser
+% The uniform light intensity is 1
+Laser_Intensity = 1;
+E0 = Laser_Intensity + zeros(Ny, Nx);
+
+
+%% Test Object of the Cylinder
+
+E1 = E0;
+r = 0.8e-3;  % Cylinder radius 0.8mm
+n1 = 1;  % air Refractive
+n2 = 1 - 4 * 10^(-3); % Cylinder Refractive
+
+% Used temperature calculate Refractive
+% temperature = 3000;  % Temperature
+% K = ;
+% P = ;
+% M = ;
+% R = 8.31;
+% constant = K * P * M / R;
+% n2 = constant / temperature + 1;
+
+% A formula to calculate
+kAir = 2 * pi * n1 / lambda;
+kPlasma = 2 * pi * n2 / lambda;
+for i = 1 : size(E0, 2)
+    if abs(X(1, i)) >= r
+        E1(:, i) = E0(:, i) .* exp(1i * kAir * 2 * r);
+
+    else
+        Delta = sqrt(r^2 - X(1, i)^2);
+        E1(:, i) = E0(:, i) .* exp(1i * (kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta));
+
+    end
+end
+
+figure(12);
+imshow(E1);
+title('E1');
+
+
+%% First Len Properties
+
+F1 = fftshift(fft2(E1));
+
+F1_ = log(abs(F1).^2)-2;
+max_F1 = max(max(F1_));
+F1_ = F1_ / max_F1;
+
+figure(21);
+imshow(F1_);
+title('F1_');
+
+
+%% Knife Edge
+[p, q] = size(F1);
+filter = 1 + zeros(p, q);
+
+% filter
+for i = 1: round(q / 2)
+    for j = 1: p
+        filter(j, i) = 0;
+    end
+end
+
+figure(31);
+imshow(filter);
+
+
+%% Use Knife Edge
+F2 = F1 .* filter;
+
+F2_ = log(abs(F2).^2)-2;
+max_F2 = max(max(F2_));
+F2_ = F2_ / max_F2;
+
+figure(41);
+imshow(F2_);
+title('F2_');
+
+
+%% image (filtered)
+image_filtered = ifft2(ifftshift(F2));
+
+figure(61);
+imshow(image_filtered);
+title('image_filtered');
+
+
+%% Photoconductive Detector Result
+Cimage_filtered = conj(image_filtered);
+
+I = Cimage_filtered .* image_filtered;
+
+
+figure(71);
+imshow(image_filtered);
+
+figure(72);
+imagesc(I);
+
+
+
+```
 
 
 
 
 
+## Result（结果）
+
+### 光源
+
+![光源](Simple Model Test.assets/光源.bmp)
+
+
+
+### 经过被测对象后光场
+
+![经过被测对象之后](Simple Model Test.assets/经过被测对象之后.bmp)
+
+
+
+### 使用的刀口
+
+![使用的刀口](Simple Model Test.assets/使用的刀口.bmp)
+
+
+
+### 第二个凸透镜后的光场
+
+![第二个透镜后的光场](Simple Model Test.assets/第二个透镜后的光场.bmp)
+
+
+
+### 探测器的光强
+
+![探测器上的光强](Simple Model Test.assets/探测器上的光强.bmp)
+
+
+
+![探测器上的光强-带坐标的](Simple Model Test.assets/探测器上的光强-带坐标的.bmp)
 
 
 

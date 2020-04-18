@@ -556,6 +556,16 @@ figure('color',[1 1 1]);  % 背景颜色为白色
 
 
 
+### polyfit
+
+https://ww2.mathworks.cn/help/matlab/ref/polyfit.html
+
+p = polyfit(x,y,n)` 返回次数为 `n` 的多项式 `p(x)` 的系数，该阶数是 `y` 中数据的最佳拟合（在最小二乘方式中）。`p` 中的系数按降幂排列，`p` 的长度为 `n+1
+
+
+
+
+
 
 
 ### subplot
@@ -727,11 +737,23 @@ hold off
 
 
 
+
+
 ### plot
+
+https://www.cnblogs.com/douyamv/p/4239994.html
+
+plot(X1,Y1,LineSpec,...)通过参数LineSpec指定曲线的曲线属性，它包括线型、标记符和颜色。plot函数支持同时绘制任意组图形
+
+ plot(X1,Y1,LineSpec1,X2,Y2,LineSpec2,...)
+
+
 
 
 
 ### pcolor
+
+
 
 
 
