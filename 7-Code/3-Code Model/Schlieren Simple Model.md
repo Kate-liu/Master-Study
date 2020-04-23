@@ -1,4 +1,4 @@
-# Simple Model
+# Schlieren Schlieren Simple Model
 
 > 进行纹影装置模型的公式推导。
 
@@ -6,7 +6,7 @@
 
 纹影装置，可以简化为下图所示：
 
-<img src="Simple Model.assets/含被测对象的纹影装置示意图.png" alt="含被测对象的纹影装置示意图" style="zoom:50%;" />
+<img src="Schlieren Simple Model.assets/含被测对象的纹影装置示意图.png" alt="含被测对象的纹影装置示意图" style="zoom:50%;" />
 
 <center><font color="red">图1 含被测对象的纹影装置示意图</font><cebnter>
 
@@ -28,7 +28,7 @@
 
 由于纹影装置需要将光源扩束准直为**直径大于被测对象直径**的光束，而在实际的理论推导中，忽略点光源被扩束准直的过程，直接设置光源为扩束之后的平行光，接着光线进入被测对象内部，可以查看下面的装置示意图：
 
-<img src="Simple Model.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
+<img src="Schlieren Simple Model.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
 
 <center><font color="red">图2 纹影法装置示意图（仿真）</font><cebnter>
 
@@ -408,35 +408,35 @@ imagesc(I);
 
 ### 光源
 
-![光源](Simple Model Test.assets/光源.bmp)
+![光源](Schlieren Simple Model.assets/光源.bmp)
 
 
 
 ### 经过被测对象后光场
 
-![经过被测对象之后](Simple Model Test.assets/经过被测对象之后.bmp)
+![经过被测对象之后](Schlieren Simple Model.assets/经过被测对象之后.bmp)
 
 
 
 ### 使用的刀口
 
-![使用的刀口](Simple Model Test.assets/使用的刀口.bmp)
+![使用的刀口](Schlieren Simple Model.assets/使用的刀口.bmp)
 
 
 
 ### 第二个凸透镜后的光场
 
-![第二个透镜后的光场](Simple Model Test.assets/第二个透镜后的光场.bmp)
+![第二个透镜后的光场](Schlieren Simple Model.assets/第二个透镜后的光场.bmp)
 
 
 
 ### 探测器的光强
 
-![探测器上的光强](Simple Model Test.assets/探测器上的光强.bmp)
+![探测器上的光强](Schlieren Simple Model.assets/探测器上的光强.bmp)
 
 
 
-![探测器上的光强-带坐标的](Simple Model Test.assets/探测器上的光强-带坐标的.bmp)
+![探测器上的光强-带坐标的](Schlieren Simple Model.assets/探测器上的光强-带坐标的.bmp)
 
 
 

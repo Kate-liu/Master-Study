@@ -6,7 +6,7 @@
 
 纹影装置，可以简化为下图所示：
 
-<img src="Simple Model.assets/含被测对象的纹影装置示意图.png" alt="含被测对象的纹影装置示意图" style="zoom:50%;" />
+
 
 <center><font color="red">图1 含被测对象的纹影装置示意图</font><cebnter>
 
@@ -28,7 +28,7 @@
 
 由于纹影装置需要将光源扩束准直为**直径大于被测对象直径**的光束，而在实际的理论推导中，忽略点光源被扩束准直的过程，直接设置光源为扩束之后的平行光，接着光线进入被测对象内部，可以查看下面的装置示意图：
 
-<img src="Simple Model.assets/纹影法装置示意图（仿真）.png" alt="纹影法装置示意图（仿真）" style="zoom:50%;" />
+
 
 <center><font color="red">图2 纹影法装置示意图（仿真）</font><cebnter>
 
@@ -112,68 +112,32 @@ $$
 
 光线继续沿着光轴传播，穿过第一个凸透镜的时候，由于透镜具有傅里叶特性，根据ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节，可以得到凸透镜后焦距面上的光场表达式：
 $$
-U_2 (x,y) 
+F (\xi, \eta)
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) 
-\exp (ik(d + f))}
-{i f \lambda}
-\cdot
+\mathcal{F} \{ E_1 (x,y) \}
+ \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
 \\
-\iint _{-\infty}^{+\infty}
-U(\xi, \eta)
-\exp( - i  \frac  {k } {f} ( x \xi +  y  \eta) )
-
-d \xi d \eta
-$$
-其中，$U_2 (x,y) $ 为距离凸透镜的距离为 $f$ 的后焦距面上的光场，$U(\xi, \eta)$ 为距离凸透镜的距离为 $d$ 的前焦距面上的光场，$k$ 为波数，表示为 $k = \frac{2 \pi }{\lambda}$ ，关于经过凸透镜的光场图可参考下图进行理解，详细的推导请参见：ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节。
-
-<img src="Simple Model.assets/凸透镜傅里叶特性示意图.png" alt="凸透镜傅里叶特性示意图" style="zoom:50%;" />
-
-<center><font color="red">图3 凸透镜傅里叶特性示意图</font><cebnter>
-
-所以，可以得到纹影装置中光线经过第一个凸透镜之后的光场信息为：
-$$
-E_2 (\xi, \eta)
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
-
 \iint _{-\infty}^{+\infty}
 E_1 (x,y) 
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
-
-d x d y
-$$
-其中，$E_2 (\xi, \eta)$ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
-
-进一步化简，可以得到：
-$$
-E_2 (\xi, \eta)
+\exp \{  - i  ( 2 \pi \xi +  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad \quad  \quad \quad \quad \quad 
+\\
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
-
 \iint _{-\infty}^{+\infty}
-C \cdot \exp \{i \cdot \Delta \Phi(x, y) \}
-\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )
-
-d x d y
-$$
-也即：
-$$
-E_2 (\xi, \eta)
+C \cdot \exp \{ i \cdot \Delta \Phi(x, y) \}
+\exp \{ - i  ( 2 \pi \xi +  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad 
+\\
 =
-\frac {\exp (i \frac{k}{2 f} (x^2 + y^2) (1- \frac {d}{f} )) }
-{f \lambda}
-\cdot
 \iint _{-\infty}^{+\infty}
-\mathcal{F} \{ E_1 (x,y) \}
-
-d x d y
+C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
+dx dy
+ \quad \quad \quad \quad  \quad
 $$
-详细的推导请参见：ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节。
+其中，$F (\xi, \eta) $ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
 
 
@@ -198,33 +162,26 @@ E_3 (\xi, \eta)  = H(x) \cdot E_2 (\xi, \eta)
 $$
 
 
+
+
+
+
+
 ### Second  Len（第二个凸透镜）
 
-光线经过第二个透镜的时候，根据ModelDetails.md 中，Fourier Properties of the lens（透镜的傅里叶特性）节，得到：
+光线经过第二个透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到纹影装置中光线经过第二个凸透镜之后的光场信息为：
 
-当 $d =f$ 的时候，透镜后焦距位置的相平面光场为：
 $$
-U_2 (x,y) =\frac { 1}{f \lambda}\cdot\iint _{-\infty}^{+\infty}U(\xi, \eta)\exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )d \xi d \eta
-$$
-所以，可以得到纹影装置第二个凸透镜后相平面的电场为：
-$$
-E_4 (x,y) =
-\frac { 1}{f \lambda}
-\cdot
-\iint _{-\infty}^{+\infty} E_3 (\xi, \eta) \exp( -  \frac  {ik } {f} ( x \xi +  y  \eta) )d \xi d \eta
+E_4 (x,y) 
+= 
+\mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
+=
+\mathcal{F}^{-1} \{  F (\xi, \eta) \cdot H(\xi, \eta)   \}
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
-可将其表示为：
-$$
-E_4 (x,y) =
-\frac { 1}{f \lambda}
-\cdot
-\iint _{- \infty} ^{ +\infty} 
 
-\mathcal{F} \{ E_3 (\xi, \eta) \}
-d \xi d \eta
-$$
+
 
 
 ### Light intensity（光强）
@@ -242,8 +199,11 @@ $$
 I(x,y) 
 =  E_4 (x,y) \cdot E_4 ^* (x,y)   \quad \quad \quad \quad \quad \quad
 \\
-= 
 $$
+
+
+
+
 
 
 
@@ -251,6 +211,40 @@ $$
 ## Code（代码）
 
 > 将上述模型内容实现成为代码。
+
+```matlab
+
+
+
+```
+
+
+
+
+
+## Result（结果）
+
+### 光源
+
+
+
+
+
+### 经过被测对象后光场
+
+
+
+### 使用的刀口
+
+
+
+### 第二个凸透镜后的光场
+
+
+
+
+
+### 探测器的光强
 
 
 
