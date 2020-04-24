@@ -1,16 +1,17 @@
-# Simple Model
+# Double frequency grating Schlieren Simple Model
 
-> 进行纹影装置模型的公式推导。
+> 进行双频光栅纹影装置模型的公式推导。
 
 ## Set up(装置)
 
-纹影装置，可以简化为下图所示：
+双频光栅纹影装置，可以简化为下图所示：
 
 
 
-<center><font color="red">图1 含被测对象的纹影装置示意图</font><cebnter>
+<center><font color="red">图1 含被测对象的双频光栅纹影装置示意图</font><cebnter>
 
-> 视觉角度：俯视图；
+
+> 视觉角度：主视图；
 >
 > 坐标说明：x-世界坐标系水平方向，y-世界坐标系垂直方向，z-光轴方向。
 >
