@@ -4926,6 +4926,36 @@ $$
 
 
 
+### 0-255重新映射图像灰度
+
+```matlab
+% 将原来的灰度图像，按照最大最小灰度值扩展，调整新图像的灰度值分布
+% sized_image 被调整大小后的图片
+% grayimage 原始的灰度图像
+% full_scale 调整后的图像数据
+
+
+
+% Use the greatest and least intense pixels to rescale the image to use the
+% full intensity range 0-255
+image_size=size(sized_image);
+min_intensity=255;
+max_intensity=0;
+
+for m=1:image_size(1) % m corresponds to the x pixel location
+    for n=1:image_size(1) % n corresponds to the y pixel location
+        if grayimage(m,n)<min_intensity
+            min_intensity=sized_image(m,n);
+        end
+        if grayimage(m,n)>max_intensity
+           max_intensity=sized_image(m,n);
+        end
+    end
+end
+
+full_scale=(sized_image-min_intensity)* (max/(max_intensity-min_intensity));
+```
+
 
 
 
