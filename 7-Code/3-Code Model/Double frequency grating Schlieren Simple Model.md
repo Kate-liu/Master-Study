@@ -110,14 +110,6 @@ dx dy
 C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
 dx dy
  \quad \quad \quad \quad  \quad
- \\
-= ....?
- \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  
-\\
-= 
-C \cdot 2 \pi [\delta (\xi - k \delta_0) + \delta (\eta - k \eta_0)]
- \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  
-\\
 $$
 其中，$F (\xi, \eta) $ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
@@ -151,9 +143,9 @@ $$
 $$
 g(x) = cos(2 \pi f_1 x) + cos(2 \pi f_2 x)
 $$
-上式中，$f_1$ 和 $f_2$ 表示为双频光栅的频率，。
+上式中，$f_1$ 和 $f_2$ 表示为双频光栅的频率。
 
-当频谱面与双频光栅作用的时候，由于 $g(x) $ 是周期函数，可以写成傅里叶级数的形式，如下所示：
+当频谱面与双频光栅作用的时候，由于 $g(x) $ 是周期函数，可以写成傅里叶级数的形式，并基于**欧拉公式**，化简余弦函数，如下所示：
 $$
 G(\xi) 
 =
@@ -172,11 +164,32 @@ e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
 $$
 其中，$\xi$ 与$x$ 相对应。
 
-所以，可以得到**刀口后的电场**表达式：
+所以，可以得到**刀口后的电场**表达式，并利用**空间滤波器滤除+1级频谱**，基于**傅里叶变换的时移特性**：
 $$
 E_3 (\xi, \eta)  
 = 
-F (\xi, \eta) \cdot G(\xi)
+F (\xi, \eta) \cdot G(\xi， \eta)
+\\
+(代入G(\xi， \eta))
+\\
+=
+F (\xi, \eta) \cdot 
+\frac{1}{2} (e^{i 2 \pi f_1 \xi }+ e^{ - i 2 \pi f_1 \xi}
++
+e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
+\\
+(进行空间滤波)
+\\
+=
+F (\xi, \eta) \cdot 
+\frac{1}{2} ( e^{ - i 2 \pi f_1 \xi} + e^{ - i 2 \pi f_2 \xi})
+\\
+(化简)
+\\
+=
+\frac{1}{2} F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi} + 
+\frac{1}{2} F (\xi, \eta) \cdot e^{ - i 2 \pi f_2 \xi}
+\\
 $$
 
 
@@ -192,7 +205,7 @@ $$
 $$
 E_4 (x,y) 
 = 
-\mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
+\mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \}
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
@@ -201,65 +214,32 @@ $$
 E_4 (x,y) 
 = 
 \mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
-\iint _{-\infty}^{+\infty}
-E_3 (\xi, \eta) 
-\exp \{  i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d\xi  d\eta
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\mathcal{F}^{-1} \{ 
+\frac{1}{2} F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi} + 
+\frac{1}{2} F (\xi, \eta) \cdot e^{ - i 2 \pi f_2 \xi}  \} 
+\\
+(傅里叶变换的时移特性)
 \\
 =
-\iint _{-\infty}^{+\infty}
-F (\xi, \eta) \cdot G(\xi) \cdot
-\exp \{  i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d\xi  d\eta
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
-\\
-=
-\iint _{-\infty}^{+\infty}
-F (\xi, \eta) \cdot 
-\frac{1}{2} (e^{i 2 \pi f_1 \xi }+ e^{ - i 2 \pi f_1 \xi}
+\frac{1}{2} E_1 (\xi - 2 \pi f_1, \eta)
 +
-e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
-\cdot
-\exp \{  i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d\xi  d\eta
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\frac{1}{2} E_1 (\xi - 2 \pi f_2, \eta)
+\\
+(带入E_1(x,y) )
 \\
 =
-\iint _{-\infty}^{+\infty}
-C \cdot 2 \pi [\delta (\xi - k \delta_0) + \delta (\eta - k \eta_0)]
-\cdot 
-\frac{1}{2} (e^{i 2 \pi f_1 \xi }+ e^{ - i 2 \pi f_1 \xi}
-+
-e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
-\cdot
-\exp \{  i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d\xi  d\eta
+\frac{1}{2} C \cdot  e^{ i \Delta \varphi (x - 2 \pi f_1 , y) } + 
+\frac{1}{2} C \cdot  e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }
 \\
-=
-\frac{1}{2} C \cdot
-\iint _{-\infty}^{+\infty}
-\cdot 2 \pi [\delta (\xi - k \delta_0) + \delta (\eta - k \eta_0)]
-\cdot  
-(e^{i 2 \pi f_1 \xi }+ e^{ - i 2 \pi f_1 \xi}
-+
-e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
-\cdot
-\exp \{  i  ( 2 \pi \xi +  2 \pi  \eta) \}
-d\xi  d\eta
-\\
-= .....?
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+(化简 )
 \\
 =
 \frac{1}{2} C \cdot [ e^{ i \Delta \varphi (x - 2 \pi f_1 , y) } + e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }]
-\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
 $$
 
-
+其中，$E_4 (x, y)$ 是$E_3 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
 
 
@@ -337,6 +317,94 @@ I(x,y)
  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad  \quad \quad \quad  \quad \quad  
 \\
 $$
+
+
+
+## Reference（参考）
+
+### 欧拉公式
+
+
+
+### 傅里叶变换的时移特性
+
+
+
+### 导数的定义
+
+
+
+
+
+## Simulation Logic(仿真逻辑)
+
+> 介绍仿真的时候，每一部分的取舍。
+
+光源：
+
+> 取一个常数，光场是 $E_0(x,y) = C$ 。
+
+被测对象：
+
+> 取一个圆柱形被测物，内部折射率小于空气折射率（小于1），并且圆柱的高远大于仿真的测试区域。
+>
+> 被测对象带来的相位变化表达式：
+>
+> $\Delta \Phi (x)=
+> \begin{cases} 
+> k(air) \cdot 2R
+> \quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad\quad \quad \quad \quad \quad   ,|x|>R 
+> \\ 
+> \\
+> k(air) \cdot (2R - 2 \cdot \Delta z(x)) + k(plasma) \cdot 2 \cdot \Delta  z(x)  
+> \quad \quad \quad \quad   ,|x| \leq R
+> \end{cases}$ 
+>
+> 上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ ， $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ 。
+>
+> 经过被测对象后的光场信息为：
+>
+> $E_1(x,y) 
+> = E_0(x,y)\cdot \exp \{i \cdot \Delta \Phi(x, y) \}
+> = C \cdot \exp \{i \cdot \Delta \Phi(x, y) \}$ 
+
+第一个透镜：
+
+> 进行光场的傅里叶变化，得到的频域表达式，表示为：
+>
+> $F (\xi, \eta)
+> =
+> \mathcal{F} \{ E_1 (x,y) \}$ 
+>
+> 其中，$F (\xi, \eta) $ 是$E_1 (x, y)$ 的准确傅里叶变换。
+
+双频光栅：
+
+> 双频光栅的表达式为：
+>
+> $G(\xi) 
+> =
+> cos(2 \pi f_1 \xi) + cos(2 \pi f_2 \xi)$ 
+>
+> 上式中，$f_1$ 和 $f_2$ 表示为双频光栅的频率，$\xi$ 表示为至于$x$ 方向相关。 
+>
+> $E_3 (\xi, \eta)  
+> = 
+> F (\xi, \eta) \cdot G(\xi， \eta)$ 
+>
+> 并进行**空间滤波，滤除+1级频谱**。
+
+第二个透镜：
+
+> 进行光场的逆傅里叶变化，得到时域的表达式，表示为：
+>
+> $E_4 (x,y) 
+> = 
+> \mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \}$ 
+>
+> 其中，$E_4 (x, y)$ 是$E_3 (x, y)$ 的准确傅里叶变换。
+
+光强：
 
 
 
