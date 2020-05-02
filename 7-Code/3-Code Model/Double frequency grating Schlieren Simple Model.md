@@ -145,7 +145,7 @@ g(x) = cos(2 \pi f_1 x) + cos(2 \pi f_2 x)
 $$
 上式中，$f_1$ 和 $f_2$ 表示为双频光栅的频率。
 
-当频谱面与双频光栅作用的时候，由于 $g(x) $ 是周期函数，可以写成傅里叶级数的形式，并基于**欧拉公式**，化简余弦函数，如下所示：
+当频谱面与双频光栅作用的时候，由于 $g(x) $ 是周期函数，可以写成傅里叶级数的形式，并基于[欧拉公式](#欧拉公式)，化简余弦函数，如下所示：
 $$
 G(\xi) 
 =
@@ -169,8 +169,10 @@ $$
 E_3 (\xi, \eta)  
 = 
 F (\xi, \eta) \cdot G(\xi， \eta)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 (代入G(\xi， \eta))
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
 F (\xi, \eta) \cdot 
@@ -179,16 +181,20 @@ F (\xi, \eta) \cdot
 e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
 \\
 (进行空间滤波)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
 F (\xi, \eta) \cdot 
 \frac{1}{2} ( e^{ - i 2 \pi f_1 \xi} + e^{ - i 2 \pi f_2 \xi})
+\quad \quad \quad \quad \quad \quad \quad \quad
 \\
 (化简)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
 \frac{1}{2} F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi} + 
 \frac{1}{2} F (\xi, \eta) \cdot e^{ - i 2 \pi f_2 \xi}
+\quad \quad \quad \quad 
 \\
 $$
 
@@ -209,11 +215,12 @@ E_4 (x,y)
 $$
 其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
-进行化简如下：
+基于[傅里叶变换的时延特性](#傅里叶变换的时延特性)，进行化简如下：
 $$
 E_4 (x,y) 
 = 
 \mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \} 
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
 \mathcal{F}^{-1} \{ 
@@ -221,22 +228,28 @@ E_4 (x,y)
 \frac{1}{2} F (\xi, \eta) \cdot e^{ - i 2 \pi f_2 \xi}  \} 
 \\
 (傅里叶变换的时移特性)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
-\frac{1}{2} E_1 (\xi - 2 \pi f_1, \eta)
+\frac{1}{2} E_1 (x - 2 \pi f_1, y)
 +
-\frac{1}{2} E_1 (\xi - 2 \pi f_2, \eta)
+\frac{1}{2} E_1 (x - 2 \pi f_2, y)
+\quad \quad \quad \quad 
 \\
 (带入E_1(x,y) )
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
-\frac{1}{2} C \cdot  e^{ i \Delta \varphi (x - 2 \pi f_1 , y) } + 
-\frac{1}{2} C \cdot  e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }
+\frac{1}{2} C \cdot  e^{ i \Delta \Phi (x - 2 \pi f_1 , y) } + 
+\frac{1}{2} C \cdot  e^{ i \Delta \Phi (x - 2 \pi f_2 , y) }
+\quad \quad \quad \quad 
 \\
 (化简 )
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
-\frac{1}{2} C \cdot [ e^{ i \Delta \varphi (x - 2 \pi f_1 , y) } + e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }]
+\frac{1}{2} C \cdot [ e^{ i \Delta \Phi (x - 2 \pi f_1 , y) } + e^{ i \Delta \Phi (x - 2 \pi f_2 , y) }]
+\quad \quad \quad \quad \quad \quad
 $$
 
 其中，$E_4 (x, y)$ 是$E_3 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
@@ -266,7 +279,7 @@ $$
 $$
 E_4 ^* (x,y)
 =
-\frac{1}{2} C \cdot [ e^{ -i \Delta \varphi (x - 2 \pi f_1 , y) } + e^{ - i \Delta \varphi (x - 2 \pi f_2 , y) }]
+\frac{1}{2} C \cdot [ e^{ -i \Delta \Phi (x - 2 \pi f_1 , y) } + e^{ - i \Delta \Phi (x - 2 \pi f_2 , y) }]
 $$
 所以，最后光电探测器上光场强度可以表示为：
 $$
@@ -275,44 +288,61 @@ I(x,y)
 \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
 \\
 =
-\frac{1}{2} C \cdot [ e^{ i \Delta \varphi (x - 2 \pi f_1 , y) } + e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }]
+\frac{1}{2} C \cdot [ e^{ i \Delta \Phi (x - 2 \pi f_1 , y) } + e^{ i \Delta \Phi (x - 2 \pi f_2 , y) }]
 \cdot
-\frac{1}{2} C \cdot [ e^{ -i \Delta \varphi (x - 2 \pi f_1 , y) } + e^{ - i \Delta \varphi (x - 2 \pi f_2 , y) }]
+\frac{1}{2} C \cdot [ e^{ -i \Delta \Phi (x - 2 \pi f_1 , y) } + e^{ - i \Delta \Phi (x - 2 \pi f_2 , y) }]
  \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
+\\
+(相乘展开)
 \\
 =
 \frac{1}{4} C^2 + \frac{1}{4} C^2 + 
-\frac{1}{4} C^2 \cdot e^{ i \Delta \varphi (x - 2 \pi f_1 , y) }  \cdot e^{ -i \Delta \varphi (x - 2 \pi f_2 , y) } + 
-\frac{1}{4} C^2 \cdot e^{ i \Delta \varphi (x - 2 \pi f_2 , y) }  \cdot e^{ -i \Delta \varphi (x - 2 \pi f_1 , y) }
+\frac{1}{4} C^2 \cdot e^{ i \Delta \Phi (x - 2 \pi f_1 , y) }  \cdot e^{ -i \Delta \Phi (x - 2 \pi f_2 , y) } + 
+\frac{1}{4} C^2 \cdot e^{ i \Delta \Phi (x - 2 \pi f_2 , y) }  \cdot e^{ -i \Delta \Phi (x - 2 \pi f_1 , y) }
  \quad \quad \quad \quad \quad 
 \\
+(化简)
+\\
 =
 \frac{1}{2} C^2 + 
-\frac{1}{4} C^2 \cdot e^{ i [ \Delta \varphi (x - 2 \pi f_1 , y) - \Delta \varphi (x - 2 \pi f_2 , y) ]} + 
-\frac{1}{4} C^2 \cdot e^{ i [ \Delta \varphi (x - 2 \pi f_2 , y) - \Delta \varphi (x - 2 \pi f_1 , y) ] }
+\frac{1}{4} C^2 \cdot e^{ i [ \Delta \Phi (x - 2 \pi f_1 , y) - \Delta \Phi (x - 2 \pi f_2 , y) ]} + 
+\frac{1}{4} C^2 \cdot e^{ i [ \Delta \Phi (x - 2 \pi f_2 , y) - \Delta \Phi (x - 2 \pi f_1 , y) ] }
  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad 
 \\
-= ... ?
- \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad  \quad \quad \quad  \quad \quad   \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad  \quad  \quad 
+(化简)
 \\
 =
 \frac{1}{2} C^2 + 
-\frac{1}{4} C^2 \cdot \{2 cos [\Delta \varphi (x - 2 \pi f_1 , y) - \Delta \varphi (x - 2 \pi f_2 , y) ] \}
+\frac{1}{4} C^2 \cdot \{
+e^{ i [ \Delta \Phi (x - 2 \pi f_1 , y) - \Delta \Phi (x - 2 \pi f_2 , y) ]} + 
+e^{ - i [ \Delta \Phi (x - 2 \pi f_1 , y) - \Delta \Phi (x - 2 \pi f_2 , y)] }
+\}
+\quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad
+\\
+(欧拉公式)
+\\
+=
+\frac{1}{2} C^2 + 
+\frac{1}{4} C^2 \cdot \{2 cos [\Delta \Phi (x - 2 \pi f_1 , y) - \Delta \Phi (x - 2 \pi f_2 , y) ] \}
  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad 
+\\
+(配形式)
 \\
 =
 \frac{1}{2} C^2 + 
 \frac{1}{2} C^2 \cdot cos \{ 
-\frac{\Delta \varphi (x - 2 \pi f_1 , y) - \Delta \varphi (x , y)}{-2 \pi f_1} \cdot ( -2 \pi f_1)
+\frac{\Delta \Phi (x - 2 \pi f_1 , y) - \Delta \Phi (x , y)}{-2 \pi f_1} \cdot ( -2 \pi f_1)
 +
-\frac{\Delta \varphi (x , y) - \Delta \varphi (x - 2 \pi f_2 , y) }{2 \pi f_2} \cdot ( 2 \pi f_2)
+\frac{\Delta \Phi (x , y) - \Delta \Phi (x - 2 \pi f_2 , y) }{2 \pi f_2} \cdot ( 2 \pi f_2)
 \}
+\\
+(导数的定义)
 \\
 =
 \frac{1}{2} C^2 + 
 \frac{1}{2} C^2 \cdot cos 
 \{ 
-\frac {\partial \Delta \varphi (x , y) }{\partial x} \cdot  2 \pi (f_2 - f_1)
+\frac {\partial \Delta \Phi (x , y) }{\partial x} \cdot  2 \pi (f_2 - f_1)
 \}
  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad \quad \quad  \quad \quad \quad  \quad \quad \quad  \quad \quad  
 \\
@@ -320,17 +350,98 @@ $$
 
 
 
+
+
 ## Reference（参考）
 
 ### 欧拉公式
 
+在[Double frequency grating（双频光栅）](#Double frequency grating（双频光栅）)中，使用了欧拉公式进行公式的化简，基于已有的搜索引擎，我们可以得到欧拉公式的表示为：
+$$
+e^{i x} = cos(x) + i \cdot sin(x)
+$$
+其中，公式中$e$ 是自然对数的底，$i$ 是虚数单位。
+
+所以，我们可以同理得到另一个变体欧拉公式，表示为：
+$$
+e^{- i x} = cos(- x) + i \cdot sin(- x)
+\quad
+\\
+= cos(x) - i \cdot sin(x)
+$$
+此时，将欧拉公式与变体欧拉公式相加之后，可以得到：
+$$
+e^{- i x} + e^{i x} 
+= 
+[cos(x) + i \cdot sin(x) ]+
+[cos(x) - i \cdot sin(x) ]
+\\
+=
+2 \cdot cos(x)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad
+$$
+变化一个形式可以表示为：
+$$
+cos(x)
+=
+\frac{1}{2}
+[ e^{- i x} + e^{i x} ]
+$$
+在计算[Light intensity（光强）](#Light intensity（光强）) 的时候，可以将上式子变形为：
+$$
+2 \cdot cos(x)
+=
+e^{- i x} + e^{i x}
+$$
 
 
-### 傅里叶变换的时移特性
+
+
+
+
+### 傅里叶变换的时延特性
+
+在[Second  Len（第二个凸透镜）](#Second  Len（第二个凸透镜）)中，使用了傅里叶变换的时延特性，基于搜索引擎可以知道傅里叶变换的时延（移位）特性表示为：
+
+若：
+$$
+f(t) \leftrightarrow F(\omega)
+$$
+则：
+$$
+f_1(t) = f(t - t_0) \leftrightarrow F_1(\omega) = F(\omega)\cdot e^{-i \omega t_0}
+$$
+时延（移位）性说明波形在时间轴上时延，不改变信号振幅频谱，仅使信号增加一 $-\xi t_0$ 的线性相位。
+
+在使用傅里叶变换的时移特性的时候，我们的右边等于 $F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi} $  ，此时可表示 $\omega = \xi$ ，那么 $t_0 = 2 \pi f_1$ ，所以可以得到左边等于 $f(x - 2 \pi f_1)$  ，将其对应于实际的化简中，可以表示为;
+$$
+f(x - 2 \pi f_1, y) \leftrightarrow  F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi}
+$$
+
+
+> 参考：https://wenku.baidu.com/view/7fb2491c650e52ea551898f0?xreader=1#1
+
+
+
+
 
 
 
 ### 导数的定义
+
+在计算[Light intensity（光强）](#Light intensity（光强）) 的时候，使用了导数的定义进行光强的化简，基于高等数学可以知道：
+$$
+\frac{f(x- \Delta x) - f(x)} {\Delta x} = f'(x)
+$$
+那么在计算的时候，可以得到：
+$$
+\frac{f(x- \Delta x , y) - f(x , y)} {\Delta x} 
+= \frac {\partial f(x,y)} {\partial x}
+$$
+
+> 参考：https://wenku.baidu.com/view/f690c362561252d380eb6e84.html
+
+
 
 
 
@@ -405,6 +516,13 @@ $$
 > 其中，$E_4 (x, y)$ 是$E_3 (x, y)$ 的准确傅里叶变换。
 
 光强：
+
+>计算像面上的光强，表示为：
+>
+>$I(x,y) 
+>=  E_4 (x,y) \cdot E_4 ^* (x,y)$ 。
+>
+>其中，$E_4 ^* (x,y)$ 是 $E_4 (x,y)$ 的复共轭。
 
 
 
@@ -562,45 +680,80 @@ for i = 1 : N
     end
 end
 
+
+figure(31);
+imshow(G);
+title('G');
+
+
+%% Used Double frequency grating
 E3 = G .* F1;
 
 E3_ = log(abs(E3).^2) - 2;
 max_E3 = max(max(E3_));
 E3_ = E3_ / max_E3;
 
-
-figure(31);
-imshow(G);
-title('G');
-
-figure(32);
+figure(41);
 imshow(E3);
 title('E3');
 
-figure(33);
+figure(42);
 imshow(E3_);
 title('E3_');
 
 
 
-%% Fourier transform 
+%% Fourier transform and Used Double frequency grating
+E4 = ifft2(ifftshift(E3));
 
-E4 = fftshift(fft2(E3));
-
-E4_ = log(abs(E4).^2) - 2;
-max_E4 = max(max(E4_));
-E4_ = E4_ / max_E4;
-
-figure(43);
+figure(51);
 imshow(E4);
 title('E4');
 
-figure(44);
+figure(52);
 imshow(log(abs(E4)), []);
 
-figure(45);
-imshow(E4_);
-title('E4_');
+
+%% Fourier transform and don't Used Double frequency grating
+Reference_E4 = ifft2(ifftshift(F1));
+
+figure(61);
+imshow(Reference_E4);
+title('Reference_E4');
+
+figure(62);
+imshow(log(abs(Reference_E4)), []);
+
+
+
+%% Photoconductive Detector Result and Used Double frequency grating
+Cimage_E4 = conj(E4);
+
+I = Cimage_E4 .* E4;
+
+
+figure(71);
+imshow(I);
+
+figure(72);
+imagesc(I);
+
+
+%% Photoconductive Detector Result and don't Used Double frequency grating
+Cimage_Reference_E4 = conj(Reference_E4);
+
+I_Reference = Cimage_Reference_E4 .* Reference_E4;
+
+
+figure(81);
+imshow(I_Reference);
+
+figure(82);
+imagesc(I_Reference);
+
+
+
+
 
 
 % Reference
@@ -879,6 +1032,7 @@ title('E4_');
 % 
 % 
 
+
 ```
 
 
@@ -886,6 +1040,8 @@ title('E4_');
 
 
 ## Result（结果）
+
+> 根据仿真的过程，保存相应阶段的图片。
 
 ### 光源
 
@@ -929,177 +1085,95 @@ Figure21
 
 ### 双频光栅
 
+![双频光栅](Double frequency grating Schlieren Simple Model.assets/双频光栅.bmp)
 
 
 
+### 加双频光栅之后的光场
 
-### 穿过双频光栅之后
+![穿过双频光栅之后](Double frequency grating Schlieren Simple Model.assets/穿过双频光栅之后.bmp)
 
 
 
 
 
+### 不加双频光栅穿过第二个透镜光场
 
+figure61
 
-### 经过双频光栅
+![不加双频光栅穿过第二个透镜光场](Double frequency grating Schlieren Simple Model.assets/不加双频光栅穿过第二个透镜光场.bmp)
 
-#### 参考光场(直条纹)
 
-figure 31
 
-![经过双频光栅-ref](Double frequency grating Schlieren Simple Model.assets/经过双频光栅-ref.bmp)
+figure62
 
+![不加双频光栅穿过第二个透镜光场2](Double frequency grating Schlieren Simple Model.assets/不加双频光栅穿过第二个透镜光场2.bmp)
 
 
-#### 测试光场(弯曲条纹)
 
-figure 32
 
-![经过双频光栅-Test](Double frequency grating Schlieren Simple Model.assets/经过双频光栅-Test.bmp)
 
+### 加双频光栅穿过第二个透镜光场
 
+figure 51
 
-### 傅里叶变换
+![加双频光栅穿过第二个透镜光场](Double frequency grating Schlieren Simple Model.assets/加双频光栅穿过第二个透镜光场.bmp)
 
-#### 参考光场(直条纹)
 
-figure 41
 
-![傅里叶变换-ref](Double frequency grating Schlieren Simple Model.assets/傅里叶变换-ref.bmp)
+Figure 52
 
+![加双频光栅穿过第二个透镜光场2](Double frequency grating Schlieren Simple Model.assets/加双频光栅穿过第二个透镜光场2.bmp)
 
 
-#### 测试光场(弯曲条纹)
 
-figure 43
 
-![傅里叶变换-Test](Double frequency grating Schlieren Simple Model.assets/傅里叶变换-Test.bmp)
 
+### 不加双频光栅探测器的光强
 
+Figure 81
 
-### 保留频谱的+1级
+![不加双频光栅探测器的光强](Double frequency grating Schlieren Simple Model.assets/不加双频光栅探测器的光强.bmp)
 
-保留+1级频谱，是模拟带通滤波器将零级和负一级滤掉。
 
-
-
-#### 参考光场(直条纹)
-
-figure 52
-
-![保留频谱的+1级-ref](Double frequency grating Schlieren Simple Model.assets/保留频谱的+1级-ref.bmp)
-
-
-
-放大版本
-
-![参考正一级](Double frequency grating Schlieren Simple Model.assets/参考正一级.png)
-
-
-
-#### 测试光场(弯曲条纹)
-
-figure 54
-
-![保留频谱的+1级-Test](Double frequency grating Schlieren Simple Model.assets/保留频谱的+1级-Test.bmp)
-
-
-
-放大版本
-
-![测试正一级](Double frequency grating Schlieren Simple Model.assets/测试正一级.png)
-
-
-
-
-
-### 逆傅里叶变换
-
-将滤波后的信号进行傅里叶变化。
-
-#### 参考光场(直条纹)
-
-figure 61
-
-![逆傅里叶变换-ref](Double frequency grating Schlieren Simple Model.assets/逆傅里叶变换-ref.bmp)
-
-
-
-#### 测试光场(弯曲条纹)
-
-figure 62
-
-![逆傅里叶变换-Test](Double frequency grating Schlieren Simple Model.assets/逆傅里叶变换-Test.bmp)
-
-
-
-
-
-### 相位场
-
-条纹图像的相位场可以利用反正切函数得到：
-$$
-\phi(x,y) = tan^{-1} \{ \frac{I_{imag} [c(x,y)]} {I_{real} [c(x,y)]} \}
-$$
-其中， $c(x,y) $ 是傅里叶变化后得到的，相位分布在区间$(-\pi , \pi)$ 内，需要进行相位解包裹得到其在整个相位场的值，$I_{imag} [c(x,y)]$ 表示虚部，$I_{real} [c(x,y)]$ 表示实部。
-
-
-
-#### 参考光场(直条纹)
-
-figure 71
-
-![相位场-ref](Double frequency grating Schlieren Simple Model.assets/相位场-ref.bmp)
-
-
-
-#### 测试光场(弯曲条纹)
-
-figure 73
-
-![相位场-Test](Double frequency grating Schlieren Simple Model.assets/相位场-Test.bmp)
-
-
-
-
-
-### 相位解包裹
-
-#### 参考光场(直条纹)
-
-figure 81
-
-![相位解包裹-ref](Double frequency grating Schlieren Simple Model.assets/相位解包裹-ref.bmp)
-
-
-
-#### 测试光场(弯曲条纹)
 
 figure 82
 
-![相位解包裹-Test](Double frequency grating Schlieren Simple Model.assets/相位解包裹-Test.bmp)
+![不加双频光栅探测器的光强2](Double frequency grating Schlieren Simple Model.assets/不加双频光栅探测器的光强2.bmp)
+
+
+
+### 加双频光栅探测器的光强
+
+figure 71
+
+![加双频光栅探测器的光强](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强.bmp)
+
+
+
+figure 72
+
+![加双频光栅探测器的光强2](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强2.bmp)
 
 
 
 
 
-### 相位差
+## Verification(验证)
 
-figure 91
-
-![相位差_ref](Double frequency grating Schlieren Simple Model.assets/相位差_ref.bmp)
-
-
-
-figure 92
-
-![相位差-Test](Double frequency grating Schlieren Simple Model.assets/相位差-Test.bmp)
+> 对于仿真的结果进行验证。
 
 
 
 
 
-### 折射率
+
+
+
+
+
+
+
 
 
 
