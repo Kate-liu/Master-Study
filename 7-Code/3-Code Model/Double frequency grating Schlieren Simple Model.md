@@ -1157,6 +1157,14 @@ figure 72
 
 
 
+figure 73
+
+![加双频光栅探测器的光强3](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强3.bmp)
+
+
+
+
+
 
 
 ## Verification(验证)
