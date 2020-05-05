@@ -533,6 +533,8 @@ $$
 ## Code（代码）
 
 > 将上述模型内容实现成为代码。
+>
+> 对标文件：DoubleFrequencyGratingSchlierenMain.m
 
 ```matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -738,6 +740,10 @@ imshow(I);
 figure(72);
 imagesc(I);
 
+figure(73);
+mesh(I);
+title('I');
+
 
 %% Photoconductive Detector Result and don't Used Double frequency grating
 Cimage_Reference_E4 = conj(Reference_E4);
@@ -751,6 +757,9 @@ imshow(I_Reference);
 figure(82);
 imagesc(I_Reference);
 
+figure(83);
+mesh(I_Reference);
+title('I_Reference');
 
 
 
@@ -1170,6 +1179,321 @@ figure 73
 ## Verification(验证)
 
 > 对于仿真的结果进行验证。
+
+### 实现思路
+
+1.分别获得添加测试对象和没有添加测试对象的光强图
+
+2.进行光强图处理，解相位，得到折射率
+
+
+
+### 获取测试光强图代码
+
+> 对标文件：DoubleFrequencyGratingSchlierenMain.m
+
+```matlab
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Double Frequency Grating Schlieren MATLAB Code
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+clear; 
+clc;  
+clf;
+close all;
+
+
+%% Laser Source （激光光源）
+
+% Field size and sampling
+% Set 5 * 5 mm field
+% Sampling 1025 pixel
+L = 5e-3;
+N = 1024 + 1;
+x = L * linspace(-1, 1, N);  
+y = L * linspace(-1, 1, N);
+[X, Y] = meshgrid(x, y); 
+center = N / 2;
+
+% Wave length
+% Green
+% Variable lambda
+lambda = 532e-9;
+
+% Pixel Size
+Pixel_Size = L / N;
+
+% Constant Laser
+% The uniform light intensity is 1
+Laser_Intensity = 1;
+E0 = Laser_Intensity + zeros(N, N);
+
+% Figure
+figure(1);
+mesh(X, Y, E0);
+
+if (mod(N, 2)==0)
+	halfNy = N / 2;
+else
+	halfNy = (N + 1) / 2;
+end
+figure(2);
+plot(x, E0(halfNy, :), 'c');
+grid on;
+
+figure(3);
+imagesc(E0);
+
+
+%% Test Object of the Cylinder （圆柱形被测对象）
+
+E1 = E0;
+Delta_Phi = zeros(N, N);
+
+r = 0.8e-3;  % Cylinder radius 0.8mm
+n_Air = 1;  % air Refractive
+n_Plasma = 1 - 4 * 10^(-3);  % Cylinder Refractive
+
+% A formula to calculate
+kAir = 2 * pi * n_Air / lambda;
+kPlasma = 2 * pi * n_Plasma / lambda;
+for i = 1 : size(E0, 2)
+    if abs(X(1, i)) >= r
+        E1(:, i) = E0(:, i) .* exp(1i * kAir * 2 * r);
+
+    else
+        Delta = sqrt(r^2 - X(1, i)^2);
+        E1(:, i) = E0(:, i) .* exp(1i * (kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta));
+
+    end
+end
+
+% Figure
+figure(12);
+imshow(E1);
+title('E1');
+
+
+%% First Len Properties
+% Test 
+F1 = fftshift(fft2(E1));
+
+% Reference 
+Reference_F1 = fftshift(fft2(E0));
+
+F1_ = log(abs(F1).^2)-2;
+max_F1 = max(max(F1_));
+F1_ = F1_ / max_F1;
+
+Reference_F1_ = log(abs(Reference_F1).^2)-2;
+max_Reference_F1_ = max(max(Reference_F1_));
+Reference_F1_ = Reference_F1_ / max_Reference_F1_;
+
+figure(21);
+imshow(F1_);
+title('F1_');
+
+figure(22);
+imshow(Reference_F1_);
+title('Reference_F1_');
+
+
+
+%% Double frequency grating
+
+G = zeros(N, N);
+
+f1 = 1 / (32 * Pixel_Size);  % Period
+f2 = 1 / (64 * Pixel_Size);
+
+for i = 1 : N
+    for j = 1 : N
+        Delta_x = (j - center) * Pixel_Size;
+        Delta_y = (center - i) * Pixel_Size;
+        
+        G(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
+    end
+end
+
+
+figure(31);
+imshow(G);
+title('G');
+
+
+%% Used Double frequency grating
+% Test 
+E3 = G .* F1;
+
+% Reference 
+Reference_E3 = G .* Reference_F1;
+
+E3_ = log(abs(E3).^2) - 2;
+max_E3 = max(max(E3_));
+E3_ = E3_ / max_E3;
+
+Reference_E3_ = log(abs(Reference_E3).^2) - 2;
+max_Reference_E3 = max(max(Reference_E3_));
+Reference_E3_ = Reference_E3_ / max_Reference_E3;
+
+figure(41);
+imshow(E3);
+title('E3');
+
+figure(42);
+imshow(E3_);
+title('E3_');
+
+figure(43);
+imshow(Reference_E3);
+title('Reference_E3');
+
+figure(44);
+imshow(Reference_E3_);
+title('Reference_E3_');
+
+
+
+%% Fourier transform
+% Test 
+E4 = ifft2(ifftshift(E3));
+
+% Reference 
+Reference_E4 = ifft2(ifftshift(Reference_E3));
+
+figure(51);
+imshow(E4);
+title('E4');
+
+figure(52);
+imshow(log(abs(E4)), []);
+
+figure(53);
+imshow(Reference_E4);
+title('Reference_E4');
+
+figure(54);
+imshow(log(abs(Reference_E4)), []);
+
+
+%% Photoconductive Detector Result and Used Double frequency grating
+% Test 
+Cimage_E4 = conj(E4);
+I = Cimage_E4 .* E4;
+
+% Reference 
+Cimage_I = conj(Reference_E4);
+Reference_I = Cimage_I .* Reference_E4;
+
+figure(71);
+imshow(I);
+
+figure(72);
+imagesc(I);
+colormap(gray);
+
+figure(73);
+mesh(I);
+title('I');
+
+figure(74);
+imshow(Reference_I);
+
+figure(75);
+imagesc(Reference_I);
+colormap(gray);
+
+figure(76);
+mesh(Reference_I);
+title('Reference_I');
+
+
+```
+
+
+
+### 测试光强图
+
+figure 71
+
+![TestPic](Double frequency grating Schlieren Simple Model.assets/TestPic.bmp)
+
+figure 74
+
+![ReferencePic](Double frequency grating Schlieren Simple Model.assets/ReferencePic.bmp)
+
+
+
+
+
+### 验证代码
+
+```matlab
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Verification Double Frequency Grating Schlieren MATLAB Code
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+clear; 
+clc;  
+clf;
+close all;
+
+
+%% Input Data
+% Path Configure 
+Code_path = fileparts(mfilename('fullpath'));
+Data_path = 'Data/';
+
+Test_name = 'TestPic';  % Can be changed name
+Reference_name = 'ReferencePic';
+
+Test_Path = fullfile(Code_path, Data_path, Test_name);
+Reference_Path = fullfile(Code_path, Data_path, Reference_name);
+
+% Import picture
+Test = imread([ Test_Path '.bmp']);  % Can be change picture format
+Reference = imread([ Reference_Path '.bmp']);
+
+figure(1);
+imshow(Test);
+
+figure(2);
+imshow(Reference);
+
+Test = imrotate(Test, 90,'nearest');
+figure(3);
+imshow(Test)
+
+Reference = imrotate(Reference, 90,'nearest');
+figure(4);
+imshow(Reference)
+
+
+%% Fourier transform 
+Test_FFT = fftshift(fft2(Test));
+Reference_FFT = fftshift(fft2(Reference));
+
+figure(11);
+imshow(log(abs(Test_FFT)),[]);
+
+figure(12);
+imshow(log(abs(Reference_FFT)),[]);
+
+
+
+
+
+
+
+
+
+```
+
+
 
 
 
