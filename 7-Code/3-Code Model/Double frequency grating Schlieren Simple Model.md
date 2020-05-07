@@ -1458,30 +1458,93 @@ Reference_Path = fullfile(Code_path, Data_path, Reference_name);
 Test = imread([ Test_Path '.bmp']);  % Can be change picture format
 Reference = imread([ Reference_Path '.bmp']);
 
+% Figure
 figure(1);
 imshow(Test);
 
 figure(2);
 imshow(Reference);
 
-Test = imrotate(Test, 90,'nearest');
-figure(3);
-imshow(Test)
+% Test = imrotate(Test, 90,'nearest');
+% figure(3);
+% imshow(Test)
+% 
+% Reference = imrotate(Reference, 90,'nearest');
+% figure(4);
+% imshow(Reference)
 
-Reference = imrotate(Reference, 90,'nearest');
-figure(4);
-imshow(Reference)
+
+%% Change to gray picture
+Test_Gray = rgb2gray(Test);
+Reference_Gray = rgb2gray(Reference);
+
+% Figure
+figure(11);
+imshow(Test_Gray);
+
+figure(12);
+imshow(Reference_Gray);
+
+
+%% Used Binarization
+Test_threshold = graythresh(Test_Gray);  % Find Binarization threshold
+Test_Binarization = im2bw(Test_Gray, Test_threshold);  % Set Binarization
+
+Reference_threshold = graythresh(Reference_Gray);
+Reference_Binarization = im2bw(Reference_Gray, Reference_threshold);
+
+% Figure
+figure(21);
+imshow(Test_Binarization)
+
+figure(22);
+imshow(Reference_Binarization)
+
 
 
 %% Fourier transform 
-Test_FFT = fftshift(fft2(Test));
-Reference_FFT = fftshift(fft2(Reference));
+Test_FFT = fftshift(fft2(Test_Gray));
+Reference_FFT = fftshift(fft2(Reference_Gray));
 
-figure(11);
-imshow(log(abs(Test_FFT)),[]);
+figure(31);
+imshow(log(abs(Test_FFT)), []);
 
-figure(12);
-imshow(log(abs(Reference_FFT)),[]);
+figure(32);
+imshow(log(abs(Reference_FFT)), []);
+
+aaa = fft2(fftshift(Test));
+figure(33);
+imshow(log(abs(aaa)), []);
+
+
+%% 
+Test_IFFT = ifft2(Test_FFT);
+Reference_IFFT = ifft2(Reference_FFT);
+
+
+figure(41);
+imshow(Test_IFFT)
+
+figure(42);
+imshow(Reference_IFFT)
+
+
+%%
+Test_Angle = angle(Test_IFFT);
+
+figure(51);
+mesh(Test_Angle)
+
+
+%% 
+Test_Phase = unwrap(Test_Angle);
+
+figure(61);
+mesh(Test_Phase)
+
+
+
+
 
 
 
