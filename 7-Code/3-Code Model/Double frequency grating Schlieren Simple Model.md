@@ -449,7 +449,7 @@ $$
 
 ## Simulation Logic(仿真逻辑)
 
-> 介绍仿真的时候，每一部分的取舍。
+> 简单介绍仿真的时候，每一部分的取舍。
 
 光源：
 
@@ -563,13 +563,12 @@ center = N / 2;
 
 % Wave length
 % Green
-% Variable lambda
 lambda = 532e-9;
 
 % Pixel Size
 Pixel_Size = L / N;
 
-% Constant Laser
+% Constant Laser Intensity
 % The uniform light intensity is 1
 Laser_Intensity = 1;
 E0 = Laser_Intensity + zeros(N, N);
@@ -577,18 +576,6 @@ E0 = Laser_Intensity + zeros(N, N);
 % Figure
 figure(1);
 mesh(X, Y, E0);
-
-if (mod(N, 2)==0)
-	halfNy = N / 2;
-else
-	halfNy = (N + 1) / 2;
-end
-figure(2);
-plot(x, E0(halfNy, :), 'c');
-grid on;
-
-figure(3);
-imagesc(E0);
 
 
 %% Test Object of the Cylinder （圆柱形被测对象）
@@ -614,15 +601,6 @@ for i = 1 : size(E0, 2)
     end
 end
 
-% Figure
-% for i = 1: size(E1, 1)
-%     ComplexDouble = E1(i, :);
-%     ComplexDouble(imag(ComplexDouble) ~= 0) = abs(ComplexDouble(imag(ComplexDouble)~=0));
-%     E1(i, :) = ComplexDouble;
-% end 
-% figure(11);
-% mesh(X, Y, E1);
-
 figure(12);
 imshow(E1);
 title('E1');
@@ -640,16 +618,8 @@ for i = 1 : size(E0, 2)
     end
 end
 
-figure(14);
-imshow(Delta_Phi);
-title('Delta_Phi');
-
 figure(15);
 mesh(Delta_Phi);
-title('Delta_Phi');
-
-figure(16);
-surf(Delta_Phi);
 title('Delta_Phi');
 
 
@@ -691,18 +661,9 @@ title('G');
 %% Used Double frequency grating
 E3 = G .* F1;
 
-E3_ = log(abs(E3).^2) - 2;
-max_E3 = max(max(E3_));
-E3_ = E3_ / max_E3;
-
 figure(41);
 imshow(E3);
 title('E3');
-
-figure(42);
-imshow(E3_);
-title('E3_');
-
 
 
 %% Fourier transform and Used Double frequency grating
@@ -712,9 +673,6 @@ figure(51);
 imshow(E4);
 title('E4');
 
-figure(52);
-imshow(log(abs(E4)), []);
-
 
 %% Fourier transform and don't Used Double frequency grating
 Reference_E4 = ifft2(ifftshift(F1));
@@ -722,10 +680,6 @@ Reference_E4 = ifft2(ifftshift(F1));
 figure(61);
 imshow(Reference_E4);
 title('Reference_E4');
-
-figure(62);
-imshow(log(abs(Reference_E4)), []);
-
 
 
 %% Photoconductive Detector Result and Used Double frequency grating
@@ -739,6 +693,7 @@ imshow(I);
 
 figure(72);
 imagesc(I);
+colormap(gray);
 
 figure(73);
 mesh(I);
@@ -756,6 +711,7 @@ imshow(I_Reference);
 
 figure(82);
 imagesc(I_Reference);
+colormap(gray);
 
 figure(83);
 mesh(I_Reference);
@@ -1040,6 +996,7 @@ title('I_Reference');
 % 
 % 
 % 
+
 
 
 ```
@@ -1330,30 +1287,13 @@ E3 = G .* F1;
 % Reference 
 Reference_E3 = G .* Reference_F1;
 
-E3_ = log(abs(E3).^2) - 2;
-max_E3 = max(max(E3_));
-E3_ = E3_ / max_E3;
-
-Reference_E3_ = log(abs(Reference_E3).^2) - 2;
-max_Reference_E3 = max(max(Reference_E3_));
-Reference_E3_ = Reference_E3_ / max_Reference_E3;
-
 figure(41);
 imshow(E3);
 title('E3');
 
 figure(42);
-imshow(E3_);
-title('E3_');
-
-figure(43);
 imshow(Reference_E3);
 title('Reference_E3');
-
-figure(44);
-imshow(Reference_E3_);
-title('Reference_E3_');
-
 
 
 %% Fourier transform

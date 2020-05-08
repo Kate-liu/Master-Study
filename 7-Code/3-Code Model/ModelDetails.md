@@ -3807,6 +3807,38 @@ HV6KV-4KV型冲击片雷管发火电源，实物图如下所示：
 
 
 
+#### Clear background influent
+
+> 实现思路：将需要测试的图像逐点减去参考图像的值。
+>
+> 注意：最好使用的是实验采集的就是灰度图像。
+
+```matlab
+%% Clear background influence
+
+for i = 1: size(imageGray1, 1)
+    for j = 1: size(imageGray1, 2)
+        imageGray1value = imageGray1(i, j);
+        imageGray2value = imageGray2(i, j);
+        
+        imageGray2(i, j) = imageGray2value - imageGray1value;
+    end
+end
+
+figure(21);
+imshow(imageGray2);
+title(imageFileName1);
+
+figure(22);
+imagesc(imageGray2);
+title(imageFileName1);
+
+figure(23);
+mesh(imageGray2)
+```
+
+
+
 #### Convert to double
 
 
