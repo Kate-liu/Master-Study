@@ -135,11 +135,11 @@ $$
 $$
 \frac{1}{d'} = | \frac{1}{d_1} - \frac{1}{d_2} | = | \frac{sin \theta_1  - sin \theta_2 }{\lambda} |
 $$
-在实际的实验的时候，将双频光栅片**放置**在普通纹影仪的刀口位置附近，取代刀口。
+在实际的实验的时候，将双频光栅片**放置**在普通纹影仪的刀口位置，取代刀口装置。
 
 其中穿过被测对象的每一平行光线，将在双频光栅的一级衍射角方向上分裂为一对夹角为$\Delta \theta$ 的光线。经过双频光栅后，匹配对的光线将发生**干涉**。
 
-综上，可以表示双频光栅的方程为：
+综上，可以表示**双频光栅的方程**为：
 $$
 g(x) = cos(2 \pi f_1 x) + cos(2 \pi f_2 x)
 $$
@@ -227,7 +227,7 @@ E_4 (x,y)
 \frac{1}{2} F (\xi, \eta) \cdot  e^{ - i 2 \pi f_1 \xi} + 
 \frac{1}{2} F (\xi, \eta) \cdot e^{ - i 2 \pi f_2 \xi}  \} 
 \\
-(傅里叶变换的时移特性)
+(傅里叶变换的时延特性)
 \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad 
 \\
 =
@@ -269,7 +269,7 @@ I(x,y) = < E_4 (x,y) \cdot E_4 ^* (x,y) >
 $$
 其中， $ < \cdot > $ 表示时间平均。
 
-也即，
+在仿真测试的时候，由于整个系统的状态都是不变量，所以可以得到光电探测器的强度表示为，
 $$
 I(x,y) 
 =  E_4 (x,y) \cdot E_4 ^* (x,y)
@@ -281,7 +281,7 @@ E_4 ^* (x,y)
 =
 \frac{1}{2} C \cdot [ e^{ -i \Delta \Phi (x - 2 \pi f_1 , y) } + e^{ - i \Delta \Phi (x - 2 \pi f_2 , y) }]
 $$
-所以，最后光电探测器上光场强度可以表示为：
+所以，最终光电探测器上光场强度可以表示为：
 $$
 I(x,y) 
 =  E_4 (x,y) \cdot E_4 ^* (x,y)
@@ -471,7 +471,7 @@ $$
 > \quad \quad \quad \quad   ,|x| \leq R
 > \end{cases}$ 
 >
-> 上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ ， $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ 。
+> 上式中， $k(air) = \frac{2 \pi n(air)}{\lambda}$ ， $k(plasma) = \frac{2 \pi n(plasma)}{\lambda}$ ，$\Delta z (x) = \sqrt {R^2 - x^2} $ 。
 >
 > 经过被测对象后的光场信息为：
 >
@@ -1019,7 +1019,7 @@ figure 1
 
 ### 被测对象带来的相位变化
 
-Figure 15
+Figure 11
 
 ![被测对象带来的相位变化-3D](Double frequency grating Schlieren Simple Model.assets/被测对象带来的相位变化-3D.bmp)
 
