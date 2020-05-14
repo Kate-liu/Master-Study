@@ -59,7 +59,7 @@ $$
 \Delta \Phi (x, y)=
 k_{TestObject} \cdot \Delta z
 $$
-其中，$k_{TestObject}$ 表示光线经过被测对象的波数，可表示为 $k_{TestObject} = \frac{2 \pi }{\lambda} \cdot n_{TestObject}$ , $\Delta z$ 表示光线沿光轴方向穿过被测对象的距离。
+其中，$k_{TestObject} $ 表示光线经过被测对象的波数，可表示为 $k_{TestObject} = \frac{2 \pi }{\lambda} \cdot n_{TestObject}$ , $\Delta z$ 表示光线沿光轴方向穿过被测对象的距离。
 
 其中，相位的偏移表达式也可以表示为：
 $$
@@ -68,7 +68,7 @@ $$
 \frac{2 \pi }{\lambda} \cdot n_{TestObject}(x, y, z)
 \cdot dz
 $$
-其中，$z_1$ 表示为被测对象靠近光源的位置，$z_2$ 表示为被测对象远离光源的位置，其中$z_2 > z_1$，并且$z_2 - z_1$ 就是光线沿光轴方向穿过被测对象的距离。$n_{TestObject}(x, y, z)$ 表示被测对象在空间上的折射率。
+其中，$z_1 $ 表示为被测对象靠近光源的位置，$z_2$ 表示为被测对象远离光源的位置，其中$z_2 > z_1$，并且$z_2 - z_1$ 就是光线沿光轴方向穿过被测对象的距离。$n_{TestObject}(x, y, z)$ 表示被测对象在空间上的折射率。
 
 所以，我们可以得到光线经过被测对象之后的光场表达式：
 $$
@@ -86,7 +86,7 @@ $$
 
 光线继续沿着光轴传播，穿过第一个凸透镜的时候，由于透镜具有傅里叶特性，根据傅里叶变化，可以得到双频光栅纹影装置中光线经过第一个凸透镜之后的光场信息为：
 $$
-F (\xi, \eta)
+ F (\xi, \eta)
 =
 \mathcal{F} \{ E_1 (x,y) \}
  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad  \quad \quad \quad \quad 
@@ -110,8 +110,9 @@ dx dy
 C \cdot \exp \{ i \cdot (  \Delta \Phi(x, y)  -  2 \pi \xi -  2 \pi  \eta) \}
 dx dy
  \quad \quad \quad \quad  \quad
+ 
 $$
-其中，$F (\xi, \eta) $ 是$E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
+其中，$ F (\xi, \eta) $ 是$ E_1 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
 
 
@@ -127,25 +128,25 @@ d_1 = \lambda / sin \theta_1
 \\
 d_2 = \lambda / sin \theta_2
 $$
-角度差 $\Delta \theta = | \theta_1 - \theta_2 |$ ，表示为双频光栅的**分裂角**。
+角度差 $ \Delta \theta = | \theta_1 - \theta_2 | $ ，表示为双频光栅的**分裂角**。
 
-双频光栅的**一级平均衍射角**为：$\theta = (\theta_1 + \theta_2) / 2$ 。
+双频光栅的**一级平均衍射角**为：$ \theta = (\theta_1 + \theta_2) / 2 $ 。
 
 双频光栅的**拍周期**表示为：
 $$
-\frac{1}{d'} = | \frac{1}{d_1} - \frac{1}{d_2} | = | \frac{sin \theta_1  - sin \theta_2 }{\lambda} |
+ \frac{1}{d'} = | \frac{1}{d_1} - \frac{1}{d_2} | = | \frac{sin \theta_1  - sin \theta_2 }{\lambda} |
 $$
 在实际的实验的时候，将双频光栅片**放置**在普通纹影仪的刀口位置，取代刀口装置。
 
-其中穿过被测对象的每一平行光线，将在双频光栅的一级衍射角方向上分裂为一对夹角为$\Delta \theta$ 的光线。经过双频光栅后，匹配对的光线将发生**干涉**。
+其中穿过被测对象的每一平行光线，将在双频光栅的一级衍射角方向上分裂为一对夹角为$ \Delta \theta $ 的光线。经过双频光栅后，匹配对的光线将发生**干涉**。
 
 综上，可以表示**双频光栅的方程**为：
 $$
 g(x) = cos(2 \pi f_1 x) + cos(2 \pi f_2 x)
 $$
-上式中，$f_1$ 和 $f_2$ 表示为双频光栅的频率。
+上式中，$  f_1$ 和 $ f_2$ 表示为双频光栅的频率。
 
-当频谱面与双频光栅作用的时候，由于 $g(x) $ 是周期函数，可以写成傅里叶级数的形式，并基于[欧拉公式](#欧拉公式)，化简余弦函数，如下所示：
+当频谱面与双频光栅作用的时候，由于 $ g(x) $ 是周期函数，可以写成傅里叶级数的形式，并基于[欧拉公式](#欧拉公式)，化简余弦函数，如下所示：
 $$
 G(\xi) 
 =
@@ -162,9 +163,9 @@ cos(2 \pi f_1 \xi) + cos(2 \pi f_2 \xi)
 +
 e^{i 2 \pi f_2 \xi }+ e^{ - i 2 \pi f_2 \xi})
 $$
-其中，$\xi$ 与$x$ 相对应。
+其中，$ \xi$ 与$x $ 相对应。
 
-所以，可以得到**刀口后的电场**表达式，并利用**空间滤波器滤除+1级频谱**，基于**傅里叶变换的时移特性**：
+所以，可以得到**双频光栅后的电场**表达式，并利用**空间滤波器滤除+1级频谱**，基于**傅里叶变换的时移特性**：
 $$
 E_3 (\xi, \eta)  
 = 
@@ -213,7 +214,7 @@ E_4 (x,y)
 = 
 \mathcal{F}^{-1} \{ E_3 (\xi, \eta)  \}
 $$
-其中，$E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
+其中，$ E_4 (x, y) $ 是$E_3 (\xi, \eta)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
 基于[傅里叶变换的时延特性](#傅里叶变换的时延特性)，进行化简如下：
 $$
@@ -252,7 +253,7 @@ E_4 (x,y)
 \quad \quad \quad \quad \quad \quad
 $$
 
-其中，$E_4 (x, y)$ 是$E_3 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
+其中，$ E_4 (x, y) $ 是$E_3 (x, y)$ 的准确傅里叶变换，常数相位因子无关紧要。
 
 
 
@@ -542,11 +543,9 @@ $$
 % Double Frequency Grating Schlieren MATLAB Code
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-clear; 
-clc;  
-clf;
-close all;
+clear;  % 清空工作区变量
+clc;  % 清空当前的命令行窗口
+close all;  % 关闭打开的所有figure窗口
 
 
 %% Laser Source （激光光源）
@@ -556,16 +555,17 @@ close all;
 % Sampling 1025 pixel
 L = 5e-3;
 N = 1024 + 1;
+center = ceil( N / 2 );
+
 x = L * linspace(-1, 1, N);  
 y = L * linspace(-1, 1, N);
 [X, Y] = meshgrid(x, y); 
-center = N / 2;
 
 % Wave length
-% Green
+% Green Laser 
 lambda = 532e-9;
 
-% Pixel Size
+% Pixel Size mm
 Pixel_Size = L / N;
 
 % Constant Laser Intensity
@@ -576,6 +576,11 @@ E0 = Laser_Intensity + zeros(N, N);
 % Figure
 figure(1);
 mesh(X, Y, E0);
+title('光源');
+
+figure(2);  % 显示的会是一个纯白色图像，imshow默认将取值0-1，1表示的是白色，0表示黑色
+imshow(E0);
+title('光源');
 
 
 %% Test Object of the Cylinder （圆柱形被测对象）
@@ -587,9 +592,28 @@ r = 0.8e-3;  % Cylinder radius 0.8mm
 n_Air = 1;  % air Refractive
 n_Plasma = 1 - 4 * 10^(-3);  % Cylinder Refractive
 
-% A formula to calculate
-kAir = 2 * pi * n_Air / lambda;
+kAir = 2 * pi * n_Air / lambda;  % 计算波数 k
 kPlasma = 2 * pi * n_Plasma / lambda;
+
+% Cylinder object influence（圆柱形被测物对光场的相位影响）
+for i = 1 : size(E0, 2)
+    if abs(X(1, i)) >= r
+        Delta_Phi(:, i) = kAir * 2 * r;
+
+    else
+        DeltaZ = sqrt(r^2 - X(1, i)^2);
+        Delta_Phi(:, i) = kAir * 2 * ( r - DeltaZ) + kPlasma * 2 * DeltaZ;
+
+    end
+end
+
+figure(11);
+mesh(Delta_Phi);
+% colormap(gray);
+title('被测对象对于光场的相位影响');
+
+
+% Calculate output test object light field (穿过被测对象的光场)
 for i = 1 : size(E0, 2)
     if abs(X(1, i)) >= r
         E1(:, i) = E0(:, i) .* exp(1i * kAir * 2 * r);
@@ -603,40 +627,20 @@ end
 
 figure(12);
 imshow(E1);
-title('E1');
+title('穿过被测对象的光场');
 
 
-% Cylinder object influence
-for i = 1 : size(E0, 2)
-    if abs(X(1, i)) >= r
-        Delta_Phi(:, i) = kAir * 2 * r;
-
-    else
-        Delta = sqrt(r^2 - X(1, i)^2);
-        Delta_Phi(:, i) = kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta;
-
-    end
-end
-
-figure(15);
-mesh(Delta_Phi);
-title('Delta_Phi');
-
-
-%% First Len Properties
+%% First Len Properties(第一个凸透镜)
 
 F1 = fftshift(fft2(E1));
 
-F1_ = log(abs(F1).^2)-2;
-max_F1 = max(max(F1_));
-F1_ = F1_ / max_F1;
-
+imF = log10(abs(F1) + 1);
 figure(21);
-imshow(F1_);
-title('F1_');
+imshow(imF, []);
+title('经过第一个透镜之后的光场');
 
 
-%% Double frequency grating
+%% Double frequency grating （双频光栅）
 
 G = zeros(N, N);
 
@@ -645,361 +649,77 @@ f2 = 1 / (64 * Pixel_Size);
 
 for i = 1 : N
     for j = 1 : N
-        Delta_x = (j - center) * Pixel_Size;
-        Delta_y = (center - i) * Pixel_Size;
-        
+        Delta_x = (j - center) * Pixel_Size;    
         G(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
+        
     end
 end
 
-
 figure(31);
 imshow(G);
-title('G');
+title('双频光栅');
 
 
-%% Used Double frequency grating
+%% Used Double frequency grating（双频光栅之后的光场）
 E3 = G .* F1;
 
 figure(41);
 imshow(E3);
-title('E3');
+title('双频光栅之后的光场');
+
+figure(42);
+imshow( log(abs(E3)) , []);
 
 
-%% Fourier transform and Used Double frequency grating
+%% Spatial filter（空间滤波器滤除+1级频谱）
+% 待确定，目前无法取到+1级频谱
+% D = zeros(N, N);
+% D(129-3 : 129+3, 141-3 : 142+3) = E3( 129-3 : 129+3 , 141-3 : 142+3);  % 保留频谱的+1级
+% figure(43);
+% imshow( log(abs(D)) , []);
+% 
+% F2_ = log(abs(E3).^2)-2;
+% max_F2 = max(max(F2_));
+% F2_ = F2_ / max_F2;
+% figure(44);
+% imshow(F2_);
+
+
+%%  Second Len Properties(第二个凸透镜)
 E4 = ifft2(ifftshift(E3));
 
 figure(51);
 imshow(E4);
-title('E4');
+title('经过第二个透镜之后的光场');
 
 
-%% Fourier transform and don't Used Double frequency grating
-Reference_E4 = ifft2(ifftshift(F1));
-
-figure(61);
-imshow(Reference_E4);
-title('Reference_E4');
-
-
-%% Photoconductive Detector Result and Used Double frequency grating
+%% Photoconductive Detector Result （光强分布）
 Cimage_E4 = conj(E4);
 
-I = Cimage_E4 .* E4;
+Light_Intensity = Cimage_E4 .* E4;
 
 
-figure(71);
-imshow(I);
+figure(61);
+imshow(Light_Intensity);
+title('光强分布');
 
-figure(72);
-imagesc(I);
+figure(62);
+imagesc(Light_Intensity);
 colormap(gray);
+title('光强分布二维视图');
 
-figure(73);
-mesh(I);
-title('I');
+figure(63);
+mesh(Light_Intensity);
+% colormap(gray);
+title('光强分布三维视图');
 
-
-%% Photoconductive Detector Result and don't Used Double frequency grating
-Cimage_Reference_E4 = conj(Reference_E4);
-
-I_Reference = Cimage_Reference_E4 .* Reference_E4;
-
-
-figure(81);
-imshow(I_Reference);
-
-figure(82);
-imagesc(I_Reference);
-colormap(gray);
-
-figure(83);
-mesh(I_Reference);
-title('I_Reference');
-
-
-
-
-
-% Reference
-% Reference_E4 = fftshift(fft2(Reference_E3));
-% 
-% Reference_E4_ = log(abs(Reference_E4).^2) - 2;
-% max_Reference_E4 = max(max(Reference_E4_));
-% Reference_E4_ = Reference_E4_ / max_Reference_E4;
-% figure(41);
-% imshow(Reference_E4_);
-% title('Reference_E4_');
-% 
-% figure(42);
-% imshow(log(abs(Reference_E4)), []);
-% 
-% 
-% % Test
-% Test_E4 = fftshift(fft2(Test_E3));
-% 
-% Test_E4_ = log(abs(Test_E4).^2) - 2;
-% max_Test_E4 = max(max(Test_E4_));
-% Test_E4_ = Test_E4_ / max_Test_E4;
-% figure(43);
-% imshow(Test_E4_);
-% title('Test_E4_');
-% 
-% figure(44);
-% imshow(log(abs(Test_E4)), []);
-% 
-
-%% Filter frequency +1
-% % Reference
-% Reference_Frequence = zeros(N, N);
-% 
-% line = 513;
-% column = 529;
-% Reference_Frequence(line-3: line+3, column-3: column+3) = Reference_E4(line-3: line+3, column-3: column+3);
-% 
-% Reference_Frequence_ = log(abs(Reference_Frequence).^2) - 2;
-% max_Reference_Frequence = max(max(Reference_Frequence_));
-% Reference_Frequence_ = Reference_Frequence_ / max_Reference_Frequence;
-% figure(51);
-% imshow(Reference_Frequence_);
-% title('Reference_Frequence_');
-% 
-% figure(52);
-% imshow(log(abs(Reference_Frequence)), []);   
-% 
-% 
-% % Test
-% Test_Frequence = zeros(N, N);
-% 
-% Test_Frequence(line-3: line+3, column-3: column+3) = Test_E4(line-3: line+3, column-3: column+3);
-% 
-% Test_Frequence_ = log(abs(Test_Frequence).^2) - 2;
-% max_Test_Frequence = max(max(Test_Frequence_));
-% Test_Frequence_ = Test_Frequence_ / max_Test_Frequence;
-% figure(53);
-% imshow(Test_Frequence_);
-% title('Test_Frequence_');
-% 
-% figure(54);
-% imshow(log(abs(Test_Frequence)), []);
-% 
-% 
-% %% Inverse Fourier transform
-% % Reference
-% Reference_E5 = ifft2(ifftshift(Reference_Frequence));
-% 
-% figure(61);
-% imshow(Reference_E5);
-% title('Reference_E5');
-% 
-% 
-% % Test
-% Test_E5 = ifft2(ifftshift(Test_Frequence));
-% 
-% figure(62);
-% imshow(Test_E5);
-% title('Test_E5');
-% 
-% 
-% %% The phase field
-% % Reference
-% Reference_E6 = zeros(N, N);
-% 
-% for i = 1: N
-%     for j = 1: N
-%         Reference_E6(i, j) = atan2(imag(Reference_E5(i, j)), real(Reference_E5(i, j)));  % Calculate the phase principal
-%     end
-% end
-% 
-% figure(71);
-% mesh(Reference_E6);
-% 
-% figure(72);
-% imshow(Reference_E6);
-% title('Reference_E6');
-% 
-% 
-% % Test
-% Test_E6 = zeros(N, N);
-% 
-% for i = 1: N
-%     for j = 1: N
-%         Test_E6(i, j) = atan2(imag(Test_E5(i, j)), real(Test_E5(i, j)));  % Calculate the phase principal
-%     end
-% end
-% 
-% figure(73);
-% mesh(Test_E6);
-% 
-% figure(74);
-% imshow(Test_E6);
-% title('Test_E6');
-% 
-% 
-% %% Phase unwrapping
-% % Reference
-% Reference_Phase = zeros(N, N);
-% 
-% for i = 1: N
-%     Reference_Phase(i, :) = unwrap(Reference_E6(i, :));   %相位解包裹
-% end
-% 
-% figure(81);
-% mesh(Reference_Phase);
-% 
-% 
-% % Test
-% Test_Phase = zeros(N, N);
-% 
-% for i = 1: N
-%     Test_Phase(i, :) = unwrap(Test_E6(i, :));   %相位解包裹
-% end
-% 
-% figure(82);
-% mesh(Test_Phase);
-% 
-% 
-% 
-% %% Interference in the results
-% Interference_result = Test_Phase - Reference_Phase;
-% 
-% figure(91);
-% mesh(Interference_result);
-% 
-% 
-% figure(92);
-% imagesc(Interference_result);
-% 
-% 
-% %% Abel inverse transformation
-% % N0 = n_Air;          % 环境折射率
-% % lamda = lambda;     % 激光的波长为532nm 绿光
-% % 
-% % diff_D = Interference_result;
-% % 
-% % for m = 1: size(diff_D, 1)
-% %     for n = fix(size(diff_D, 2) / 2): (size(diff_D, 2) - 1)     %将n分成两部分求
-% %         k = 0;
-% %         sqrt_nr = [];
-% %         for n2 = n: size(diff_D, 2)       %       for循环
-% %             k = k + 1;
-% %             sqrt_nr(k) = sqrt((n2+1)^2 - n^2);
-% %         end
-% %         len = length(diff_D(m, n: end));
-% %         Nr(m,n) = (-lamda/ (2* pi^2)) * (sum(diff_D(m,n:end) ./ sqrt_nr(1: len))) + N0;
-% %     end
-% %     
-% %     for n = 1: fix(size(diff_D, 2) /2)                      % fix就是向0取整数
-% %         k = 0;
-% %         sqrt_nr = [];
-% %         for n2 = n: size(diff_D, 2)
-% %             k = k + 1;
-% %             sqrt_nr(k) = sqrt((n2 + 1)^2 - n^2);
-% %         end
-% %         len = length(diff_D(m, n: end));
-% %         Nr(m, n) = (-lamda/ (2* pi^2)) * (sum(diff_D(m, n: end) ./ sqrt_nr(1: len))) + N0;
-% %     end
-% % end
-% % figure(101);
-% % imagesc(Nr);title('折射率俯视图');
-% % 
-% % figure(102);
-% % mesh(Nr);title('折射率三维图');
-% % 
-% % % figure(103);surf(Nr, 'LineStyle', 'none');title('折射率截面');
-% % 
-% % [u, v, channels] = size(Nr);
-% % v = 512;
-% % figure(104);
-% % title('折射率截面');
-% % plot(Nr(:, v), 'c'); %青色-300的列矩阵
-% % grid on;
-% % 
-% 
-% 
-% %% Abel New
-% PRO = radon(Interference_result, 0);
-% figure(111);
-% plot(PRO);
-% 
-% PRO_dif = diff(PRO);
-% figure(112);
-% plot(PRO_dif);
-% 
-% 
-% delta0=1;
-% 
-% %% CT参数设置
-% tNum = 18; %投影方向数,180个投影方向(最好是18的倍数)
-% pNum = size(PRO_dif, 1);  % 每方向采样数(不是"十"，是"l")
-% EsNum = pNum * delta0;   % 每方向投影宽度，m
-% sAreax = EsNum / sqrt(2); % 重建区域尺寸，m
-% gNum = 200;  % 重建区域网格划分
-% shijichicun = delta0 * pNum;   % 重建实际尺寸 
-% % Re0=1.000270396017465497;  % 参考折射率(532nm)
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% SrcImg = zeros(tNum, pNum);
-% for i = 1: pNum
-%     SrcImg(:, i) = PRO_dif(i);
-% end  %投影数据
-% 
-% ResImg = zeros(gNum, gNum); % 重建面大小
-% Delta = sAreax / gNum;  % 重建网格间距
-% 
-% tDelta = pi/ tNum;   % 投影方向间隔
-% pDelta = EsNum/ pNum;  % 单方向投影采样间隔
-% 
-% px0 = -Delta * (gNum-1) / 2;
-% py0 = px0;
-% 
-% tTheta = zeros(tNum);
-% for i = 1: tNum
-%     tTheta(i) = (i-1) * tDelta;
-% end
-% 
-% FMax = 1 / (2 * pDelta);
-% 
-% for i = 1: gNum
-%     for j = 1: gNum
-%         ResImg(i,j) = 0;
-%         
-%         cx = px0 + (j-1) * Delta;
-%         cy = py0 + (gNum-i) * Delta;
-%         
-%         for m = 1: tNum
-%             sumv = 0;
-%             rx = cx * cos(tTheta(m)) + cy*sin(tTheta(m));
-%             for n = 1: pNum
-%                 Index = rx-((n-1) * pDelta-EsNum / 2);
-%                 % 消除倾斜
-%                 % sumv=sumv+(SrcImg(m,n)*CalK(Index,FMax))*(1-10*Index^2/0.05^2)*pDelta;   %原来此句话是这样的 sumv=sumv+(SrcImg(m,n)*CalK(Index,FMax))*(1-4*Index^2/0.05^2)*pDelta;
-%                 % sumv=sumv+(SrcImg(m,n)*CalK(Index,FMax))*(1-4*Index^2/0.05^2)*pDelta;
-%                 % 不消除倾斜
-%                 sumv = sumv + (SrcImg(m, n) * CalK(Index, FMax)) * pDelta;
-%             end
-%             ResImg(i, j) = ResImg(i, j) + sumv * tDelta;
-%         end
-%         ResImg(i, j) = -ResImg(i, j);
-%     end
-% end
-% 
-% figure(113);
-% mesh(ResImg);
-% 
-% % for i=1:gNum
-% %     for j=1:gNum
-% %         ResImg(i,j)=Re0-ResImg(i,j);
-% %     end
-% % end
-% % figure,mesh(ResImg-1);
-% 
-% 
-% 
-
-
-
+figure(64);
+x_axis = center;
+plot(Light_Intensity( x_axis , : ), 'r' );
+title('径向光强曲线');
 ```
+
+
 
 
 
@@ -1013,7 +733,7 @@ title('I_Reference');
 
 figure 1
 
-![光源](Double frequency grating Schlieren Simple Model.assets/光源.bmp)
+![光源、](Double frequency grating Schlieren Simple Model.assets/光源、.bmp)
 
 
 
@@ -1021,11 +741,11 @@ figure 1
 
 Figure 11
 
-![被测对象带来的相位变化-3D](Double frequency grating Schlieren Simple Model.assets/被测对象带来的相位变化-3D.bmp)
+![被测对象对于光场相位的影响](Double frequency grating Schlieren Simple Model.assets/被测对象对于光场相位的影响.bmp)
 
 
 
-![被测对象带来的相位变化-1D](Double frequency grating Schlieren Simple Model.assets/被测对象带来的相位变化-1D.bmp)
+
 
 
 
@@ -1035,97 +755,55 @@ Figure 11
 
 Figure 12
 
-![经过被测对象后光场](Double frequency grating Schlieren Simple Model.assets/经过被测对象后光场.bmp)
+![经过被测对象之后的光场](Double frequency grating Schlieren Simple Model.assets/经过被测对象之后的光场.bmp)
 
 
-
-
-
-### 经过第一个透镜之后
-
-Figure21
-
-![经过第一个透镜之后](Double frequency grating Schlieren Simple Model.assets/经过第一个透镜之后.bmp)
 
 
 
 ### 双频光栅
 
+figure 31
+
 ![双频光栅](Double frequency grating Schlieren Simple Model.assets/双频光栅.bmp)
 
 
 
-### 加双频光栅之后的光场
-
-![穿过双频光栅之后](Double frequency grating Schlieren Simple Model.assets/穿过双频光栅之后.bmp)
 
 
-
-
-
-### 不加双频光栅穿过第二个透镜光场
-
-figure61
-
-![不加双频光栅穿过第二个透镜光场](Double frequency grating Schlieren Simple Model.assets/不加双频光栅穿过第二个透镜光场.bmp)
-
-
-
-figure62
-
-![不加双频光栅穿过第二个透镜光场2](Double frequency grating Schlieren Simple Model.assets/不加双频光栅穿过第二个透镜光场2.bmp)
-
-
-
-
-
-### 加双频光栅穿过第二个透镜光场
+### 第二个透镜之后光场
 
 figure 51
 
-![加双频光栅穿过第二个透镜光场](Double frequency grating Schlieren Simple Model.assets/加双频光栅穿过第二个透镜光场.bmp)
-
-
-
-Figure 52
-
-![加双频光栅穿过第二个透镜光场2](Double frequency grating Schlieren Simple Model.assets/加双频光栅穿过第二个透镜光场2.bmp)
+![经过第二个透镜之后的光场](Double frequency grating Schlieren Simple Model.assets/经过第二个透镜之后的光场.bmp)
 
 
 
 
 
-### 不加双频光栅探测器的光强
-
-Figure 81
-
-![不加双频光栅探测器的光强](Double frequency grating Schlieren Simple Model.assets/不加双频光栅探测器的光强.bmp)
-
-
-
-figure 82
-
-![不加双频光栅探测器的光强2](Double frequency grating Schlieren Simple Model.assets/不加双频光栅探测器的光强2.bmp)
-
-
-
-### 加双频光栅探测器的光强
+### 探测器的光强分布
 
 figure 71
 
-![加双频光栅探测器的光强](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强.bmp)
-
-
+![光强分布1](Double frequency grating Schlieren Simple Model.assets/光强分布1.bmp)
 
 figure 72
 
-![加双频光栅探测器的光强2](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强2.bmp)
-
-
+![光强分布2](Double frequency grating Schlieren Simple Model.assets/光强分布2.bmp)
 
 figure 73
 
-![加双频光栅探测器的光强3](Double frequency grating Schlieren Simple Model.assets/加双频光栅探测器的光强3.bmp)
+![光强分布3](Double frequency grating Schlieren Simple Model.assets/光强分布3.bmp)
+
+
+
+figure74
+
+![光强分布曲线](Double frequency grating Schlieren Simple Model.assets/光强分布曲线.bmp)
+
+
+
+
 
 
 
@@ -1137,25 +815,48 @@ figure 73
 
 > 对于仿真的结果进行验证。
 
-### 实现思路
+### 验证思路
 
-1.分别获得添加测试对象和没有添加测试对象的光强图
+基于 [理论模型](#Model(模型)) 推导最终得到的光强表达式，将被测对象引起的相位偏移，导入理论公式，进行验证。
 
-2.进行光强图处理，解相位，得到折射率
+理论公式如下所示：
+$$
+I(x,y) 
+=  E_4 (x,y) \cdot E_4 ^* (x,y)
+\quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad \quad  \quad \quad \quad  \quad \quad \quad 
+\\
+=
+\frac{1}{2} C^2 + 
+\frac{1}{2} C^2 \cdot cos 
+\{ 
+\frac {\partial \Delta \Phi (x , y) }{\partial x} \cdot  2 \pi (f_2 - f_1)
+\}
+ \quad \quad \quad  \quad \quad \quad 
+\\
+=
+\frac{1}{2} E_0(x,y)^2 + 
+\frac{1}{2} E_0(x,y)^2 \cdot cos 
+\{ 
+\frac {\partial \Delta \Phi (x , y) }{\partial x} \cdot  2 \pi (f_2 - f_1)
+\}
+$$
+其中，$\Delta \Phi (x, y)=
+k_{TestObject} \cdot \Delta z $ ，表示为被测对象对于光场相位的该变量，$f_1$ 和 $f_2$ 表示为双频光栅的频率，C表示为一个初始平行光源的常数值。
 
 
 
-### 获取测试光强图代码
 
-> 对标文件：DoubleFrequencyGratingSchlierenMain.m
+
+### 验证代码
+
+> 基于验证思路实现验证代码如下。
 
 ```matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Double Frequency Grating Schlieren MATLAB Code
+% Verification Double Frequency Grating Schlieren MATLAB Code
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 clear; 
 clc;  
 clf;
@@ -1169,20 +870,20 @@ close all;
 % Sampling 1025 pixel
 L = 5e-3;
 N = 1024 + 1;
+center = ceil( N / 2 );
+
 x = L * linspace(-1, 1, N);  
 y = L * linspace(-1, 1, N);
 [X, Y] = meshgrid(x, y); 
-center = N / 2;
 
 % Wave length
-% Green
-% Variable lambda
+% Green Laser 
 lambda = 532e-9;
 
-% Pixel Size
+% Pixel Size mm
 Pixel_Size = L / N;
 
-% Constant Laser
+% Constant Laser Intensity
 % The uniform light intensity is 1
 Laser_Intensity = 1;
 E0 = Laser_Intensity + zeros(N, N);
@@ -1190,18 +891,11 @@ E0 = Laser_Intensity + zeros(N, N);
 % Figure
 figure(1);
 mesh(X, Y, E0);
+title('光源');
 
-if (mod(N, 2)==0)
-	halfNy = N / 2;
-else
-	halfNy = (N + 1) / 2;
-end
-figure(2);
-plot(x, E0(halfNy, :), 'c');
-grid on;
-
-figure(3);
-imagesc(E0);
+figure(2);  % 显示的会是一个纯白色图像，imshow默认将取值0-1，1表示的是白色，0表示黑色
+imshow(E0);
+title('光源');
 
 
 %% Test Object of the Cylinder （圆柱形被测对象）
@@ -1213,284 +907,70 @@ r = 0.8e-3;  % Cylinder radius 0.8mm
 n_Air = 1;  % air Refractive
 n_Plasma = 1 - 4 * 10^(-3);  % Cylinder Refractive
 
-% A formula to calculate
-kAir = 2 * pi * n_Air / lambda;
+kAir = 2 * pi * n_Air / lambda;  % 计算波数 k
 kPlasma = 2 * pi * n_Plasma / lambda;
+
+% Cylinder object influence（圆柱形被测物对光场的相位影响）
 for i = 1 : size(E0, 2)
     if abs(X(1, i)) >= r
-        E1(:, i) = E0(:, i) .* exp(1i * kAir * 2 * r);
+        Delta_Phi(:, i) = kAir * 2 * r;
 
     else
-        Delta = sqrt(r^2 - X(1, i)^2);
-        E1(:, i) = E0(:, i) .* exp(1i * (kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta));
+        DeltaZ = sqrt(r^2 - X(1, i)^2);
+        Delta_Phi(:, i) = kAir * 2 * ( r - DeltaZ) + kPlasma * 2 * DeltaZ;
 
     end
 end
 
-% Figure
-figure(12);
-imshow(E1);
-title('E1');
+figure(11);
+mesh(Delta_Phi);
+% colormap(gray);
+title('被测对象对于光场的相位影响');
 
 
-%% First Len Properties
-% Test 
-F1 = fftshift(fft2(E1));
-
-% Reference 
-Reference_F1 = fftshift(fft2(E0));
-
-F1_ = log(abs(F1).^2)-2;
-max_F1 = max(max(F1_));
-F1_ = F1_ / max_F1;
-
-Reference_F1_ = log(abs(Reference_F1).^2)-2;
-max_Reference_F1_ = max(max(Reference_F1_));
-Reference_F1_ = Reference_F1_ / max_Reference_F1_;
-
-figure(21);
-imshow(F1_);
-title('F1_');
-
-figure(22);
-imshow(Reference_F1_);
-title('Reference_F1_');
-
-
-
-%% Double frequency grating
+%% Double frequency grating （双频光栅）
 
 G = zeros(N, N);
 
 f1 = 1 / (32 * Pixel_Size);  % Period
 f2 = 1 / (64 * Pixel_Size);
 
-for i = 1 : N
-    for j = 1 : N
-        Delta_x = (j - center) * Pixel_Size;
-        Delta_y = (center - i) * Pixel_Size;
+
+%% Photoconductive Detector Result （光强分布）
+
+Light_Intensity = zeros(N - 1, N - 1);
+
+constant =  2 * pi * (f2 - f1);
+
+integration = diff(Delta_Phi, 1, 2 );
+
+for i = 1 : N - 1
+    for j = 1 : N - 1
         
-        G(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
+        Light_Intensity(i, j)  = E0(i, j)^2 * ( 1 + cos( integration(i, j) * constant ) ) / 2;
+        
     end
 end
 
 
-figure(31);
-imshow(G);
-title('G');
-
-
-%% Used Double frequency grating
-% Test 
-E3 = G .* F1;
-
-% Reference 
-Reference_E3 = G .* Reference_F1;
-
 figure(41);
-imshow(E3);
-title('E3');
+imshow(Light_Intensity);
+title('光强分布');
 
 figure(42);
-imshow(Reference_E3);
-title('Reference_E3');
-
-
-%% Fourier transform
-% Test 
-E4 = ifft2(ifftshift(E3));
-
-% Reference 
-Reference_E4 = ifft2(ifftshift(Reference_E3));
-
-figure(51);
-imshow(E4);
-title('E4');
-
-figure(52);
-imshow(log(abs(E4)), []);
-
-figure(53);
-imshow(Reference_E4);
-title('Reference_E4');
-
-figure(54);
-imshow(log(abs(Reference_E4)), []);
-
-
-%% Photoconductive Detector Result and Used Double frequency grating
-% Test 
-Cimage_E4 = conj(E4);
-I = Cimage_E4 .* E4;
-
-% Reference 
-Cimage_I = conj(Reference_E4);
-Reference_I = Cimage_I .* Reference_E4;
-
-figure(71);
-imshow(I);
-
-figure(72);
-imagesc(I);
+imagesc(Light_Intensity);
 colormap(gray);
-
-figure(73);
-mesh(I);
-title('I');
-
-figure(74);
-imshow(Reference_I);
-
-figure(75);
-imagesc(Reference_I);
-colormap(gray);
-
-figure(76);
-mesh(Reference_I);
-title('Reference_I');
-
-
-```
-
-
-
-### 测试光强图
-
-figure 71
-
-![TestPic](Double frequency grating Schlieren Simple Model.assets/TestPic.bmp)
-
-figure 74
-
-![ReferencePic](Double frequency grating Schlieren Simple Model.assets/ReferencePic.bmp)
-
-
-
-
-
-### 验证代码
-
-```matlab
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Verification Double Frequency Grating Schlieren MATLAB Code
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-clear; 
-clc;  
-clf;
-close all;
-
-
-%% Input Data
-% Path Configure 
-Code_path = fileparts(mfilename('fullpath'));
-Data_path = 'Data/';
-
-Test_name = 'TestPic';  % Can be changed name
-Reference_name = 'ReferencePic';
-
-Test_Path = fullfile(Code_path, Data_path, Test_name);
-Reference_Path = fullfile(Code_path, Data_path, Reference_name);
-
-% Import picture
-Test = imread([ Test_Path '.bmp']);  % Can be change picture format
-Reference = imread([ Reference_Path '.bmp']);
-
-% Figure
-figure(1);
-imshow(Test);
-
-figure(2);
-imshow(Reference);
-
-% Test = imrotate(Test, 90,'nearest');
-% figure(3);
-% imshow(Test)
-% 
-% Reference = imrotate(Reference, 90,'nearest');
-% figure(4);
-% imshow(Reference)
-
-
-%% Change to gray picture
-Test_Gray = rgb2gray(Test);
-Reference_Gray = rgb2gray(Reference);
-
-% Figure
-figure(11);
-imshow(Test_Gray);
-
-figure(12);
-imshow(Reference_Gray);
-
-
-%% Used Binarization
-Test_threshold = graythresh(Test_Gray);  % Find Binarization threshold
-Test_Binarization = im2bw(Test_Gray, Test_threshold);  % Set Binarization
-
-Reference_threshold = graythresh(Reference_Gray);
-Reference_Binarization = im2bw(Reference_Gray, Reference_threshold);
-
-% Figure
-figure(21);
-imshow(Test_Binarization)
-
-figure(22);
-imshow(Reference_Binarization)
-
-
-
-%% Fourier transform 
-Test_FFT = fftshift(fft2(Test_Gray));
-Reference_FFT = fftshift(fft2(Reference_Gray));
-
-figure(31);
-imshow(log(abs(Test_FFT)), []);
-
-figure(32);
-imshow(log(abs(Reference_FFT)), []);
-
-aaa = fft2(fftshift(Test));
-figure(33);
-imshow(log(abs(aaa)), []);
-
-
-%% 
-Test_IFFT = ifft2(Test_FFT);
-Reference_IFFT = ifft2(Reference_FFT);
-
-
-figure(41);
-imshow(Test_IFFT)
-
-figure(42);
-imshow(Reference_IFFT)
-
-
-%%
-Test_Angle = angle(Test_IFFT);
-
-figure(51);
-mesh(Test_Angle)
-
-
-%% 
-Test_Phase = unwrap(Test_Angle);
-
-figure(61);
-mesh(Test_Phase)
-
-
-
-
-
-
-
-
-
-
+title('光强分布二维视图');
+
+figure(43);
+mesh(Light_Intensity);
+% colormap(gray);
+title('光强分布三维视图');
+
+figure(44);
+x_axis = center;
+plot(Light_Intensity( x_axis , : ), 'r' );
+title('径向光强曲线');
 
 
 
@@ -1498,27 +978,41 @@ mesh(Test_Phase)
 
 
 
+### 结果
+
+#### 被测对象带来的相位变化
+
+figure11
+
+![被测对象带来的相位变化-验证](Double frequency grating Schlieren Simple Model.assets/被测对象带来的相位变化-验证.bmp)
 
 
 
 
 
+#### 光强分布
+
+figure41
+
+![光强分布1-验证](Double frequency grating Schlieren Simple Model.assets/光强分布1-验证.bmp)
 
 
 
+figure42
+
+![光强分布2-验证](Double frequency grating Schlieren Simple Model.assets/光强分布2-验证.bmp)
 
 
 
+figure43
+
+![光强分布3-验证](Double frequency grating Schlieren Simple Model.assets/光强分布3-验证.bmp)
 
 
 
+figure44
 
-
-
-
-
-
-
+![光强分布曲线-验证](Double frequency grating Schlieren Simple Model.assets/光强分布曲线-验证.bmp)
 
 
 
