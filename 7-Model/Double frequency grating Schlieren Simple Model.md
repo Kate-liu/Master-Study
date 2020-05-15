@@ -531,11 +531,13 @@ $$
 
 
 
-## Code（代码）
+## Result（结果）
+
+> 根据仿真的过程，保存相应阶段的图片。
+
+### Code（代码）
 
 > 将上述模型内容实现成为代码。
->
-> 对标文件：DoubleFrequencyGratingSchlierenMain.m
 
 ```matlab
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -551,10 +553,10 @@ close all;  % 关闭打开的所有figure窗口
 %% Laser Source （激光光源）
 
 % Field size and sampling
-% Set 5 * 5 mm field
-% Sampling 1025 pixel
-L = 5e-3;
-N = 1024 + 1;
+% Set 10 * 10 mm field
+% Sampling 1024 pixel
+L = 5;
+N = 1024;
 center = ceil( N / 2 );
 
 x = L * linspace(-1, 1, N);  
@@ -563,15 +565,15 @@ y = L * linspace(-1, 1, N);
 
 % Wave length
 % Green Laser 
-lambda = 532e-9;
+lambda = 532e-6;
 
 % Pixel Size mm
 Pixel_Size = L / N;
 
 % Constant Laser Intensity
 % The uniform light intensity is 1
-Laser_Intensity = 1;
-E0 = Laser_Intensity + zeros(N, N);
+% ONES(M,N) or ONES([M,N]) is an M-by-N matrix of ones.
+E0 = ones(N, N);
 
 % Figure
 figure(1);
@@ -588,7 +590,7 @@ title('光源');
 E1 = E0;
 Delta_Phi = zeros(N, N);
 
-r = 0.8e-3;  % Cylinder radius 0.8mm
+r = 0.8;  % Cylinder radius 0.8mm
 n_Air = 1;  % air Refractive
 n_Plasma = 1 - 4 * 10^(-3);  % Cylinder Refractive
 
@@ -596,7 +598,7 @@ kAir = 2 * pi * n_Air / lambda;  % 计算波数 k
 kPlasma = 2 * pi * n_Plasma / lambda;
 
 % Cylinder object influence（圆柱形被测物对光场的相位影响）
-for i = 1 : size(E0, 2)
+for i = 1 : N
     if abs(X(1, i)) >= r
         Delta_Phi(:, i) = kAir * 2 * r;
 
@@ -631,10 +633,14 @@ title('穿过被测对象的光场');
 
 
 %% First Len Properties(第一个凸透镜)
-
 F1 = fftshift(fft2(E1));
 
-imF = log10(abs(F1) + 1);
+% 按行取一维傅里叶变换完成二维变换
+% for i = 1 : size(E0, 1)
+%     F1(i,:)= fftshift(fft(E1(i,:)));
+% end
+
+imF = log( abs(F1) );
 figure(21);
 imshow(imF, []);
 title('经过第一个透镜之后的光场');
@@ -642,51 +648,72 @@ title('经过第一个透镜之后的光场');
 
 %% Double frequency grating （双频光栅）
 
-G = zeros(N, N);
+G0 = zeros(N, N);
+G1 = zeros(N, N);
 
-f1 = 1 / (32 * Pixel_Size);  % Period
-f2 = 1 / (64 * Pixel_Size);
+Period1 = 1 / 15;  % Period，光栅表示为1mm 20 线对
+Period2 = 1 / 20;
+f1 = 25;  % frequency, 1 / Period
+f2 = 20;
 
 for i = 1 : N
     for j = 1 : N
-        Delta_x = (j - center) * Pixel_Size;    
-        G(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
+%         Delta_x = X(1, j) + L;    
+        Delta_x  = ( j - center ) * Pixel_Size;
+        G0(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
         
     end
 end
 
 figure(31);
-imshow(G);
-title('双频光栅');
+imshow(G0);
+title('完整版双频光栅');
+
+
+for i = 1 : N
+    for j = 1 : N
+        Delta_x  = ( j - center ) * Pixel_Size; 
+        G1(i, j) = 0.5 * exp(1i * 2 * pi  * f1 * Delta_x )  + 0.5 *exp(1i * 2 * pi  * f2 * Delta_x ) ;
+        
+    end
+end
+
+figure(32);
+imshow(abs(G1));
+title('使用e指数滤除+1级之后的双频光栅');
 
 
 %% Used Double frequency grating（双频光栅之后的光场）
-E3 = G .* F1;
+E3 = G1 .* F1;
 
 figure(41);
-imshow(E3);
-title('双频光栅之后的光场');
+imshow( log(abs(E3)), [] );
+title('使用滤除+1频谱的双频光栅之后的光场');
 
-figure(42);
-imshow( log(abs(E3)) , []);
 
 
 %% Spatial filter（空间滤波器滤除+1级频谱）
-% 待确定，目前无法取到+1级频谱
-% D = zeros(N, N);
-% D(129-3 : 129+3, 141-3 : 142+3) = E3( 129-3 : 129+3 , 141-3 : 142+3);  % 保留频谱的+1级
-% figure(43);
-% imshow( log(abs(D)) , []);
+
+% Reference_Frequence = zeros(N, N);
+% line = 513;
+% column = 529;
+% Reference_Frequence(line-3: line+3, column-3: column+3) = E3(line-3: line+3, column-3: column+3);
 % 
-% F2_ = log(abs(E3).^2)-2;
-% max_F2 = max(max(F2_));
-% F2_ = F2_ / max_F2;
-% figure(44);
-% imshow(F2_);
+% Reference_Frequence_ = log(abs(Reference_Frequence).^2) - 2;
+% max_Reference_Frequence = max(max(Reference_Frequence_));
+% Reference_Frequence_ = Reference_Frequence_ / max_Reference_Frequence;
+% figure(43);
+% imshow(Reference_Frequence_);
+% title('Reference_Frequence_');
+
 
 
 %%  Second Len Properties(第二个凸透镜)
 E4 = ifft2(ifftshift(E3));
+
+% for i=1:N
+%     E4(i,:) = ifft(ifftshift(E3(i,:)));
+% end
 
 figure(51);
 imshow(E4);
@@ -717,23 +744,20 @@ figure(64);
 x_axis = center;
 plot(Light_Intensity( x_axis , : ), 'r' );
 title('径向光强曲线');
+
+
+
 ```
 
 
 
 
 
-
-
-## Result（结果）
-
-> 根据仿真的过程，保存相应阶段的图片。
-
 ### 光源
 
 figure 1
 
-![光源、](Double frequency grating Schlieren Simple Model.assets/光源、.bmp)
+![光源](Double frequency grating Schlieren Simple Model.assets/光源.bmp)
 
 
 
@@ -761,7 +785,7 @@ Figure 12
 
 
 
-### 双频光栅
+### 双频光栅-光栅a
 
 figure 31
 
@@ -771,35 +795,360 @@ figure 31
 
 
 
-### 第二个透镜之后光场
+### 滤除+1频谱的e指数光栅-光栅b
+
+![使用e指数表示滤波之后的双频光栅](Double frequency grating Schlieren Simple Model.assets/使用e指数表示滤波之后的双频光栅.bmp)
+
+
+
+
+
+### 使用双频光栅之后的频域-光栅a
+
+> 下面，将会分别讨论不滤波的结果和滤除+1级的结果。
+
+显示的是一条直线，没法进行+1 级滤波。
+
+所以后面的内容是没有进行滤波的操作。
+
+![直接使用双频光栅之后的光场](Double frequency grating Schlieren Simple Model.assets/直接使用双频光栅之后的光场.bmp)
+
+
+
+
+
+
+
+#### 第二个透镜之后光场
 
 figure 51
 
-![经过第二个透镜之后的光场](Double frequency grating Schlieren Simple Model.assets/经过第二个透镜之后的光场.bmp)
+![经过第二个透镜之后的光场](Double frequency grating Schlieren Simple Model.assets/经过第二个透镜之后的光场-1589446985537.bmp)
 
 
 
 
 
-### 探测器的光强分布
+#### 探测器的光强分布
 
 figure 71
 
 ![光强分布1](Double frequency grating Schlieren Simple Model.assets/光强分布1.bmp)
 
+
+
 figure 72
 
 ![光强分布2](Double frequency grating Schlieren Simple Model.assets/光强分布2.bmp)
 
-figure 73
 
-![光强分布3](Double frequency grating Schlieren Simple Model.assets/光强分布3.bmp)
 
 
 
 figure74
 
-![光强分布曲线](Double frequency grating Schlieren Simple Model.assets/光强分布曲线.bmp)
+![光强分布3](Double frequency grating Schlieren Simple Model.assets/光强分布3.bmp)
+
+
+
+
+
+### 使用滤除+1频谱的双频光栅之后的频域-光栅b
+
+此时就不需要继续进行滤波操作了。
+
+使用e指数表示的光栅已经滤除了+1级频谱。
+
+![使用滤除+1频谱的双频光栅之后的光场](Double frequency grating Schlieren Simple Model.assets/使用滤除+1频谱的双频光栅之后的光场.bmp)
+
+
+
+
+
+#### 第二个透镜之后光场
+
+figure 51
+
+![经过第二个透镜之后的光场-滤波](Double frequency grating Schlieren Simple Model.assets/经过第二个透镜之后的光场-滤波.bmp)
+
+
+
+#### 探测器的光强分布
+
+figure 71
+
+![光强分布1-滤波](Double frequency grating Schlieren Simple Model.assets/光强分布1-滤波.bmp)
+
+
+
+
+
+figure 72
+
+![光强分布2-滤波](Double frequency grating Schlieren Simple Model.assets/光强分布2-滤波.bmp)
+
+
+
+figure 74
+
+![光强分布3-滤波](Double frequency grating Schlieren Simple Model.assets/光强分布3-滤波.bmp)
+
+
+
+可以很明显的看到使用了+1滤波之后，整个图像右半部分被滤除了，并且消除了高部的信号。
+
+
+
+
+
+
+
+## 附图
+
+### 平行光经过透镜之后的频域
+
+平行光经过一个透镜，只需要进行一次傅里叶变换，可以看到的是一个点的频域图。
+
+![平行光傅里叶变换之后的频域](Double frequency grating Schlieren Simple Model.assets/平行光傅里叶变换之后的频域.bmp)
+
+
+
+
+
+### 使用一维傅里叶循环代替二维傅里叶变换
+
+#### Code（代码）
+
+> 将上述模型内容实现成为代码。
+
+```matlab
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Double Frequency Grating Schlieren MATLAB Code
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear;  % 清空工作区变量
+clc;  % 清空当前的命令行窗口
+close all;  % 关闭打开的所有figure窗口
+
+
+%% Laser Source （激光光源）
+
+% Field size and sampling
+% Set 10 * 10 mm field
+% Sampling 1024 pixel
+L = 5;
+N = 1024;
+center = ceil( N / 2 );
+
+x = L * linspace(-1, 1, N);  
+y = L * linspace(-1, 1, N);
+[X, Y] = meshgrid(x, y); 
+
+% Wave length
+% Green Laser 
+lambda = 532e-6;
+
+% Pixel Size mm
+Pixel_Size = L / N;
+
+% Constant Laser Intensity
+% The uniform light intensity is 1
+% ONES(M,N) or ONES([M,N]) is an M-by-N matrix of ones.
+E0 = ones(N, N);
+
+% Figure
+figure(1);
+mesh(X, Y, E0);
+title('光源');
+
+figure(2);  % 显示的会是一个纯白色图像，imshow默认将取值0-1，1表示的是白色，0表示黑色
+imshow(E0);
+title('光源');
+
+
+%% Test Object of the Cylinder （圆柱形被测对象）
+
+E1 = E0;
+Delta_Phi = zeros(N, N);
+
+r = 0.8;  % Cylinder radius 0.8mm
+n_Air = 1;  % air Refractive
+n_Plasma = 1 - 4 * 10^(-3);  % Cylinder Refractive
+
+kAir = 2 * pi * n_Air / lambda;  % 计算波数 k
+kPlasma = 2 * pi * n_Plasma / lambda;
+
+% Cylinder object influence（圆柱形被测物对光场的相位影响）
+for i = 1 : N
+    if abs(X(1, i)) >= r
+        Delta_Phi(:, i) = kAir * 2 * r;
+
+    else
+        DeltaZ = sqrt(r^2 - X(1, i)^2);
+        Delta_Phi(:, i) = kAir * 2 * ( r - DeltaZ) + kPlasma * 2 * DeltaZ;
+
+    end
+end
+
+figure(11);
+mesh(Delta_Phi);
+% colormap(gray);
+title('被测对象对于光场的相位影响');
+
+
+% Calculate output test object light field (穿过被测对象的光场)
+for i = 1 : size(E0, 2)
+    if abs(X(1, i)) >= r
+        E1(:, i) = E0(:, i) .* exp(1i * kAir * 2 * r);
+
+    else
+        Delta = sqrt(r^2 - X(1, i)^2);
+        E1(:, i) = E0(:, i) .* exp(1i * (kAir * 2 * ( r - Delta) + kPlasma * 2 * Delta));
+
+    end
+end
+
+figure(12);
+imshow(E1);
+title('穿过被测对象的光场');
+
+
+%% First Len Properties(第一个凸透镜)
+% F1 = fftshift(fft2(E1));
+
+% 按行取一维傅里叶变换完成二维变换
+for i = 1 : size(E0, 1)
+    F1(i,:)= fftshift(fft(E1(i,:)));
+end
+
+imF = log( abs(F1) );
+figure(21);
+imshow(imF, []);
+title('经过第一个透镜之后的光场');
+
+
+%% Double frequency grating （双频光栅）
+
+G0 = zeros(N, N);
+G1 = zeros(N, N);
+
+Period1 = 1 / 15;  % Period，光栅表示为1mm 20 线对
+Period2 = 1 / 20;
+f1 = 25;  % frequency, 1 / Period
+f2 = 20;
+
+for i = 1 : N
+    for j = 1 : N
+%         Delta_x = X(1, j) + L;    
+        Delta_x  = ( j - center ) * Pixel_Size;
+        G0(i, j) = cos(2 * pi * f1 * Delta_x) + cos(2 * pi * f2 * Delta_x);
+        
+    end
+end
+
+figure(31);
+imshow(G0);
+title('完整版双频光栅');
+
+
+for i = 1 : N
+    for j = 1 : N
+        Delta_x  = ( j - center ) * Pixel_Size; 
+        G1(i, j) = 0.5 * exp(1i * 2 * pi  * f1 * Delta_x )  + 0.5 *exp(1i * 2 * pi  * f2 * Delta_x ) ;
+        
+    end
+end
+
+figure(32);
+imshow(abs(G1));
+title('使用e指数滤除+1级之后的双频光栅');
+
+
+%% Used Double frequency grating（双频光栅之后的光场）
+% 更换不同的光栅的时候，需要更换G0 或者 G1
+E3 = G0 .* F1;
+
+figure(41);
+imshow( log(abs(E3)), [] );
+title('使用滤除+1频谱的双频光栅之后的光场');
+
+
+%%  Second Len Properties(第二个凸透镜)
+% E4 = ifft2(ifftshift(E3));
+
+for i=1:N
+    E4(i,:) = ifft(ifftshift(E3(i,:)));
+end
+
+figure(51);
+imshow(E4);
+title('经过第二个透镜之后的光场');
+
+
+%% Photoconductive Detector Result （光强分布）
+Cimage_E4 = conj(E4);
+
+Light_Intensity = Cimage_E4 .* E4;
+
+
+figure(61);
+imshow(Light_Intensity);
+title('光强分布');
+
+figure(62);
+imagesc(Light_Intensity);
+colormap(gray);
+title('光强分布二维视图');
+
+figure(63);
+mesh(Light_Intensity);
+% colormap(gray);
+title('光强分布三维视图');
+
+figure(64);
+x_axis = center;
+plot(Light_Intensity( x_axis , : ), 'r' );
+title('径向光强曲线');
+
+
+```
+
+
+
+#### 使用双频光栅之后的频域-光栅a
+
+##### 探测器的光强分布
+
+figure 63
+
+![光强分布2-一维傅里叶](Double frequency grating Schlieren Simple Model.assets/光强分布2-一维傅里叶.bmp)
+
+
+
+figure 64
+
+![光强分布3-一维傅里叶](Double frequency grating Schlieren Simple Model.assets/光强分布3-一维傅里叶.bmp)
+
+
+
+
+
+
+
+#### 使用滤除+1频谱的双频光栅之后的频域-光栅b
+
+##### 探测器的光强分布
+
+figure 63
+
+![光强分布2-一维傅里叶-滤波](Double frequency grating Schlieren Simple Model.assets/光强分布2-一维傅里叶-滤波.bmp)
+
+
+
+figure 64
+
+![光强分布3-一维傅里叶-滤波](Double frequency grating Schlieren Simple Model.assets/光强分布3-一维傅里叶-滤波.bmp)
 
 
 
@@ -998,21 +1347,15 @@ figure41
 
 
 
-figure42
+figure43
 
 ![光强分布2-验证](Double frequency grating Schlieren Simple Model.assets/光强分布2-验证.bmp)
 
 
 
-figure43
-
-![光强分布3-验证](Double frequency grating Schlieren Simple Model.assets/光强分布3-验证.bmp)
-
-
-
 figure44
 
-![光强分布曲线-验证](Double frequency grating Schlieren Simple Model.assets/光强分布曲线-验证.bmp)
+![光强分布3-验证](Double frequency grating Schlieren Simple Model.assets/光强分布3-验证.bmp)
 
 
 
