@@ -145,7 +145,6 @@ $$
 <img src="ModelDetails.assets/GaussianBeam2.bmp" alt="GaussianBeam2" style="zoom:50%;" />
 
 <center><font color="red">图9 光源三维图</font><cebnter>
-
 <img src="ModelDetails.assets/GaussianBeam3.bmp" alt="GaussianBeam3" style="zoom:50%;" />
 
 <center><font color="red">图10 光源曲线图（中心线）</font><cebnter>
